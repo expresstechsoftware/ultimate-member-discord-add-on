@@ -38,6 +38,11 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION', '1.0.0' );
 
 /**
+ * Define plugin directory path
+ */
+define( 'ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-ultimate-member-discord-add-on-activator.php
  */

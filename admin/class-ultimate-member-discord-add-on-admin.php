@@ -44,13 +44,13 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $plugin_name       The name of this plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -72,7 +72,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-admin.css', array(), $this->version, 'all' );
 
 	}
@@ -95,9 +95,29 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		wp_enqueue_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'jquery-ui-draggable' );
+		wp_enqueue_script( 'jquery-ui-droppable' );
 
+	}
+
+	/*
+	Method to add discord setting sub-menu under top level menu of ultimate-member.
+	*/
+	public function ets_ultimatemember_add_settings_menu() {
+		add_submenu_page( 'ultimatemember', __( 'Discord Settings', 'ultimate-member-discord-add-on' ), __( 'Discord Settings', 'ultimate-member-discord-add-on' ), 'manage_options', 'ultimatemember-discord', array( $this, 'ets_utlimatemember_discord_setting_page' ) );
+	}
+
+	/*
+	Callback to Display settings page
+	*/
+	public function ets_utlimatemember_discord_setting_page() {
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/ultimate-member-discord-add-on-admin-display.php';
 	}
 
 }
