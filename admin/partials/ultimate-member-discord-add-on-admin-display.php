@@ -20,7 +20,9 @@
   </ul>
   <div class="skltbs-panel-group">
 		<div id="ets_setting" class="ultimate-discord-tab-conetent skltbs-panel">
-		ok
+		<?php
+			require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/ulimate_member_discord_application_details.php';
+    ?>
 		</div>
   </div>    
 </div>

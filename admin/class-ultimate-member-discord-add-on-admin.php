@@ -120,4 +120,58 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/ultimate-member-discord-add-on-admin-display.php';
 	}
 
+	/*
+	Save application details
+	*/
+	public function ets_ultimatemember_discord_application_settings() {
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		$ets_ultimatemember_discord_client_id = isset( $_POST['ets_ultimatemember_discord_client_id'] ) ? sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_client_id'] ) ) : '';
+
+		$ets_ultimatemember_discord_client_secret = isset( $_POST['ets_ultimatemember_discord_client_secret'] ) ? sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_client_secret'] ) ) : '';
+
+		$ets_ultimatemember_discord_bot_token = isset( $_POST['ets_ultimatemember_discord_bot_token'] ) ? sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_bot_token'] ) ) : '';
+
+		$ets_ultimatemember_discord_redirect_url = isset( $_POST['ets_ultimatemember_discord_redirect_url'] ) ? sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_redirect_url'] ) ) : '';
+
+		$ets_ultimatemember_discord_server_id = isset( $_POST['ets_ultimatemember_discord_server_id'] ) ? sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_server_id'] ) ) : '';
+
+		if ( isset( $_POST['submit'] ) ) {
+			if ( isset( $_POST['ets_ultimatemember_discord_save_settings'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_save_settings'], 'save_discord_general_settings' ) ) {
+				if ( $ets_ultimatemember_discord_client_id ) {
+					update_option( 'ets_ultimatemember_discord_client_id', $ets_ultimatemember_discord_client_id );
+				}
+
+				if ( $ets_ultimatemember_discord_client_secret ) {
+					update_option( 'ets_ultimatemember_discord_client_secret', $ets_ultimatemember_discord_client_secret );
+				}
+
+				if ( $ets_ultimatemember_discord_bot_token ) {
+					update_option( 'ets_ultimatemember_discord_bot_token', $ets_ultimatemember_discord_bot_token );
+				}
+
+				if ( $ets_ultimatemember_discord_redirect_url ) {
+					// add a query string param `via` GH #185.
+					$ets_ultimatemember_discord_redirect_url = ets_get_ultimatemember_discord_formated_discord_redirect_url( $ets_ultimatemember_discord_redirect_url );
+					update_option( 'ets_ultimatemember_discord_redirect_url', $ets_ultimatemember_discord_redirect_url );
+				}
+
+				if ( $ets_ultimatemember_discord_server_id ) {
+					update_option( 'ets_ultimatemember_discord_server_id', $ets_ultimatemember_discord_server_id );
+				}
+
+				$message = 'Your settings are saved successfully.';
+				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+					// This will delete Stale DM channels.
+					//delete_metadata( 'user', 0, '_ets_memberpress_discord_dm_channel', '', true );
+					$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#skeletabsTab1';
+					wp_safe_redirect( $pre_location );
+				}
+			}
+		}
+	}
+
+
 }
