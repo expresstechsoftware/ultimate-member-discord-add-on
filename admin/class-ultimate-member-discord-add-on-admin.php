@@ -139,7 +139,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		$ets_ultimatemember_discord_server_id = isset( $_POST['ets_ultimatemember_discord_server_id'] ) ? sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_server_id'] ) ) : '';
 
 		if ( isset( $_POST['submit'] ) ) {
-			if ( isset( $_POST['ets_ultimatemember_discord_save_settings'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_save_settings'], 'save_discord_general_settings' ) ) {
+			if ( isset( $_POST['ets_ultimatemember_discord_save_settings'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_save_settings'], 'save_ultimatemember_discord_general_settings' ) ) {
 				if ( $ets_ultimatemember_discord_client_id ) {
 					update_option( 'ets_ultimatemember_discord_client_id', $ets_ultimatemember_discord_client_id );
 				}
