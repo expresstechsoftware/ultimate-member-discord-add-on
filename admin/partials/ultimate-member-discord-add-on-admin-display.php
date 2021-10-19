@@ -17,6 +17,11 @@
   <li class="skltbs-tab-item">
 		<button class="skltbs-tab" data-identity="settings" ><?php echo __( 'Application details', 'ultimate-member-discord-add-on' ); ?><span class="initialtab spinner"></span></button>
   </li>
+  <li class="skltbs-tab-item">
+      <?php if ( ultimatemember_discord_check_saved_settings_status() ): ?>
+      <button class="skltbs-tab" data-identity="level-mapping" ><?php echo __( 'Role Mappings', 'ultimate-member-discord-add-on' ); ?></button>
+      <?php endif; ?>
+  </li>
   </ul>
   <div class="skltbs-panel-group">
 		<div id="ets_setting" class="ultimate-discord-tab-conetent skltbs-panel">

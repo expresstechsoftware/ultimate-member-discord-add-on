@@ -96,9 +96,30 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 * class.
 		 */
 		wp_enqueue_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'jquery-ui-draggable' );
+		
+               
+                
+                wp_register_script(
+                        'ultimate-member-discord-add-on-admin',
+			plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.js',
+			array( 'jquery' ),
+			$this->version, 
+                        false
+		);
+                
+                wp_enqueue_script( 'ultimate-member-discord-add-on-admin' );
+		
+                wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );
+               
+                
+		$script_params = array(
+			'admin_ajax'        => admin_url( 'admin-ajax.php' ),
+			'permissions_const' => ULTIMATE_MEMBER_DISCORD_BOT_PERMISSIONS,
+			'is_admin'          => is_admin(),
+			'ets_ultimatemember_discord_nonce' => wp_create_nonce( 'ets-ultimatemember-ajax-nonce' ),
+		);
+		wp_localize_script( 'ultimate-member-discord-add-on-admin', 'etsUltimateMemberParams', $script_params );                
 
 	}
 
