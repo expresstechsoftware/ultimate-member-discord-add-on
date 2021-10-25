@@ -109,6 +109,8 @@ class Ultimate_Member_Discord_Add_On {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-add-on-loader.php';
+                
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-api.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
