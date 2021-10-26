@@ -194,6 +194,46 @@ class Ultimate_Member_Discord_Add_On_Admin {
 			}
 		}
 	}
+	/**
+	 * Save Role mappiing settings
+	 *
+	 * @param NONE
+	 * @return NONE
+	 */
+	public function ets_ultimatemember_discord_save_role_mapping() {
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		$ets_discord_roles = isset( $_POST['ets_ultimatemember_discord_role_mapping'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_role_mapping'] ) ) : '';
+
+		$_ets_ultimatemember_discord_default_role_id = isset( $_POST['ultimate-member_defaultRole'] ) ? sanitize_textarea_field( trim( $_POST['ultimate-member_defaultRole'] ) ) : '';
+
+		$allow_none_member = isset( $_POST['allow_none_member'] ) ? sanitize_textarea_field( trim( $_POST['allow_none_member'] ) ) : '';
+
+		$ets_discord_roles   = stripslashes( $ets_discord_roles );
+		$save_mapping_status = update_option( 'ets_ultimatemember_discord_role_mapping', $ets_discord_roles );
+		if ( isset( $_POST['ets_ultimatemember_discord_role_mappings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_role_mappings_nonce'], 'ultimatemember_discord_role_mappings_nonce' ) ) {
+			if ( ( $save_mapping_status || isset( $_POST['ets_ultimatemember_discord_role_mapping'] ) ) && ! isset( $_POST['flush'] ) ) {
+				if ( $_ets_ultimatemember_discord_default_role_id ) {
+					update_option( '_ets_ultimatemember_discord_default_role_id', $_ets_ultimatemember_discord_default_role_id );
+				}
+
+				if ( $allow_none_member ) {
+					update_option( 'ets_ultimatemember_allow_none_member', $allow_none_member );
+				}
+				$message = 'Your mappings are saved successfully.';
+			}
+			if ( isset( $_POST['flush'] ) ) {
+				delete_option( 'ets_ultimatemember_discord_role_mapping' );
+				delete_option( '_ets_ultimatemember_discord_default_role_id' );
+				delete_option( 'ets_ultimatemember_allow_none_member' );
+				$message = 'Your settings flushed successfully.';
+			}
+			$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_role_mapping';
+			wp_safe_redirect( $pre_location );
+		}
+	}
 
 
 }
