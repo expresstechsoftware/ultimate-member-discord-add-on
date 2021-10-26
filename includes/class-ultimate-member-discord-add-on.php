@@ -164,7 +164,8 @@ class Ultimate_Member_Discord_Add_On {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'ets_ultimatemember_add_settings_menu' );
-    $this->loader->add_action( 'admin_post_ultimatemember_discord_application_settings', $plugin_admin, 'ets_ultimatemember_discord_application_settings' );
+                $this->loader->add_action( 'admin_post_ultimatemember_discord_application_settings', $plugin_admin, 'ets_ultimatemember_discord_application_settings' );
+                $this->loader->add_action( 'admin_post_ultimatemember_discord_save_role_mapping', $plugin_admin, 'ets_ultimatemember_discord_save_role_mapping' );
 	}
 
 	/**

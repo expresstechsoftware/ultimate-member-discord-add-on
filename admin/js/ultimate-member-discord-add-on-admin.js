@@ -1,4 +1,4 @@
-(function( $ ) {
+jQuery(document).ready(function ($) {
 	//'use strict';
 
 	/**
@@ -42,11 +42,9 @@
                                 
 			},
 			success: function (response) {
-                            
-                            //console.log(response);
-                           // return;
+
 				if (response != null && response.hasOwnProperty('code') && response.code == 50001 && response.message == 'Missing Access') {
-					$(".btn-connect-to-bot").show();
+					$(".ultimatemember-btn-connect-to-bot").show();
 				} else if (response == null || response.message == '401: Unauthorized' || response.hasOwnProperty('code') || response == 0) {
 					$("#ultimatemember-connect-discord-bot").show().html("Error: Please check all details are correct").addClass('error-bk');
 				} else {
@@ -70,38 +68,36 @@
                                                 //console.log(isbot);
 
 						if (key != 'previous_mapping' && isbot == false && val.name != '@everyone') {
-							$('.ultimate-member-discord-roles').append('<div class="makeMeDraggable" style="background-color:#'+val.color.toString(16)+'" data-pmpro_role_id="' + val.id + '" >' + val.name + '</div>');
-							//$('#pmpro-defaultRole').append('<option value="' + val.id + '" >' + val.name + '</option>');
-							//makeDrag($('.makeMeDraggable'));
+							$('.ultimate-member-discord-roles').append('<div class="makeMeDraggable" style="background-color:#'+val.color.toString(16)+'" data-ultimate-member_role_id="' + val.id + '" >' + val.name + '</div>');
+							$('#ultimate-member-defaultRole').append('<option value="' + val.id + '" >' + val.name + '</option>');
+							makeDrag($('.makeMeDraggable'));
 						}
 					});
 					var defaultRole = $('#selected_default_role').val();
 					if (defaultRole) {
-						$('#pmpro-defaultRole option[value=' + defaultRole + ']').prop('selected', true);
+						$('#ultimate-member-defaultRole option[value=' + defaultRole + ']').prop('selected', true);
 					}
 
 					if (response.previous_mapping) {
 						var mapjson = response.previous_mapping;
 					} else {
-						var mapjson = localStorage.getItem('pmpro_mappingjson');
+						var mapjson = localStorage.getItem('ultimatemember_mappingjson');
 					}
 
-					$("#pmpro_maaping_json_val").html(mapjson);
+					$("#ultimate-member_maaping_json_val").html(mapjson);
 					$.each(JSON.parse(mapjson), function (key, val) {
 						var arrayofkey = key.split('id_');
-						$('*[data-pmpro_level_id="' + arrayofkey[1] + '"]').append($('*[data-pmpro_role_id="' + val + '"]')).attr('data-drop-pmpro_role_id', val).find('span').css({ 'order': '2' });
-						if (jQuery('*[data-pmpro_level_id="' + arrayofkey[1] + '"]').find('.makeMeDraggable').length >= 1) {
-							$('*[data-pmpro_level_id="' + arrayofkey[1] + '"]').droppable("destroy");
+						$('*[data-ultimate-member_level_id="' + arrayofkey[1] + '"]').append($('*[data-ultimate-member_role_id="' + val + '"]')).attr('data-drop-ultimate-member_role_id', val).find('span').css({ 'order': '2' });
+						if (jQuery('*[data-ultimate-member_level_id="' + arrayofkey[1] + '"]').find('.makeMeDraggable').length >= 1) {
+							$('*[data-ultimate-member_level_id="' + arrayofkey[1] + '"]').droppable("destroy");
 						}
-						$('*[data-pmpro_role_id="' + val + '"]').css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '0px', 'order': '1' }).attr('data-pmpro_level_id', arrayofkey[1]);
+						$('*[data-ultimate-member_role_id="' + val + '"]').css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '0px', 'order': '1' }).attr('data-ultimate-member_level_id', arrayofkey[1]);
 					});
 				}
 
 			},
 			error: function (response) {
-                            console.log('erreur');
-                            //return;
-				//$("#ultimatemember-connect-discord-bot").show().html("Error: Please check all details are correct").addClass('error-bk');
+				$("#ultimatemember-connect-discord-bot").show().html("Error: Please check all details are correct").addClass('error-bk');
 				console.error(response);
                                 
 			},
@@ -110,27 +106,161 @@
 				$("#skeletabsTab1 .spinner").removeClass("is-active").css({ "float": "right", "display": "none" });
 			}
 		});
+		/*Clear log log call-back*/
+		$('#pmpro-clrbtn').click(function (e) {
+//			e.preventDefault();
+//			$.ajax({
+//				url: etsPmproParams.admin_ajax,
+//				type: "POST",
+//				data: { 'action': 'ets_pmpro_discord_clear_logs', 'ets_discord_nonce': etsPmproParams.ets_discord_nonce, },
+//				beforeSend: function () {
+//					$(".clr-log.spinner").addClass("is-active").show();
+//				},
+//				success: function (data) {
+//					if (data.error) {
+//						// handle the error
+//						alert(data.error.msg);
+//					} else {
+//						$('.error-log').html("Clear logs Sucesssfully !");
+//					}
+//				},
+//				error: function (response) {
+//					console.error(response);
+//				},
+//				complete: function () {
+//					$(".clr-log.spinner").removeClass("is-active").hide();
+//				}
+//			});
+		});
+                
+		/*Flush settings from local storage*/
+		$("#revertMapping").on('click', function () {
+			localStorage.removeItem('ultimatemember_mapArray');
+			localStorage.removeItem('ultimatemember_mappingjson');
+			window.location.href = window.location.href;
+		});
+
 		/*Create droppable element*/
 		function init() {
 			$('.makeMeDroppable').droppable({
 				drop: handleDropEvent,
-				hoverClass: 'hoverActive',
+				hoverClass: 'hoverActive'
 			});
-//			$('.pmpro-discord-roles-col').droppable({
-//				drop: handlePreviousDropEvent,
-//				hoverClass: 'hoverActive',
-//			});
+			$('.ultimate-discord-roles-col').droppable({
+				drop: handlePreviousDropEvent,
+				hoverClass: 'hoverActive'
+			});
 		}
 
-		$(init);                
-
-                /*Create draggable element*/
+		$(init);
+		/*Create draggable element*/
 		function makeDrag(el) {
 			// Pass me an object, and I will make it draggable
 			el.draggable({
 				revert: "invalid"
 			});
 		}
+
+		/*Handel droppable event for saved mapping*/
+		function handlePreviousDropEvent(event, ui) {
+			var draggable = ui.draggable;
+			$(this).append(draggable);
+			$('*[data-drop-ultimate-member_role_id="' + draggable.data('ultimate-member_role_id') + '"]').droppable({
+				drop: handleDropEvent,
+				hoverClass: 'hoverActive',
+			});
+			$('*[data-drop-ultimate-member_role_id="' + draggable.data('ultimate-member_role_id') + '"]').attr('data-drop-ultimate-member_role_id', '');
+
+			var oldItems = JSON.parse(localStorage.getItem('ultimatemember_mapArray')) || [];
+			$.each(oldItems, function (key, val) {
+				if (val) {
+					var arrayofval = val.split(',');
+					if (arrayofval[0] == 'ultimate-member_level_id_' + draggable.data('ultimate-member_level_id') || arrayofval[1] == draggable.data('ultimate-member_role_id')) {
+						delete oldItems[key];
+					}
+				}
+			});
+			var jsonStart = "{";
+			$.each(oldItems, function (key, val) {
+				if (val) {
+					var arrayofval = val.split(',');
+					if (arrayofval[0] != 'ultimate-member_level_id_' + draggable.data('ultimate-member_level_id') || arrayofval[1] != draggable.data('ultimate-member_role_id')) {
+						jsonStart = jsonStart + '"' + arrayofval[0] + '":' + '"' + arrayofval[1] + '",';
+					}
+				}
+			});
+			localStorage.setItem('ultimatemember_mapArray', JSON.stringify(oldItems));
+			var lastChar = jsonStart.slice(-1);
+			if (lastChar == ',') {
+				jsonStart = jsonStart.slice(0, -1);
+			}
+
+			var ultimatemember_mappingjson = jsonStart + '}';
+			$("#ultimate-member_maaping_json_val").html(ultimatemember_mappingjson);
+			localStorage.setItem('ultimatemember_mappingjson', ultimatemember_mappingjson);
+			draggable.css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '10px' });
+		}
+
+		/*Handel droppable area for current mapping*/
+		function handleDropEvent(event, ui) {
+			var draggable = ui.draggable;
+			var newItem = [];
+			$('*[data-drop-ultimate-member_role_id="' + draggable.data('ultimate-member_role_id') + '"]').droppable({
+				drop: handleDropEvent,
+				hoverClass: 'hoverActive',
+			});
+			$('*[data-drop-ultimate-member_role_id="' + draggable.data('ultimate-member_role_id') + '"]').attr('data-drop-ultimate-member_role_id', '');
+			if ($(this).data('drop-ultimate-member_role_id') != draggable.data('ultimate-member_role_id')) {
+				var oldItems = JSON.parse(localStorage.getItem('ultimatemember_mapArray')) || [];
+				$(this).attr('data-drop-ultimate-member_role_id', draggable.data('ultimate-member_role_id'));
+				draggable.attr('data-ultimate-member_level_id', $(this).data('ultimate-member_level_id'));
+
+				$.each(oldItems, function (key, val) {
+					if (val) {
+						var arrayofval = val.split(',');
+						if (arrayofval[0] == 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id') || arrayofval[1] == draggable.data('ultimate-member_role_id')) {
+							delete oldItems[key];
+						}
+					}
+				});
+
+				var newkey = 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id');
+				oldItems.push(newkey + ',' + draggable.data('ultimate-member_role_id'));
+				var jsonStart = "{";
+				$.each(oldItems, function (key, val) {
+					if (val) {
+						var arrayofval = val.split(',');
+						if (arrayofval[0] == 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id') || arrayofval[1] != draggable.data('ultimate-member_role_id') && arrayofval[0] != 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id') || arrayofval[1] == draggable.data('ultimate-member_role_id')) {
+							jsonStart = jsonStart + '"' + arrayofval[0] + '":' + '"' + arrayofval[1] + '",';
+						}
+					}
+				});
+
+				localStorage.setItem('ultimatemember_mapArray', JSON.stringify(oldItems));
+				var lastChar = jsonStart.slice(-1);
+				if (lastChar == ',') {
+					jsonStart = jsonStart.slice(0, -1);
+				}
+
+				var ultimatemember_mappingjson = jsonStart + '}';
+				localStorage.setItem('ultimatemember_mappingjson', ultimatemember_mappingjson);
+				$("#ultimate-member_maaping_json_val").html(ultimatemember_mappingjson);
+			}
+
+			$(this).append(ui.draggable);
+			$(this).find('span').css({ 'order': '2' });
+			if (jQuery(this).find('.makeMeDraggable').length >= 1) {
+				$(this).droppable("destroy");
+			}
+
+			draggable.css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '0px', 'order': '1' });
+		}
         }
 
-})( jQuery );
+});
+if (etsUltimateMemberParams.is_admin) {
+	/*Tab options*/
+	jQuery.skeletabs.setDefaults({
+		keyboard: false
+	});
+}

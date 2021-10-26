@@ -3,21 +3,19 @@
 //var_dump ( UM()->roles() );
 //echo '</pre>';
 //echo '<hr>';
-
+//
 //$users_count = count_users();
 //
 $roles = array();
 $role_keys = get_option( 'um_roles', array() );
-echo '<pre>';
-var_dump( $role_keys );
-echo '</pre>';
+//echo '<pre>';
+//var_dump( $role_keys );
+//echo '</pre>';
 //return;
 
-//$user_id             = sanitize_text_field( trim( get_current_user_id() ) );
-//$pmpro_levels        = pmpro_getAllLevels( true, true );
-//$membership_level    = pmpro_getMembershipLevelForUser( $user_id );
-//$default_role        = sanitize_text_field( trim( get_option( '_ets_pmpro_discord_default_role_id' ) ) );
-//$allow_none_member_s = sanitize_text_field( trim( get_option( 'ets_pmpro_allow_none_member' ) ) );
+
+$default_role        = sanitize_text_field( trim( get_option( '_ets_ultimatemember_discord_default_role_id' ) ) );
+$allow_none_member_s = sanitize_text_field( trim( get_option( 'ets_ultimatemember_allow_none_member' ) ) );
 ?>
 <div class="notice notice-warning ets-notice">
   <p><i class='fas fa-info'></i> <?php echo __( 'Drag and Drop the Discord Roles over to the Ultimate Member Roles', 'ultimate-member-discord-add-on' ); ?></p>
@@ -36,32 +34,32 @@ echo '</pre>';
   <div class="ets-column">
 	<h2><?php echo __( 'Ultimate Member', 'ultimate-member-discord-add-on' ); ?></h2>
 	<hr>
-	<div class="pmpro-levels">
+	<div class="ultimate-discord-levels">
 	<?php
-//	foreach ( $pmpro_levels as $key => $value ) {
-//		if ( $value->allow_signups != 0 ) :
-//			?>
-		  <div class="makeMeDroppable" data-pmpro_level_id="//<?php echo esc_attr($value->id); ?>" ><span><?php echo esc_html($value->name); ?></span></div>
-			//<?php
-//		endif;
-//	}
+	foreach ( $role_keys as $key => $value ) {
+		//if ( $value->allow_signups != 0 ) :
+			?>
+		  <div class="makeMeDroppable" data-ultimate-member_level_id="<?php echo esc_attr($key); ?>" ><span><?php echo esc_html($value); ?></span></div>
+			<?php
+		//endif;
+	}
 	?>
 	</div>
   </div>
 </div>
 <form method="post" action="<?php echo get_site_url().'/wp-admin/admin-post.php' ?>">
- <input type="hidden" name="action" value="pmpro_discord_save_role_mapping">
+ <input type="hidden" name="action" value="ultimatemember_discord_save_role_mapping">
   <table class="form-table" role="presentation">
 	<tbody>
 	  <tr>
-		<th scope="row"><label for="pmpro-defaultRole"><?php echo __( 'Default Role', 'ultimate-member-discord-add-on' ); ?></label></th>
+		<th scope="row"><label for="ultimate-member-defaultRole"><?php echo __( 'Default Role', 'ultimate-member-discord-add-on' ); ?></label></th>
 		<td>
-		  <?php wp_nonce_field( 'discord_role_mappings_nonce', 'ets_pmpor_discord_role_mappings_nonce' ); ?>
+		  <?php wp_nonce_field( 'ultimatemember_discord_role_mappings_nonce', 'ets_ultimatemember_discord_role_mappings_nonce' ); ?>
 		  <input type="hidden" id="selected_default_role" value="<?php echo esc_attr( $default_role ); ?>">
-		  <select id="pmpro-defaultRole" name="pmpro_defaultRole">
+		  <select id="ultimate-member-defaultRole" name="ultimate-member_defaultRole">
 			<option value="none"><?php echo __( '-None-', 'ultimate-member-discord-add-on' ); ?></option>
 		  </select>
-		  <p class="description"><?php echo __( 'This Role will be assigned to all level members', 'ultimate-member-discord-add-on' ); ?></p>
+		  <p class="description"><?php echo __( 'This Role will be assigned to all roles members', 'ultimate-member-discord-add-on' ); ?></p>
 		</td>
 	  </tr>
 	  <tr>
@@ -88,7 +86,7 @@ echo '</pre>';
   </table>
 	<br>
   <div class="mapping-json">
-	<textarea id="pmpro_maaping_json_val" name="ets_pmpor_discord_role_mapping">
+	<textarea id="ultimate-member_maaping_json_val" name="ets_ultimatemember_discord_role_mapping">
 	<?php
 	if ( isset( $ets_discord_roles ) ) {
 		echo stripslashes( esc_html( $ets_discord_roles ));}

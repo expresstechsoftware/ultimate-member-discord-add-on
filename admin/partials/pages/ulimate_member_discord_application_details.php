@@ -57,7 +57,7 @@ $ets_ultimatemember_discord_server_id     = sanitize_text_field( trim( get_optio
 		<?php echo __( 'Save Settings', 'ultimate-member-discord-add-on' ); ?>
 	  </button>
 	  <?php if ( get_option( 'ets_ultimatemember_discord_client_id' ) ) : ?>
-		<a href="?action=discord-connect-to-bot" class="ets-btn-submit btn-connect-to-bot" id="connect-discord-bot"><?php echo __( 'Connect your Bot', 'ultimate-member-discord-add-on' ); ?> <i class='fab fa-discord'></i></a>
+		<a href="?action=discord-connect-to-bot" class="ets-btn-submit ultimatemember-btn-connect-to-bot" id="ultimatemember-connect-discord-bot"><?php echo __( 'Connect your Bot', 'ultimate-member-discord-add-on' ); ?> <i class='fab fa-discord'></i></a>
 	  <?php endif; ?>
 	</p>
 </form>

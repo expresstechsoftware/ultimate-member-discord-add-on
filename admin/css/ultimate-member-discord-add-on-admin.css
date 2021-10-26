@@ -244,7 +244,31 @@ margin-right: 5px;
 /*end support form css*/
 
 /*role map form css*/
+.ultimate-member-discord-roles{
+    
+}
+.spinner{
+  background: url(../images/spinner.gif) no-repeat;
+  background-size: auto;
+  background-size: 20px 20px;
+  display: inline-block;
+  visibility: hidden;
+  vertical-align: middle;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+  width: 20px;
+  height: 20px;
+  margin: 4px 10px 0;
 
+}
+.is-active{
+  visibility: visible;
+}
+
+.ultimate-member-discord-roles .spinner, .initialtab.spinner{
+  float: none;
+  display: inline-block;
+}
 .discord-roles-col {
 border: 2px dashed transparent;
 transition: ease .3s;
@@ -271,6 +295,10 @@ color: #fff;
 margin-bottom: 10px;
 cursor: all-scroll;
 }
+.makeMeDroppable span{
+  width: 100%;
+  padding: 10px;
+}
 .notice.ets-notice {
 background-color: rgba(51,170,51,.1);
 margin-bottom: 10px;
@@ -295,6 +323,13 @@ display: none;
 #skeletabsTab2 {
 box-sizing: border-box;
 
+}
+.not-active {
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  background-color:#77A02E;
+  color: #ffffff;
 }
 
 /*error log tab css*/
