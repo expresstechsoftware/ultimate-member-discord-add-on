@@ -11,6 +11,15 @@
  * @subpackage Ultimate_Member_Discord_Add_On/admin/partials
  */
 ?>
+<?php
+if ( isset( $_GET['save_settings_msg'] ) ) {
+?>
+<div class="notice notice-success is-dismissible support-success-msg">
+    <p><?php echo esc_html( $_GET['save_settings_msg'] ); ?></p>
+</div>
+<?php
+}
+?>
 <h1><?php echo __( 'Ultimate member Discord Add On Settings', 'ultimate-member-discord-add-on' ); ?></h1>
 <div id="ultimate-discord-outer" class="skltbs-theme-light" data-skeletabs='{ "startIndex": 1 }'>
   <ul class="skltbs-tab-group">
