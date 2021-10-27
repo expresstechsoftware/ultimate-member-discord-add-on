@@ -8,7 +8,7 @@ $um_roles = array();
 foreach( UM()->roles()->get_roles() as $k => $v ){ 
     foreach( $role_keys as $i => $j ){
         if( $k === "um_".$j ){
-            $um_roles[] = $v;
+            $um_roles[$j] = $v;
             
         }
         
