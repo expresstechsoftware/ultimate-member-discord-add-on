@@ -16,7 +16,6 @@ foreach( UM()->roles()->get_roles() as $k => $v ){
 }
 
 $default_role        = sanitize_text_field( trim( get_option( '_ets_ultimatemember_discord_default_role_id' ) ) );
-$allow_none_member_s = sanitize_text_field( trim( get_option( 'ets_ultimatemember_allow_none_member' ) ) );
 ?>
 <div class="notice notice-warning ets-notice">
   <p><i class='fas fa-info'></i> <?php echo __( 'Drag and Drop the Discord Roles over to the Ultimate Member Roles', 'ultimate-member-discord-add-on' ); ?></p>
@@ -63,26 +62,7 @@ $allow_none_member_s = sanitize_text_field( trim( get_option( 'ets_ultimatemembe
 		  <p class="description"><?php echo __( 'This Role will be assigned to all roles members', 'ultimate-member-discord-add-on' ); ?></p>
 		</td>
 	  </tr>
-	  <tr>
-		<th scope="row"><label><?php echo __( 'Allow non-members', 'ultimate-member-discord-add-on' ); ?></label></th>
-		<td>
-		  <fieldset>
-		  <label><input type="radio" name="allow_none_member" value="yes"  
-		  <?php
-			if ( $allow_none_member_s == 'yes' ) {
-				echo 'checked="checked"'; }
-			?>
-			 > <span><?php echo __( 'Yes', 'ultimate-member-discord-add-on' ); ?></span></label><br>
-		  <label><input type="radio" name="allow_none_member" value="no" 
-		  <?php
-			if ( empty( $allow_none_member_s ) || $allow_none_member_s == 'no' ) {
-				echo 'checked="checked"'; }
-			?>
-			 > <span><?php echo __( 'No', 'ultimate-member-discord-add-on' ); ?></span></label>
-		  <p class="description"><?php echo __( 'This setting will apply on Cancel and Expiry of Ultimate Member ', 'ultimate-member-discord-add-on' ); ?></p>
-		  </fieldset>
-		</td>
-	  </tr>
+
 	</tbody>
   </table>
 	<br>
