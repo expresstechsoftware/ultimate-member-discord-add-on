@@ -94,10 +94,10 @@ $allow_none_member_s = sanitize_text_field( trim( get_option( 'ets_ultimatemembe
 	</textarea>
   </div>
   <div class="bottom-btn">
-	<button type="submit" name="submit" value="ets_submit" class="ets-submit ets-bg-green">
+	<button type="submit" name="submit" value="ets_submit" class="ets-submit ets-btn-submit ets-bg-green">
 	  <?php echo __( 'Save Settings', 'ultimate-member-discord-add-on' ); ?>
 	</button>
-	<button id="revertMapping" name="flush" class="ets-submit ets-bg-red">
+	<button id="revertMapping" name="flush" class="ets-submit ets-btn-submit ets-bg-red">
 	  <?php echo __( 'Flush Mappings', 'ultimate-member-discord-add-on' ); ?>
 	</button>
   </div>

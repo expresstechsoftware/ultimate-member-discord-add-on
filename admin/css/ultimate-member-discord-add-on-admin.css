@@ -299,6 +299,14 @@ cursor: all-scroll;
   width: 100%;
   padding: 10px;
 }
+div.mapping-json{
+  text-align: center;
+  margin-top: 10px;
+}
+#ultimate-member_maaping_json_val{
+  width: 50%;
+  display: none;
+}
 .notice.ets-notice {
 background-color: rgba(51,170,51,.1);
 margin-bottom: 10px;
