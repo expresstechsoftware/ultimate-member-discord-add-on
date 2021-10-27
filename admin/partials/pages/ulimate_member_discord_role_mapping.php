@@ -37,11 +37,11 @@ $default_role        = sanitize_text_field( trim( get_option( '_ets_ultimatememb
 	<div class="ultimate-discord-levels">
 	<?php
 	foreach ( $um_roles as $key => $value ) {
-		//if ( $value->allow_signups != 0 ) :
+		
 			?>
 		  <div class="makeMeDroppable" data-ultimate-member_level_id="<?php echo esc_attr($key); ?>" ><span><?php echo esc_html($value); ?></span></div>
 			<?php
-		//endif;
+		
 	}
 	?>
 	</div>

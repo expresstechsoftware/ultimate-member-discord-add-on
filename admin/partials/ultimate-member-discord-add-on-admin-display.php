@@ -45,10 +45,5 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 		</div>      
   </div>  
     
-    <?php
-//      $all_meta_for_user = get_user_meta( get_current_user_id() );
-//      echo '<pre>';
-//  print_r( $all_meta_for_user );
-//  echo '</pre>';
-    ?>
+
 </div>
