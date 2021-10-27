@@ -73,7 +73,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 * class.
 		 */
 		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-admin.min.css', array(), $this->version, 'all' );
                 wp_enqueue_style( $this->plugin_name . 'fa-icon', '//use.fontawesome.com/releases/v5.5.0/css/all.css', array(), $this->version, 'all' );
 
 	}
@@ -102,7 +102,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
                 
                 wp_register_script(
                         'ultimate-member-discord-add-on-admin',
-			plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.js',
+			plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.min.js',
 			array( 'jquery' ),
 			$this->version, 
                         false

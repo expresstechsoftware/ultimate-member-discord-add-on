@@ -28,7 +28,7 @@ jQuery(document).ready(function ($) {
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
-       // console.log(etsUltimateMemberParams);
+       
         if (etsUltimateMemberParams.is_admin) {
             
 		$.ajax({
@@ -58,14 +58,14 @@ jQuery(document).ready(function ($) {
 						$('.ets-tabs button[data-identity="settings"]').trigger('click');
 					}
 					$.each(response, function (key, val) {
-                                            //console.log(val.name);
+                                            
 						var isbot = false;
 						if (val.hasOwnProperty('tags')) {
 							if (val.tags.hasOwnProperty('bot_id')) {
 								isbot = true;
 							}
 						}
-                                                //console.log(isbot);
+                                                
 
 						if (key != 'previous_mapping' && isbot == false && val.name != '@everyone') {
 							$('.ultimate-member-discord-roles').append('<div class="makeMeDraggable" style="background-color:#'+val.color.toString(16)+'" data-ultimate-member_role_id="' + val.id + '" >' + val.name + '</div>');
@@ -106,32 +106,7 @@ jQuery(document).ready(function ($) {
 				$("#skeletabsTab1 .spinner").removeClass("is-active").css({ "float": "right", "display": "none" });
 			}
 		});
-		/*Clear log log call-back*/
-		$('#pmpro-clrbtn').click(function (e) {
-//			e.preventDefault();
-//			$.ajax({
-//				url: etsPmproParams.admin_ajax,
-//				type: "POST",
-//				data: { 'action': 'ets_pmpro_discord_clear_logs', 'ets_discord_nonce': etsPmproParams.ets_discord_nonce, },
-//				beforeSend: function () {
-//					$(".clr-log.spinner").addClass("is-active").show();
-//				},
-//				success: function (data) {
-//					if (data.error) {
-//						// handle the error
-//						alert(data.error.msg);
-//					} else {
-//						$('.error-log').html("Clear logs Sucesssfully !");
-//					}
-//				},
-//				error: function (response) {
-//					console.error(response);
-//				},
-//				complete: function () {
-//					$(".clr-log.spinner").removeClass("is-active").hide();
-//				}
-//			});
-		});
+
                 
 		/*Flush settings from local storage*/
 		$("#revertMapping").on('click', function () {
