@@ -1,18 +1,19 @@
 <?php
-//echo '<pre>';
-//var_dump ( UM()->roles() );
-//echo '</pre>';
-//echo '<hr>';
-//
-//$users_count = count_users();
-//
-$roles = array();
-$role_keys = get_option( 'um_roles', array() );
-//echo '<pre>';
-//var_dump( $role_keys );
-//echo '</pre>';
-//return;
 
+
+$role_keys = get_option( 'um_roles', array() );
+
+
+$um_roles = array();
+foreach( UM()->roles()->get_roles() as $k => $v ){ 
+    foreach( $role_keys as $i => $j ){
+        if( $k === "um_".$j ){
+            $um_roles[] = $v;
+            
+        }
+        
+        }
+}
 
 $default_role        = sanitize_text_field( trim( get_option( '_ets_ultimatemember_discord_default_role_id' ) ) );
 $allow_none_member_s = sanitize_text_field( trim( get_option( 'ets_ultimatemember_allow_none_member' ) ) );
@@ -36,7 +37,7 @@ $allow_none_member_s = sanitize_text_field( trim( get_option( 'ets_ultimatemembe
 	<hr>
 	<div class="ultimate-discord-levels">
 	<?php
-	foreach ( $role_keys as $key => $value ) {
+	foreach ( $um_roles as $key => $value ) {
 		//if ( $value->allow_signups != 0 ) :
 			?>
 		  <div class="makeMeDroppable" data-ultimate-member_level_id="<?php echo esc_attr($key); ?>" ><span><?php echo esc_html($value); ?></span></div>
@@ -78,7 +79,7 @@ $allow_none_member_s = sanitize_text_field( trim( get_option( 'ets_ultimatemembe
 				echo 'checked="checked"'; }
 			?>
 			 > <span><?php echo __( 'No', 'ultimate-member-discord-add-on' ); ?></span></label>
-		  <p class="description"><?php echo __( 'This setting will apply on Cancel and Expiry of Membership', 'ultimate-member-discord-add-on' ); ?></p>
+		  <p class="description"><?php echo __( 'This setting will apply on Cancel and Expiry of Ultimate Member ', 'ultimate-member-discord-add-on' ); ?></p>
 		  </fieldset>
 		</td>
 	  </tr>
