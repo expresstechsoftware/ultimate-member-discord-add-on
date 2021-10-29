@@ -128,6 +128,7 @@ class Ultimate_Member_Discord_Add_On {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-ultimate-member-discord-add-on-public.php';
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/ultimate-member-discord-add-on-public-display.php';
 
 		$this->loader = new Ultimate_Member_Discord_Add_On_Loader();
 
@@ -181,6 +182,7 @@ class Ultimate_Member_Discord_Add_On {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+                new Ultimate_Member_Discord_Add_On_Public_Display();
 
 	}
 
