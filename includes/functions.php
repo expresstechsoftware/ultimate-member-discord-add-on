@@ -48,7 +48,7 @@ function ultimatemember_discord_check_saved_settings_status() {
    * @param ARRAY|OBJECT $api_response
    */
 function ets_ultimatemember_discord_log_api_response( $user_id, $api_url = '', $api_args = array(), $api_response = '' ) {
-	$log_api_response = get_option( 'ets_pmpro_discord_log_api_response' );
+	$log_api_response = get_option( 'ets_ultimatemember_discord_log_api_response' );
 	if ( $log_api_response == true ) {
 		$log_string  = '==>' . $api_url;
 		$log_string .= '-::-' . serialize( $api_args );
@@ -59,3 +59,18 @@ function ets_ultimatemember_discord_log_api_response( $user_id, $api_url = '', $
 	}
 }
 
+/**
+ * Get  current level id
+ *
+ * @param INT $user_id
+ * @return INT|NULL $curr_level_id
+ */
+function ets_ultimatemember_discord_get_current_level_id( $user_id ) {
+//	$membership_level = ultimatemember_getMembershipLevelForUser( $user_id );
+//	if ( $membership_level ) {
+//		$curr_level_id = sanitize_text_field( trim( $membership_level->ID ) );
+//		return $curr_level_id;
+//	} else {
+//		return null;
+//	}
+}
