@@ -13,7 +13,7 @@
  */
 ?>
 
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->
+
 <?php
 
 Class Ultimate_Member_Discord_Add_On_Public_Display{
