@@ -74,6 +74,8 @@ class Ultimate_Member_Discord_API {
 			}
 				return wp_send_json( $response_arr );
 		}
+                
+                exit();
 
 	}
 	/**
@@ -118,7 +120,7 @@ class Ultimate_Member_Discord_API {
 					),
 				);
 				$response = wp_remote_post( $discord_token_api_url, $args );
-				ets_ultimatemember_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
+				//ets_ultimatemember_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
 				if ( ets_ultimatemember_discord_check_api_errors( $response ) ) {
 					$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
 					//PMPro_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
@@ -140,7 +142,7 @@ class Ultimate_Member_Discord_API {
 				),
 			);
 			$response = wp_remote_post( $discord_token_api_url, $args );
-			ets_ultimatemember_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
+			//ets_ultimatemember_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
 			if ( ets_ultimatemember_discord_check_api_errors( $response ) ) {
 				$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
 				//PMPro_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
@@ -205,7 +207,7 @@ class Ultimate_Member_Discord_API {
 								$token_expiry_time = $date->getTimestamp();
 								update_user_meta( $user_id, '_ets_ultimatemember_discord_expires_in', $token_expiry_time );
 							}
-							$user_body = $this->get_discord_current_user( $access_token );
+							//$user_body = $this->get_discord_current_user( $access_token );
 
 							if ( is_array( $user_body ) && array_key_exists( 'discriminator', $user_body ) ) {
 								$discord_user_number           = $user_body['discriminator'];
@@ -218,11 +220,11 @@ class Ultimate_Member_Discord_API {
 								if ( $discord_exist_user_id == $_ets_ultimatemember_discord_user_id ) {
 									$_ets_ultimatemember_discord_role_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', true ) ) );
 									if ( ! empty( $_ets_ultimatemember_discord_role_id ) && $_ets_ultimatemember_discord_role_id != 'none' ) {
-										$this->delete_discord_role( $user_id, $_ets_ultimatemember_discord_role_id );
+										//$this->delete_discord_role( $user_id, $_ets_ultimatemember_discord_role_id );
 									}
 								}
 								update_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', $_ets_ultimatemember_discord_user_id );
-								$this->add_discord_member_in_guild( $_ets_ultimatemember_discord_user_id, $user_id, $access_token );
+								//$this->add_discord_member_in_guild( $_ets_ultimatemember_discord_user_id, $user_id, $access_token );
 							}
 						}
 					}
