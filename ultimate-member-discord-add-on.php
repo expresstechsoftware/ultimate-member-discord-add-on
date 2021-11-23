@@ -48,6 +48,15 @@ define( 'ETS_DISCORD_API_URL', 'https://discord.com/api/v6/' );
 // discord Bot Permissions.
 define( 'ULTIMATE_MEMBER_DISCORD_BOT_PERMISSIONS', 8 );
 
+// discord api call scopes.
+define( 'ETS_DISCORD_OAUTH_SCOPES', 'identify email connections guilds guilds.join gdm.join rpc rpc.notifications.read rpc.voice.read rpc.voice.write rpc.activities.write bot webhook.incoming messages.read applications.builds.upload applications.builds.read applications.commands applications.store.update applications.entitlements activities.read activities.write relationships.read' );
+
+// Follwing response codes not cosider for re-try API calls.
+define( 'ETS_ULTIMATE_MEMBER_DISCORD_DONOT_RETRY_THESE_API_CODES', array( 0, 10003, 50033, 10004, 50025, 10013, 10011 ) );
+
+// following http response codes should not get re-try. except 429 !
+define( 'ETS_ULTIMATE_MEMBER_DISCORD_DONOT_RETRY_HTTP_CODES', array( 400, 401, 403, 404, 405, 502 ) );
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-ultimate-member-discord-add-on-activator.php
