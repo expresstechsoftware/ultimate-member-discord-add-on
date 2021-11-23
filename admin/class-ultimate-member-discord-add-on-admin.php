@@ -102,7 +102,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
                 
                 wp_register_script(
                         'ultimate-member-discord-add-on-admin',
-			plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.min.js',
+			plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.js',
 			array( 'jquery' ),
 			$this->version, 
                         false

@@ -35,28 +35,28 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 			wp_send_json_error( 'Unauthorized user', 401 );
 			exit();
 		}
-//		$user_id = sanitize_text_field( trim( get_current_user_id() ) );
-//
-//		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_pmpro_discord_access_token', true ) ) );
-//
-//		$allow_none_member              = sanitize_text_field( trim( get_option( 'ets_pmpro_allow_none_member' ) ) );
-//		$default_role                   = sanitize_text_field( trim( get_option( '_ets_pmpro_discord_default_role_id' ) ) );
-//		$ets_pmpor_discord_role_mapping = json_decode( get_option( 'ets_pmpor_discord_role_mapping' ), true );
-//		$all_roles                      = unserialize( get_option( 'ets_pmpro_discord_all_roles' ) );
-//		$curr_level_id                  = ets_pmpro_discord_get_current_level_id( $user_id );
-//		$mapped_role_name               = '';
-//		if ( $curr_level_id && is_array( $all_roles ) ) {
-//			if ( is_array( $ets_pmpor_discord_role_mapping ) && array_key_exists( 'pmpro_level_id_' . $curr_level_id, $ets_pmpor_discord_role_mapping ) ) {
-//				$mapped_role_id = $ets_pmpor_discord_role_mapping[ 'pmpro_level_id_' . $curr_level_id ];
-//				if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
-//					$mapped_role_name = $all_roles[ $mapped_role_id ];
-//				}
-//			}
-//		}
-//		$default_role_name = '';
-//		if ( $default_role != 'none' && is_array( $all_roles ) && array_key_exists( $default_role, $all_roles ) ) {
-//			$default_role_name = $all_roles[ $default_role ];
-//		}
+		$user_id = sanitize_text_field( trim( get_current_user_id() ) );
+
+		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_access_token', true ) ) );
+
+		$default_role                   = sanitize_text_field( trim( get_option( '_ets_ultimatemember_discord_default_role_id' ) ) );
+		$ets_ultimatemember_discord_role_mapping = json_decode( get_option( 'ets_ultimatemember_discord_role_mapping' ), true );
+		$all_roles                      = unserialize( get_option( 'ets_ultimatemember_discord_all_roles' ) );
+		$curr_level_id                  = ets_ultimatemember_discord_get_current_level_id( $user_id );
+		$mapped_role_name               = '';
+		if ( $curr_level_id && is_array( $all_roles ) ) {
+			if ( is_array( $ets_ultimatemember_discord_role_mapping ) && array_key_exists( 'ultimate-member_level_id_' . $curr_level_id, $ets_ultimatemember_discord_role_mapping ) ) {
+				$mapped_role_id = $ets_ultimatemember_discord_role_mapping[ 'ultimate-member_level_id_' . $curr_level_id ];
+				if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
+					$mapped_role_name = $all_roles[ $mapped_role_id ];
+				}
+			}
+		}
+		$default_role_name = '';
+		if ( $default_role != 'none' && is_array( $all_roles ) && array_key_exists( $default_role, $all_roles ) ) {
+			$default_role_name = $all_roles[ $default_role ];
+		}
+                echo '<b>' . $curr_level_id . '</b>';
 		if ( ultimatemember_discord_check_saved_settings_status() ) {
 			if ( $access_token ) {
 				?>

@@ -96,9 +96,9 @@ jQuery(document).ready(function ($) {
 				}
 
 			},
-			error: function (response) {
+			error: function (response ,  textStatus, errorThrown) {
 				$("#ultimatemember-connect-discord-bot").show().html("Error: Please check all details are correct").addClass('error-bk');
-				console.error(response);
+				console.log( textStatus + " :  " + response.status + " : " + errorThrown );
                                 
 			},
 			complete: function () {
