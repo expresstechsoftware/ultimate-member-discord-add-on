@@ -6,11 +6,42 @@ class Ultimate_Member_Discord_API {
 	function __construct() {
 		// Discord api callback
 		add_action( 'init', array( $this, 'ets_ultimatemember_discord_discord_api_callback' ) );
+                
+                // front ajax function to disconnect from discord
+		add_action( 'wp_ajax_disconnect_from_discord', array( $this, 'ets_ultimatemember_discord_disconnect_from_discord' ) );
 
-		// front ajax function to disconnect from discord
+		// front ajax function to load discord roles
 		add_action( 'wp_ajax_ets_ultimatemember_discord_load_discord_roles', array( $this, 'ets_ultimatemember_discord_load_discord_roles' ) );
                
 
+	}
+	/**
+	 * Disconnect user from discord
+	 *
+	 * @param NONE
+	 * @return OBJECT JSON response
+	 */
+	public function ets_ultimatemember_discord_disconnect_from_discord() {
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error( 'Unauthorized user', 401 );
+			exit();
+		}
+
+		// Check for nonce security
+		if ( ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_nonce'], 'ets-ultimatemember-ajax-nonce' ) ) {
+				wp_send_json_error( 'You do not have sufficient rights', 403 );
+				exit();
+		}
+		$user_id = sanitize_text_field( trim( $_POST['user_id'] ) );
+		if ( $user_id ) {
+			$this->delete_member_from_guild( $user_id, false );
+			delete_user_meta( $user_id, '_ets_pmpro_discord_access_token' );
+		}
+		$event_res = array(
+			'status'  => 1,
+			'message' => 'Successfully disconnected',
+		);
+		wp_send_json( $event_res );
 	}
 
 	/**
@@ -150,6 +181,36 @@ class Ultimate_Member_Discord_API {
 		}
 		return $response;
 	}
+        
+	/**
+	 * Get Discord user details from API
+	 *
+	 * @param STRING $access_token
+	 * @return OBJECT REST API response
+	 */
+	public function get_discord_current_user( $access_token ) {
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error( 'Unauthorized user', 401 );
+			exit();
+		}
+		$user_id = get_current_user_id();
+
+		$discord_cuser_api_url = ETS_DISCORD_API_URL . 'users/@me';
+		$param                 = array(
+			'headers' => array(
+				'Content-Type'  => 'application/x-www-form-urlencoded',
+				'Authorization' => 'Bearer ' . $access_token,
+			),
+		);
+		$user_response         = wp_remote_get( $discord_cuser_api_url, $param );
+		//ets_pmpro_discord_log_api_response( $user_id, $discord_cuser_api_url, $param, $user_response );
+
+		$response_arr = json_decode( wp_remote_retrieve_body( $user_response ), true );
+		//PMPro_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+		$user_body = json_decode( wp_remote_retrieve_body( $user_response ), true );
+		return $user_body;
+
+	}
 
 	/**
 	 * For authorization process call discord API
@@ -207,7 +268,7 @@ class Ultimate_Member_Discord_API {
 								$token_expiry_time = $date->getTimestamp();
 								update_user_meta( $user_id, '_ets_ultimatemember_discord_expires_in', $token_expiry_time );
 							}
-							//$user_body = $this->get_discord_current_user( $access_token );
+							$user_body = $this->get_discord_current_user( $access_token );
 
 							if ( is_array( $user_body ) && array_key_exists( 'discriminator', $user_body ) ) {
 								$discord_user_number           = $user_body['discriminator'];
@@ -229,6 +290,24 @@ class Ultimate_Member_Discord_API {
 						}
 					}
 				}
+			}
+		}
+	}
+
+	/**
+	 * Schedule delete existing user from guild
+	 *
+	 * @param INT  $user_id
+	 * @param BOOL $is_schedule
+	 * @param NONE
+	 */
+	public function delete_member_from_guild( $user_id, $is_schedule = true ) {
+		if ( $is_schedule && isset( $user_id ) ) {
+
+			//as_schedule_single_action( ets_pmpro_discord_get_random_timestamp( ets_pmpro_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_delete_member', array( $user_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
+		} else {
+			if ( isset( $user_id ) ) {
+				//$this->ets_pmpro_discord_as_handler_delete_member_from_guild( $user_id, $is_schedule );
 			}
 		}
 	}

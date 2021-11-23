@@ -56,15 +56,15 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 		if ( $default_role != 'none' && is_array( $all_roles ) && array_key_exists( $default_role, $all_roles ) ) {
 			$default_role_name = $all_roles[ $default_role ];
 		}
-                echo '<b>' . $curr_level_id . '</b>';
+                
 		if ( ultimatemember_discord_check_saved_settings_status() ) {
 			if ( $access_token ) {
 				?>
 				<label class="ets-connection-lbl"><?php echo __( 'Discord connection', 'ultimate-member-discord-add-on' ); ?></label>
-				<a href="#" class="ets-btn pmpro-btn-disconnect" id="pmpro-disconnect-discord" data-user-id="<?php echo esc_attr( $user_id ); ?>"><?php echo __( 'Disconnect From Discord ', 'ultimate-member-discord-add-on' ); ?><i class='fab fa-discord'></i></a>
+				<a href="#" class="ets-btn ultimate-member-btn-disconnect" id="ultimate-member-disconnect-discord" data-user-id="<?php echo esc_attr( $user_id ); ?>"><?php echo __( 'Disconnect From Discord ', 'ultimate-member-discord-add-on' ); ?><i class='fab fa-discord'></i></a>
 				<span class="ets-spinner"></span>
 				<?php
-			//} elseif ( pmpro_hasMembershipLevel()  ) {
+		
                         } else {
 				?>
 				<label class="ets-connection-lbl"><?php echo __( 'Discord connection', 'ultimate-member-discord-add-on' ); ?></label>
