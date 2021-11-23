@@ -91,12 +91,12 @@ function ets_ultimatemember_discord_check_api_errors( $api_response ) {
 
 	// First Check if response contain codes which should not get re-try.
 	$body = json_decode( wp_remote_retrieve_body( $api_response ), true );
-	if ( isset( $body['code'] ) && in_array( $body['code'], ETS_PMPRO_DISCORD_DONOT_RETRY_THESE_API_CODES ) ) {
+	if ( isset( $body['code'] ) && in_array( $body['code'], ETS_ULTIMATE_MEMBER_DISCORD_DONOT_RETRY_THESE_API_CODES ) ) {
 		return false;
 	}
 
 	$response_code = strval( $api_response['response']['code'] );
-	if ( isset( $api_response['response']['code'] ) && in_array( $response_code, ETS_PMPRO_DISCORD_DONOT_RETRY_HTTP_CODES ) ) {
+	if ( isset( $api_response['response']['code'] ) && in_array( $response_code, ETS_ULTIMATE_MEMBER_DISCORD_DONOT_RETRY_HTTP_CODES ) ) {
 		return false;
 	}
 
