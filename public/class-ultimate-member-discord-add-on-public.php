@@ -97,6 +97,13 @@ class Ultimate_Member_Discord_Add_On_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-public.js', array( 'jquery' ), $this->version, false );
+                
+                $script_params = array(
+			'admin_ajax'        => admin_url( 'admin-ajax.php' ),
+			'permissions_const' => ULTIMATE_MEMBER_DISCORD_BOT_PERMISSIONS,
+			'ets_ultimatemember_discord_nonce' => wp_create_nonce( 'ets-ultimatemember-ajax-nonce' ),
+		);
+		wp_localize_script( $this->plugin_name , 'etsUltimateMemberParams', $script_params );
 
 	}
 
