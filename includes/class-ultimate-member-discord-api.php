@@ -35,7 +35,7 @@ class Ultimate_Member_Discord_API {
 		$user_id = sanitize_text_field( trim( $_POST['user_id'] ) );
 		if ( $user_id ) {
 			$this->delete_member_from_guild( $user_id, false );
-			delete_user_meta( $user_id, '_ets_pmpro_discord_access_token' );
+			delete_user_meta( $user_id, '_ets_ultimatemember_discord_access_token' );
 		}
 		$event_res = array(
 			'status'  => 1,
