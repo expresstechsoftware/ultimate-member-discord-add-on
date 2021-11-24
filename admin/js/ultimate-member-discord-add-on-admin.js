@@ -231,28 +231,7 @@ jQuery(document).ready(function ($) {
 			draggable.css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '0px', 'order': '1' });
 		}
         }
-	/*Call-back on disconnect from discord*/
-	$('#ultimate-member-disconnect-discord').on('click', function (e) {
-		e.preventDefault();
-		var userId = $(this).data('user-id');
-		$.ajax({
-			type: "POST",
-			dataType: "JSON",
-			url: etsUltimateMemberParams.admin_ajax,
-			data: { 'action': 'disconnect_from_discord', 'user_id': userId, 'ets_ultimatemember_discord_nonce': etsUltimateMemberParams.ets_ultimatemember_discord_nonce },
-			beforeSend: function () {
-				$(".ets-spinner").addClass("ets-is-active");
-			},
-			success: function (response) {
-				if (response.status == 1) {
-					window.location = window.location.href.split("?")[0];
-				}
-			},
-			error: function (response) {
-				console.error(response);
-			}
-		});
-	});
+
 
 });
 if (etsUltimateMemberParams.is_admin) {
