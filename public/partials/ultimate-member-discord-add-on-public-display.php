@@ -60,15 +60,26 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 		if ( ultimatemember_discord_check_saved_settings_status() ) {
 			if ( $access_token ) {
 				?>
+                                <div class="um-field um-field-text">
+                                <div class="um-field-label">
 				<label class="ets-connection-lbl"><?php echo __( 'Discord connection', 'ultimate-member-discord-add-on' ); ?></label>
+                               </div> 
+                                <div class="um-field-area">
 				<a href="#" class="ets-btn ultimate-member-btn-disconnect" id="ultimate-member-disconnect-discord" data-user-id="<?php echo esc_attr( $user_id ); ?>"><?php echo __( 'Disconnect From Discord ', 'ultimate-member-discord-add-on' ); ?><i class='fab fa-discord'></i></a>
 				<span class="ets-spinner"></span>
+                                </div>
+                                </div>
 				<?php
 		
                         } else {
 				?>
+                                <div class="um-field um-field-text">
+                                <div class="um-field-label">
 				<label class="ets-connection-lbl"><?php echo __( 'Discord connection', 'ultimate-member-discord-add-on' ); ?></label>
-				<a href="?action=discord-login" class="pmpro-btn-connect ets-btn" ><?php echo __( 'Connect To Discord', 'ultimate-member-discord-add-on' ); ?> <i class='fab fa-discord'></i></a>
+                                </div>
+                                <div class="um-field-area">
+				<a href="?action=discord-login" class="ultimate-member-btn-connect ets-btn" ><?php echo __( 'Connect To Discord', 'ultimate-member-discord-add-on' ); ?> <i class='fab fa-discord'></i></a>
+                                </div>
 				<?php if ( $mapped_role_name ) { ?>
 					<p class="ets_assigned_role">
 					<?php
@@ -79,6 +90,8 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 					?>
 					 </p>
 				<?php } ?>
+                                   
+                                </div>
 				<?php
 			}
 		}

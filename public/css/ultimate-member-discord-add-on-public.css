@@ -2,3 +2,24 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+.ets-btn {
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 14px;
+    box-shadow: 0 0;
+    border: 0;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 600;
+    letter-spacing: .0333em;
+    line-height: 1.25;
+    margin: 0;
+    opacity: 1;
+    text-transform: uppercase;
+}
+.ultimate-member-btn-disconnect{
+    background-color: #FF0000;
+}
+.ultimate-member-btn-connect{
+    background-color: #77a02e;
+}
