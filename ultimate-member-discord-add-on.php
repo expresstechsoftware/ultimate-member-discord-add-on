@@ -57,6 +57,9 @@ define( 'ETS_ULTIMATE_MEMBER_DISCORD_DONOT_RETRY_THESE_API_CODES', array( 0, 100
 // following http response codes should not get re-try. except 429 !
 define( 'ETS_ULTIMATE_MEMBER_DISCORD_DONOT_RETRY_HTTP_CODES', array( 400, 401, 403, 404, 405, 502 ) );
 
+// define group name for action scheduler actions.
+define( 'ETS_DISCORD_AS_GROUP_NAME', 'ets-ultimatemember-discord' );
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-ultimate-member-discord-add-on-activator.php

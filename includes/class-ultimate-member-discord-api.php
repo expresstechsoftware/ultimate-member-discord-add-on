@@ -12,6 +12,9 @@ class Ultimate_Member_Discord_API {
 
 		// front ajax function to load discord roles
 		add_action( 'wp_ajax_ets_ultimatemember_discord_load_discord_roles', array( $this, 'ets_ultimatemember_discord_load_discord_roles' ) );
+                
+                add_action( 'ets_ultimatemember_discord_as_handle_add_member_to_guild', array( $this, 'ets_ultimatemember_discord_as_handler_add_member_to_guild' ), 10, 3 );
+                add_action( 'ets_ultimatemember_discord_as_send_dm', array( $this, 'ets_ultimatemember_discord_handler_send_dm' ), 10, 3 );
                
 
 	}
@@ -295,6 +298,94 @@ class Ultimate_Member_Discord_API {
 	}
 
 	/**
+	 * Method to add new members to discord guild.
+	 *
+	 * @param INT    $_ets_ultimatemember_discord_user_id
+	 * @param INT    $user_id
+	 * @param STRING $access_token
+	 * @return NONE
+	 */
+	public function ets_ultimatemember_discord_as_handler_add_member_to_guild( $_ets_ultimatemember_discord_user_id, $user_id, $access_token ) {
+		// Since we using a queue to delay the API call, there may be a condition when a member is delete from DB. so put a check.
+		if ( get_userdata( $user_id ) === false ) {
+			return;
+		}
+		$guild_id                          = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
+		$discord_bot_token                 = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
+		$default_role                      = sanitize_text_field( trim( get_option( '_ets_ultimatemember_discord_default_role_id' ) ) );
+		$ets_ultimatemember_discord_role_mapping    = json_decode( get_option( 'ets_ultimatemember_discord_role_mapping' ), true );
+		$discord_role                      = '';
+		$curr_level_id                     = sanitize_text_field( trim( ets_ultimatemember_discord_get_current_level_id( $user_id ) ) );
+		$ets_ultimatemember_discord_send_welcome_dm = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_send_welcome_dm' ) ) );
+
+		if ( is_array( $ets_ultimatemember_discord_role_mapping ) && array_key_exists( 'ultimate-member_level_id_' . $curr_level_id, $ets_ultimatemember_discord_role_mapping ) ) {
+			$discord_role = sanitize_text_field( trim( $ets_ultimatemember_discord_role_mapping[ 'ultimate-member_level_id_' . $curr_level_id ] ) );
+		} elseif ( $discord_role = '' && $default_role ) {
+			$discord_role = $default_role;
+		}
+
+		$guilds_memeber_api_url = ETS_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_ultimatemember_discord_user_id;
+		$guild_args             = array(
+			'method'  => 'PUT',
+			'headers' => array(
+				'Content-Type'  => 'application/json',
+				'Authorization' => 'Bot ' . $discord_bot_token,
+			),
+			'body'    => json_encode(
+				array(
+					'access_token' => $access_token,
+					'roles'        => array(
+						$discord_role,
+					),
+				)
+			),
+		);
+		$guild_response         = wp_remote_post( $guilds_memeber_api_url, $guild_args );
+
+		//ets_pmpro_discord_log_api_response( $user_id, $guilds_memeber_api_url, $guild_args, $guild_response );
+		if ( ets_ultimatemember_discord_check_api_errors( $guild_response ) ) {
+
+			$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
+			//PMPro_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+			// this should be catch by Action schedule failed action.
+			throw new Exception( 'Failed in function ets_as_ultimatemember_add_member_to_guild' );
+		}
+
+		update_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $discord_role );
+		if ( $discord_role && $discord_role != 'none' && isset( $user_id ) ) {
+			$this->put_discord_role_api( $user_id, $discord_role );
+		}
+
+		if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
+			$this->put_discord_role_api( $user_id, $default_role );
+		}
+		if ( empty( get_user_meta( $user_id, '_ets_ultimatemember_discord_join_date', true ) ) ) {
+			update_user_meta( $user_id, '_ets_ultimatemember_discord_join_date', current_time( 'Y-m-d H:i:s' ) );
+		}
+
+		// Send welcome message.
+		if ( $ets_pmpro_discord_send_welcome_dm == true ) {
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_send_dm', array( $user_id, $curr_level_id, 'welcome' ), 'ets-pmpro-discord' );
+		}
+	}
+        
+	/**
+	 * API call to change discord user role
+	 *
+	 * @param INT  $user_id
+	 * @param INT  $role_id
+	 * @param BOOL $is_schedule
+	 * @return object API response
+	 */
+	public function put_discord_role_api( $user_id, $role_id, $is_schedule = true ) {
+		if ( $is_schedule ) {
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_pmpro_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_member_put_role', array( $user_id, $role_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
+		} else {
+			//$this->ets_pmpro_discord_as_handler_put_memberrole( $user_id, $role_id, $is_schedule );
+		}
+	}
+
+	/**
 	 * Schedule delete existing user from guild
 	 *
 	 * @param INT  $user_id
@@ -304,12 +395,23 @@ class Ultimate_Member_Discord_API {
 	public function delete_member_from_guild( $user_id, $is_schedule = true ) {
 		if ( $is_schedule && isset( $user_id ) ) {
 
-			//as_schedule_single_action( ets_pmpro_discord_get_random_timestamp( ets_pmpro_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_delete_member', array( $user_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
+			//as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_pmpro_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_delete_member', array( $user_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
 		} else {
 			if ( isset( $user_id ) ) {
 				//$this->ets_pmpro_discord_as_handler_delete_member_from_guild( $user_id, $is_schedule );
 			}
 		}
+	}
+        
+	/**
+	 * Discord DM a member using bot.
+	 *
+	 * @param INT    $user_id
+	 * @param STRING $type (warning|expired)
+	 */
+	public function ets_ultimatemember_discord_handler_send_dm( $user_id, $membership_level_id, $type = 'warning' ) {
+            
+            //
 	}
 
 
