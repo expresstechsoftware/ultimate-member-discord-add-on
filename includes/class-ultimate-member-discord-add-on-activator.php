@@ -30,13 +30,13 @@ class Ultimate_Member_Discord_Add_On_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-            $this->set_default_setting_values();
+            self::set_default_setting_values();
 	}
 
 	/**
 	 * Set default settings on activation
 	 */
-	public function set_default_setting_values() {
+	public static function set_default_setting_values() {
 		update_option( 'ets_ultimatemember_discord_payment_failed', true );
 		update_option( 'ets_ultimatemember_discord_log_api_response', false );
 		update_option( 'ets_ultimatemember_retry_failed_api', true );
