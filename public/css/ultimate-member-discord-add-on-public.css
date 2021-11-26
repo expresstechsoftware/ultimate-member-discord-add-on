@@ -23,3 +23,23 @@
 .ultimate-member-btn-connect{
     background-color: #77a02e;
 }
+.ets-spinner{
+  background: url(../images/spinner.gif) no-repeat;
+  background-size: auto;
+  background-size: 20px 20px;
+  display: inline-block;
+  visibility: hidden;
+  vertical-align: middle;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+  width: 20px;
+  height: 20px;
+  margin: 4px 10px 0;
+
+}
+.ets-is-active{
+  visibility: visible;
+}
+ .ets_assigned_role{
+  font-size: 12px;
+ }
