@@ -101,6 +101,8 @@ class Ultimate_Member_Discord_Add_On {
             
                 
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'libraries/action-scheduler/action-scheduler.php';
+                
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-add-on-logs.php';
             
                 /**
                  * 

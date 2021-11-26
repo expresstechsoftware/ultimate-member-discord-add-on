@@ -54,8 +54,8 @@ function ets_ultimatemember_discord_log_api_response( $user_id, $api_url = '', $
 		$log_string .= '-::-' . serialize( $api_args );
 		$log_string .= '-::-' . serialize( $api_response );
 
-		//$logs = new PMPro_Discord_Logs();
-		//$logs->write_api_response_logs( $log_string, $user_id );
+		$logs = new Ultimate_Member_Discord_Add_On_Logs();
+		$logs->write_api_response_logs( $log_string, $user_id );
 	}
 }
 

@@ -5,7 +5,7 @@
 class Ultimate_Member_Discord_API {
 	function __construct() {
 		// Discord api callback
-		add_action( 'init', array( $this, 'ets_ultimatemember_discord_discord_api_callback' ) );
+		add_action( 'init', array( $this, 'ets_ultimatemember_discord_api_callback' ) );
                 
                 // front ajax function to disconnect from discord
 		add_action( 'wp_ajax_disconnect_from_discord', array( $this, 'ets_ultimatemember_discord_disconnect_from_discord' ) );
@@ -152,10 +152,10 @@ class Ultimate_Member_Discord_API {
 					),
 				);
 				$response = wp_remote_post( $discord_token_api_url, $args );
-				//ets_ultimatemember_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
+				ets_ultimatemember_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
 				if ( ets_ultimatemember_discord_check_api_errors( $response ) ) {
 					$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
-					//PMPro_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+					Ultimate_Member_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 				}
 			}
 		} else {
@@ -174,10 +174,10 @@ class Ultimate_Member_Discord_API {
 				),
 			);
 			$response = wp_remote_post( $discord_token_api_url, $args );
-			//ets_ultimatemember_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
+			ets_ultimatemember_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
 			if ( ets_ultimatemember_discord_check_api_errors( $response ) ) {
 				$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
-				//PMPro_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				Ultimate_Member_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 			}
 		}
 		return $response;
@@ -204,10 +204,10 @@ class Ultimate_Member_Discord_API {
 			),
 		);
 		$user_response         = wp_remote_get( $discord_cuser_api_url, $param );
-		//ets_pmpro_discord_log_api_response( $user_id, $discord_cuser_api_url, $param, $user_response );
+		ets_ultimatemember_discord_log_api_response( $user_id, $discord_cuser_api_url, $param, $user_response );
 
 		$response_arr = json_decode( wp_remote_retrieve_body( $user_response ), true );
-		//PMPro_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+		Ultimate_Member_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 		$user_body = json_decode( wp_remote_retrieve_body( $user_response ), true );
 		return $user_body;
 
@@ -219,7 +219,7 @@ class Ultimate_Member_Discord_API {
 	 * @param NONE
 	 * @return OBJECT REST API response
 	 */
-	public function ets_ultimatemember_discord_discord_api_callback() {
+	public function ets_ultimatemember_discord_api_callback() {
 		if ( is_user_logged_in() ) {
 			$user_id = get_current_user_id();
 			if ( isset( $_GET['action'] ) && $_GET['action'] == 'discord-login' ) {
