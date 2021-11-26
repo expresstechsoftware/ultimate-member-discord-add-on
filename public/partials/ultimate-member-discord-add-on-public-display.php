@@ -58,6 +58,18 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 		}
                 
 		if ( ultimatemember_discord_check_saved_settings_status() ) {
+//                    echo '<pre>';
+//                    var_dump($curr_level_id);
+//                    echo '</pre>';
+//                    echo '<pre>';
+//                    var_dump($access_token);
+//                    echo '</pre>';
+//                    echo '<pre>';
+//                    var_dump($mapped_role_name);
+//                    echo '</pre>';
+//                    echo '<pre>';
+//                    var_dump($default_role_name);
+//                    echo '</pre>';
 			if ( $access_token ) {
 				?>
                                 <div class="um-field um-field-text">

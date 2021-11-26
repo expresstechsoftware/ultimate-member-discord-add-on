@@ -42,7 +42,7 @@ class Ultimate_Member_Discord_Add_On_Activator {
 		update_option( 'ets_ultimatemember_retry_failed_api', true );
 		update_option( 'ets_ultimatemember_discord_job_queue_concurrency', 1 );
 		update_option( 'ets_ultimatemember_discord_job_queue_batch_size', 7 );
-		update_option( 'ets_ultimatemember_allow_none_member', 'yes' );
+		
 		update_option( 'ets_ultimatemember_retry_api_count', '5' );
 		update_option( 'ets_ultimatemember_send_welcome_dm', true );
 		update_option( 'ets_ultimatemember_discord_welcome_message', 'Hi [ULTIMATEMEMBER_USERNAME] ([ULTIMATEMEMBER_EMAIL]), Welcome, Your membership [ULTIMATEMEMBER_LEVEL] is starting from [ULTIMATEMEMBER_STARTDATE] at [SITE_URL] the last date of your membership is [ULTIMATEMEMBER_ENDDATE] Thanks, Kind Regards, [BLOG_NAME]' );

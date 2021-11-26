@@ -125,10 +125,8 @@ class Ultimate_Member_Discord_API {
 			exit();
 		}
 		// stop users who having the direct URL of discord Oauth.
-		// We must check IF NONE members is set to NO and user having no active membership.
-		$allow_none_member = sanitize_text_field( trim( get_option( 'ets_ultimatemember_allow_none_member' ) ) );
 		$curr_level_id     = sanitize_text_field( trim( ets_ultimatemember_discord_get_current_level_id( $user_id ) ) );
-		if ( $curr_level_id == null && $allow_none_member == 'no' ) {
+		if ( $curr_level_id == null ) {
 			return;
 		}
 		$response              = '';
