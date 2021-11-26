@@ -15,6 +15,10 @@ class Ultimate_Member_Discord_API {
                 
                 add_action( 'ets_ultimatemember_discord_as_handle_add_member_to_guild', array( $this, 'ets_ultimatemember_discord_as_handler_add_member_to_guild' ), 10, 3 );
                 add_action( 'ets_ultimatemember_discord_as_send_dm', array( $this, 'ets_ultimatemember_discord_handler_send_dm' ), 10, 3 );
+                
+                add_action( 'ets_ultimatemember_discord_as_schedule_delete_role', array( $this, 'ets_ultimatemember_discord_as_handler_delete_memberrole' ), 10, 3 );
+                
+                add_action( 'ets_ultimatemember_discord_as_send_dm', array( $this, 'ets_ultimatemember_discord_handler_send_dm' ), 10, 3 );
                
 
 	}
@@ -79,13 +83,13 @@ class Ultimate_Member_Discord_API {
 			);
 			$guild_response          = wp_remote_post( $discod_server_roles_api, $guild_args );
 
-			//ets_ultimatemember_discord_log_api_response( $user_id, $discod_server_roles_api, $guild_args, $guild_response );
+			ets_ultimatemember_discord_log_api_response( $user_id, $discod_server_roles_api, $guild_args, $guild_response );
 
 			$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
 
 			if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
 				if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {
-					//PMPro_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+                                    Ultimate_Member_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 				} else {
 					$response_arr['previous_mapping'] = get_option( 'ets_ultimatemember_discord_role_mapping' );
 
@@ -363,7 +367,23 @@ class Ultimate_Member_Discord_API {
 
 		// Send welcome message.
 		if ( $ets_pmpro_discord_send_welcome_dm == true ) {
-			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_send_dm', array( $user_id, $curr_level_id, 'welcome' ), 'ets-pmpro-discord' );
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_ultimatemember_discord_as_send_dm', array( $user_id, $curr_level_id, 'welcome' ), 'ultimate-member-discord-add-on' );
+		}
+	}
+
+	/**
+	 * Schedule delete discord role for a member
+	 *
+	 * @param INT  $user_id
+	 * @param INT  $ets_role_id
+	 * @param BOOL $is_schedule
+	 * @return OBJECT API response
+	 */
+	public function delete_discord_role( $user_id, $ets_role_id, $is_schedule = true ) {
+		if ( $is_schedule ) {
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_ultimatemember_discord_as_schedule_delete_role', array( $user_id, $ets_role_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
+		} else {
+			$this->ets_ultimatemember_discord_as_handler_delete_memberrole( $user_id, $ets_role_id, $is_schedule );
 		}
 	}
         
@@ -377,7 +397,7 @@ class Ultimate_Member_Discord_API {
 	 */
 	public function put_discord_role_api( $user_id, $role_id, $is_schedule = true ) {
 		if ( $is_schedule ) {
-			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_pmpro_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_member_put_role', array( $user_id, $role_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_member_put_role', array( $user_id, $role_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
 		} else {
 			//$this->ets_pmpro_discord_as_handler_put_memberrole( $user_id, $role_id, $is_schedule );
 		}
@@ -393,7 +413,7 @@ class Ultimate_Member_Discord_API {
 	public function delete_member_from_guild( $user_id, $is_schedule = true ) {
 		if ( $is_schedule && isset( $user_id ) ) {
 
-			//as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_pmpro_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_delete_member', array( $user_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_delete_member', array( $user_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
 		} else {
 			if ( isset( $user_id ) ) {
 				//$this->ets_pmpro_discord_as_handler_delete_member_from_guild( $user_id, $is_schedule );
@@ -407,15 +427,50 @@ class Ultimate_Member_Discord_API {
 	 * @param INT    $user_id
 	 * @param STRING $type (warning|expired)
 	 */
-	public function ets_ultimatemember_discord_handler_send_dm( $user_id, $membership_level_id, $type = 'warning' ) {
+	public function ets_ultimatemember_discord_handler_send_dm( $user_id, $um_level_id, $type = 'warning' ) {
             
             //
 	}
 
+	/**
+	 * Action Schedule handler to process delete role of a member.
+	 *
+	 * @param INT  $user_id
+	 * @param INT  $ets_role_id
+	 * @param BOOL $is_schedule
+	 * @return OBJECT API response
+	 */
+	public function ets_ultimatemember_discord_as_handler_delete_memberrole( $user_id, $ets_role_id, $is_schedule = true ) {
 
+			$guild_id                    = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
+			$_ets_ultimatemember_discord_user_id  = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
+			$discord_bot_token           = sanitize_text_field( trim( get_option( 'ets_pmpro_discord_bot_token' ) ) );
+			$discord_delete_role_api_url = ETS_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_ultimatemember_discord_user_id . '/roles/' . $ets_role_id;
+		if ( $_ets_ultimatemember_discord_user_id ) {
+			$param = array(
+				'method'  => 'DELETE',
+				'headers' => array(
+					'Content-Type'   => 'application/json',
+					'Authorization'  => 'Bot ' . $discord_bot_token,
+					'Content-Length' => 0,
+				),
+			);
 
-
-
+			$response = wp_remote_request( $discord_delete_role_api_url, $param );
+			ets_ultimatemember_discord_log_api_response( $user_id, $discord_delete_role_api_url, $param, $response );
+			if ( ets_ultimatemember_discord_check_api_errors( $response ) ) {
+				$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
+				Ultimate_Member_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				if ( $is_schedule ) {
+					// this exception should be catch by action scheduler.
+					throw new Exception( 'Failed in function ets_ultimatemember_discord_as_handler_delete_memberrole' );
+				}
+			}
+			return $response;
+		}
+	}
+        
+        
 
 
 
