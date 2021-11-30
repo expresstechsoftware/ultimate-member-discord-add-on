@@ -122,7 +122,7 @@ function ets_ultimatemember_discord_get_formatted_dm( $user_id, $level_id, $mess
 
 function ets_ultimatemember_discord_get_highest_last_attempt_timestamp() {
 	global $wpdb;
-	$result = $wpdb->get_results( $wpdb->prepare( 'SELECT aa.last_attempt_gmt FROM ' . $wpdb->prefix . 'actionscheduler_actions as aa INNER JOIN ' . $wpdb->prefix . 'actionscheduler_groups as ag ON aa.group_id = ag.group_id WHERE ag.slug = %s ORDER BY aa.last_attempt_gmt DESC limit 1', ETS_DISCORD_AS_GROUP_NAME ), ARRAY_A );
+	$result = $wpdb->get_results( $wpdb->prepare( 'SELECT aa.last_attempt_gmt FROM ' . $wpdb->prefix . 'actionscheduler_actions as aa INNER JOIN ' . $wpdb->prefix . 'actionscheduler_groups as ag ON aa.group_id = ag.group_id WHERE ag.slug = %s ORDER BY aa.last_attempt_gmt DESC limit 1', ETS_UM_DISCORD_AS_GROUP_NAME ), ARRAY_A );
 
 	if ( ! empty( $result ) ) {
 		return strtotime( $result['0']['last_attempt_gmt'] );

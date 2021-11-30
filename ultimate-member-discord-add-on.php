@@ -43,13 +43,13 @@ define( 'ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION', '1.0.0' );
 define( 'ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
 // discord API url.
-define( 'ETS_DISCORD_API_URL', 'https://discord.com/api/v6/' );
+define( 'ETS_UM_DISCORD_API_URL', 'https://discord.com/api/v6/' );
 
 // discord Bot Permissions.
 define( 'ULTIMATE_MEMBER_DISCORD_BOT_PERMISSIONS', 8 );
 
 // discord api call scopes.
-define( 'ETS_DISCORD_OAUTH_SCOPES', 'identify email connections guilds guilds.join gdm.join rpc rpc.notifications.read rpc.voice.read rpc.voice.write rpc.activities.write bot webhook.incoming messages.read applications.builds.upload applications.builds.read applications.commands applications.store.update applications.entitlements activities.read activities.write relationships.read' );
+define( 'ETS_UM_DISCORD_OAUTH_SCOPES', 'identify email connections guilds guilds.join gdm.join rpc rpc.notifications.read rpc.voice.read rpc.voice.write rpc.activities.write bot webhook.incoming messages.read applications.builds.upload applications.builds.read applications.commands applications.store.update applications.entitlements activities.read activities.write relationships.read' );
 
 // Follwing response codes not cosider for re-try API calls.
 define( 'ETS_ULTIMATE_MEMBER_DISCORD_DONOT_RETRY_THESE_API_CODES', array( 0, 10003, 50033, 10004, 50025, 10013, 10011 ) );
@@ -58,7 +58,7 @@ define( 'ETS_ULTIMATE_MEMBER_DISCORD_DONOT_RETRY_THESE_API_CODES', array( 0, 100
 define( 'ETS_ULTIMATE_MEMBER_DISCORD_DONOT_RETRY_HTTP_CODES', array( 400, 401, 403, 404, 405, 502 ) );
 
 // define group name for action scheduler actions.
-define( 'ETS_DISCORD_AS_GROUP_NAME', 'ets-ultimatemember-discord' );
+define( 'ETS_UM_DISCORD_AS_GROUP_NAME', 'ets-ultimatemember-discord' );
 
 /**
  * The code that runs during plugin activation.

@@ -73,7 +73,7 @@ class Ultimate_Member_Discord_API {
 		$guild_id          = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
 		$discord_bot_token = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
 		if ( $guild_id && $discord_bot_token ) {
-			$discod_server_roles_api = ETS_DISCORD_API_URL . 'guilds/' . $guild_id . '/roles';
+			$discod_server_roles_api = ETS_UM_DISCORD_API_URL . 'guilds/' . $guild_id . '/roles';
 			$guild_args              = array(
 				'method'  => 'GET',
 				'headers' => array(
@@ -136,7 +136,7 @@ class Ultimate_Member_Discord_API {
 		$response              = '';
 		$refresh_token         = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_refresh_token', true ) ) );
 		$token_expiry_time     = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_expires_in', true ) ) );
-		$discord_token_api_url = ETS_DISCORD_API_URL . 'oauth2/token';
+		$discord_token_api_url = ETS_UM_DISCORD_API_URL . 'oauth2/token';
 		if ( $refresh_token ) {
 			$date              = new DateTime();
 			$current_timestamp = $date->getTimestamp();
@@ -152,7 +152,7 @@ class Ultimate_Member_Discord_API {
 						'grant_type'    => 'refresh_token',
 						'refresh_token' => $refresh_token,
 						'redirect_uri'  => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_redirect_url' ) ) ),
-						'scope'         => ETS_DISCORD_OAUTH_SCOPES,
+						'scope'         => ETS_UM_DISCORD_OAUTH_SCOPES,
 					),
 				);
 				$response = wp_remote_post( $discord_token_api_url, $args );
@@ -174,7 +174,7 @@ class Ultimate_Member_Discord_API {
 					'grant_type'    => 'authorization_code',
 					'code'          => $code,
 					'redirect_uri'  => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_redirect_url' ) ) ),
-					'scope'         => ETS_DISCORD_OAUTH_SCOPES,
+					'scope'         => ETS_UM_DISCORD_OAUTH_SCOPES,
 				),
 			);
 			$response = wp_remote_post( $discord_token_api_url, $args );
@@ -200,7 +200,7 @@ class Ultimate_Member_Discord_API {
 		}
 		$user_id = get_current_user_id();
 
-		$discord_cuser_api_url = ETS_DISCORD_API_URL . 'users/@me';
+		$discord_cuser_api_url = ETS_UM_DISCORD_API_URL . 'users/@me';
 		$param                 = array(
 			'headers' => array(
 				'Content-Type'  => 'application/x-www-form-urlencoded',
@@ -233,7 +233,7 @@ class Ultimate_Member_Discord_API {
 					'response_type' => 'code',
 					'scope'         => 'identify email connections guilds guilds.join messages.read',
 				);
-				$discord_authorise_api_url = ETS_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
+				$discord_authorise_api_url = ETS_UM_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
 
 				wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
 				exit;
@@ -246,7 +246,7 @@ class Ultimate_Member_Discord_API {
 					'scope'       => 'bot',
 					'guild_id'    => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) ),
 				);
-				$discord_authorise_api_url = ETS_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
+				$discord_authorise_api_url = ETS_UM_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
 
 				wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
 				exit;
@@ -326,7 +326,7 @@ class Ultimate_Member_Discord_API {
 			$discord_role = $default_role;
 		}
 
-		$guilds_memeber_api_url = ETS_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_ultimatemember_discord_user_id;
+		$guilds_memeber_api_url = ETS_UM_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_ultimatemember_discord_user_id;
 		$guild_args             = array(
 			'method'  => 'PUT',
 			'headers' => array(
@@ -381,7 +381,7 @@ class Ultimate_Member_Discord_API {
 	 */
 	public function delete_discord_role( $user_id, $ets_role_id, $is_schedule = true ) {
 		if ( $is_schedule ) {
-			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_ultimatemember_discord_as_schedule_delete_role', array( $user_id, $ets_role_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_ultimatemember_discord_as_schedule_delete_role', array( $user_id, $ets_role_id, $is_schedule ), ETS_UM_DISCORD_AS_GROUP_NAME );
 		} else {
 			$this->ets_ultimatemember_discord_as_handler_delete_memberrole( $user_id, $ets_role_id, $is_schedule );
 		}
@@ -397,7 +397,7 @@ class Ultimate_Member_Discord_API {
 	 */
 	public function put_discord_role_api( $user_id, $role_id, $is_schedule = true ) {
 		if ( $is_schedule ) {
-			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_member_put_role', array( $user_id, $role_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_member_put_role', array( $user_id, $role_id, $is_schedule ), ETS_UM_DISCORD_AS_GROUP_NAME );
 		} else {
 			//$this->ets_pmpro_discord_as_handler_put_memberrole( $user_id, $role_id, $is_schedule );
 		}
@@ -413,7 +413,7 @@ class Ultimate_Member_Discord_API {
 	public function delete_member_from_guild( $user_id, $is_schedule = true ) {
 		if ( $is_schedule && isset( $user_id ) ) {
 
-			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_delete_member', array( $user_id, $is_schedule ), ETS_DISCORD_AS_GROUP_NAME );
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_pmpro_discord_as_schedule_delete_member', array( $user_id, $is_schedule ), ETS_UM_DISCORD_AS_GROUP_NAME );
 		} else {
 			if ( isset( $user_id ) ) {
 				//$this->ets_pmpro_discord_as_handler_delete_member_from_guild( $user_id, $is_schedule );
@@ -445,7 +445,7 @@ class Ultimate_Member_Discord_API {
 			$guild_id                    = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
 			$_ets_ultimatemember_discord_user_id  = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
 			$discord_bot_token           = sanitize_text_field( trim( get_option( 'ets_pmpro_discord_bot_token' ) ) );
-			$discord_delete_role_api_url = ETS_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_ultimatemember_discord_user_id . '/roles/' . $ets_role_id;
+			$discord_delete_role_api_url = ETS_UM_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_ultimatemember_discord_user_id . '/roles/' . $ets_role_id;
 		if ( $_ets_ultimatemember_discord_user_id ) {
 			$param = array(
 				'method'  => 'DELETE',
