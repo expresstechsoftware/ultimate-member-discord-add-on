@@ -4,8 +4,8 @@
  */
 class Ultimate_Member_Discord_Add_On_Logs {
 	function __construct() {
-		// Ajax Call Clear all existing logs.
-		
+		// Clear all existing logs.
+		add_action( 'wp_ajax_ets_ultimatemember_discord_clear_logs', array( $this, 'ets_ultimatemember_discord_clear_logs' ) );
 	}
 
 	/**
@@ -15,6 +15,47 @@ class Ultimate_Member_Discord_Add_On_Logs {
 	 * @return string $log_file_name
 	 */
 	public static $log_file_name = 'ultimatemember_discord_api_logs.txt';
+        
+	/**
+	 * Clear previous logs history
+	 *
+	 * @param None
+	 * @return None
+	 */
+	public function ets_ultimatemember_discord_clear_logs() {
+            
+		if ( ! is_user_logged_in() && ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		// Check for nonce security
+		if ( ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_nonce'], 'ets-ultimatemember-ajax-nonce' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		try {
+			$uuid      = get_option( 'ets_ultimatemember_discord_uuid_file_name' );
+			$file_name = $uuid . $this::$log_file_name;
+			if ( fopen( WP_CONTENT_DIR . '/' . $file_name, 'w' ) ) {
+				$myfile = fopen( WP_CONTENT_DIR . '/' . $file_name, 'w' );
+				$txt    = current_time( 'mysql' ) . " => Clear logs Successfully\n";
+				fwrite( $myfile, $txt );
+				fclose( $myfile );
+			} else {
+				throw new Exception( 'Could not open the file!' );
+			}
+		} catch ( Exception $e ) {
+			return wp_send_json(
+				array(
+					'error' => array(
+						'msg'  => $e->getMessage(),
+						'code' => $e->getCode(),
+					),
+				)
+			);
+		}
+                exit();
+	}
 
 	/**
 	 * Add API error logs into log file
@@ -50,3 +91,5 @@ class Ultimate_Member_Discord_Add_On_Logs {
 
 	}
 }
+// instantiating the class needed for the Ajax call
+new Ultimate_Member_Discord_Add_On_Logs();

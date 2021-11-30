@@ -30,6 +30,7 @@ class Ultimate_Member_Discord_Add_On_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
+            update_option( 'ets_ultimatemember_discord_uuid_file_name', wp_generate_uuid4() );
             self::set_default_setting_values();
 	}
 
@@ -37,7 +38,7 @@ class Ultimate_Member_Discord_Add_On_Activator {
 	 * Set default settings on activation
 	 */
 	public static function set_default_setting_values() {
-                update_option( 'ets_ultimatemember_discord_uuid_file_name', wp_generate_uuid4() );
+                
 		update_option( 'ets_ultimatemember_discord_payment_failed', true );
 		update_option( 'ets_ultimatemember_discord_log_api_response', false );
 		update_option( 'ets_ultimatemember_retry_failed_api', true );

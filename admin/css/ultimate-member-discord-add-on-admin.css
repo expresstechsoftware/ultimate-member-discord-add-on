@@ -354,3 +354,22 @@ box-sizing: border-box;
   height: 400px;
   overflow: scroll;
 }
+.ultimate-member-clrbtndiv{
+    max-width: 230px;
+    display: flex;
+}
+.ultimate-member-clrbtndiv .form-group {
+    display: flex;
+}
+.ets-submit{
+    padding: 10px 20px;
+    background: #444;
+    color: #fff;
+    font-size: 14px;
+    box-shadow: 0 0;
+    border: 0;
+}
+.ets-ultimate-member-bg-download {
+    background-color: #2ca450!important;
+    color: #fff;
+}

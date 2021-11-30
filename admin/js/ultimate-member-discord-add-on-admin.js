@@ -107,6 +107,33 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
+		/*Clear log log call-back*/
+		$('#ets-ultimate-member-clrbtn').click(function (e) {
+			e.preventDefault();
+			$.ajax({
+				url: etsUltimateMemberParams.admin_ajax,
+				type: "POST",
+				data: { 'action': 'ets_ultimatemember_discord_clear_logs', 'ets_ultimatemember_discord_nonce': etsUltimateMemberParams.ets_ultimatemember_discord_nonce },
+				beforeSend: function () {
+					$(".clr-log.spinner").addClass("is-active").show();
+				},
+				success: function (data) {
+                                    console.log(data);
+					if (data.error) {
+						// handle the error
+						alert(data.error.msg);
+					} else {
+						$('.error-log').html("Clear logs Sucesssfully !");
+					}
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+					$(".clr-log.spinner").removeClass("is-active").hide();
+				}
+			});
+		});
                 
 		/*Flush settings from local storage*/
 		$("#revertMapping").on('click', function () {
