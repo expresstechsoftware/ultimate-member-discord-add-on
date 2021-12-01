@@ -172,6 +172,7 @@ class Ultimate_Member_Discord_Add_On {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'ets_ultimatemember_add_settings_menu' );
                 $this->loader->add_action( 'admin_post_ultimatemember_discord_application_settings', $plugin_admin, 'ets_ultimatemember_discord_application_settings' );
                 $this->loader->add_action( 'admin_post_ultimatemember_discord_save_role_mapping', $plugin_admin, 'ets_ultimatemember_discord_save_role_mapping' );
+                $this->loader->add_action( 'admin_post_ultimatemember_discord_save_advance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_advance_settings' );
 	}
 
 	/**

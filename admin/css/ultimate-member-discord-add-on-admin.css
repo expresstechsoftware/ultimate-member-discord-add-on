@@ -373,3 +373,6 @@ box-sizing: border-box;
     background-color: #2ca450!important;
     color: #fff;
 }
+.ets_ultimate-member_discord_dm_textarea {
+    height: 150px;
+}

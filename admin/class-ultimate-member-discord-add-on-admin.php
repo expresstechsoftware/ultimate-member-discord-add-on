@@ -232,6 +232,45 @@ class Ultimate_Member_Discord_Add_On_Admin {
 			wp_safe_redirect( $pre_location );
 		}
 	}
+        
+        /**
+         * Save advanced settings
+         * 
+         * @param NONE
+         * @return NONE
+         */
+        public function ets_ultimatemember_discord_save_advance_settings() {
+          
+		if ( ! current_user_can( 'administrator' ) || ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+                
+                $ets_ultimatemember_discord_send_welcome_dm = isset( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ) : '';
+                $ets_ultimatemember_discord_welcome_message = isset( $_POST['ets_ultimatemember_discord_welcome_message'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_welcome_message'] ) ) : '';
+                $retry_failed_api = isset( $_POST['retry_failed_api'] ) ? sanitize_textarea_field( trim( $_POST['retry_failed_api'] ) ) : '';
+                $retry_api_count = isset( $_POST['retry_api_count'] ) ? sanitize_textarea_field( trim( $_POST['retry_api_count'] ) ) : '';
+                $set_job_cnrc = isset( $_POST['set_job_cnrc'] ) ? sanitize_textarea_field( trim( $_POST['set_job_cnrc'] ) ) : '';
+                $set_job_q_batch_size = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
+                $log_api_res = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
+                
+                if ( isset( $_POST['ets_ultimatemember_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
+                    if( isset( $_POST['adv_submit'] ) ){
+                        
+                        //
+                        
+                        
+			$message = 'Your settings are saved successfully.';
+			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+                            $pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#skeletabsTab3';
+                            wp_safe_redirect( $pre_location );
+			}
+                        
+                    }
+                    
+                }
+           
+        }
 
 
 }
