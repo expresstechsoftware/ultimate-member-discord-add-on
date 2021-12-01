@@ -257,8 +257,18 @@ class Ultimate_Member_Discord_Add_On_Admin {
                 if ( isset( $_POST['ets_ultimatemember_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
                     if( isset( $_POST['adv_submit'] ) ){
                         
-                        //
                         
+                        if ( isset( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ) {
+			    update_option( 'ets_ultimatemember_discord_send_welcome_dm', true );
+			} else {
+			    update_option( 'ets_ultimatemember_discord_send_welcome_dm', false );
+			}
+                        if ( isset( $_POST['ets_ultimatemember_discord_welcome_message'] ) && $_POST['ets_ultimatemember_discord_welcome_message'] !=''  ) {
+			    update_option( 'ets_ultimatemember_discord_welcome_message', $ets_ultimatemember_discord_welcome_message );
+			} else {
+			    update_option( 'ets_ultimatemember_discord_welcome_message', '' );
+			}
+
                         
 			$message = 'Your settings are saved successfully.';
 			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
