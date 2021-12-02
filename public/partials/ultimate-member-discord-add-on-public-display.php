@@ -11,10 +11,7 @@
  * @package    Ultimate_Member_Discord_Add_On
  * @subpackage Ultimate_Member_Discord_Add_On/public/partials
  */
-?>
 
-
-<?php
 
 Class Ultimate_Member_Discord_Add_On_Public_Display{
     
