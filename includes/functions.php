@@ -112,7 +112,9 @@ function ets_ultimatemember_discord_check_api_errors( $api_response ) {
  * @param INT $user_id
  * Merge fields: [ULTIMATEMEMBER_USERNAME], [ULTIMATEMEMBER_EMAIL], [ULTIMATEMEMBER_LEVEL], [SITE_URL], [BLOG_NAME], [ULTIMATEMEMBER_ENDDATE], [ULTIMATEMEMBER_STARTDATE]</small>
  */
-function ets_ultimatemember_discord_get_formatted_dm( $user_id, $level_id, $message ) {
+function ets_ultimatemember_discord_get_formatted_dm( $user_id, $message ) {
+    
+//
 
 }
 
