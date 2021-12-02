@@ -20,9 +20,7 @@ $default_role        = sanitize_text_field( trim( get_option( '_ets_ultimatememb
 <div class="notice notice-warning ets-notice">
   <p><i class='fas fa-info'></i> <?php echo __( 'Drag and Drop the Discord Roles over to the Ultimate Member Roles', 'ultimate-member-discord-add-on' ); ?></p>
 </div>
-<div class="notice notice-warning ets-notice">
-  <p><i class='fas fa-info'></i> <?php echo __( 'Note: Inactive levels will not display', 'ultimate-member-discord-add-on' ); ?></p>
-</div>
+
 <div class="row-container">
   <div class="ets-column ultimate-discord-roles-col">
 	<h2><?php echo __( 'Discord Roles', 'ultimate-member-discord-add-on' ); ?></h2>
