@@ -249,13 +249,14 @@ class Ultimate_Member_Discord_Add_On_Admin {
                 $ets_ultimatemember_discord_send_welcome_dm = isset( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ) : '';
                 $ets_ultimatemember_discord_welcome_message = isset( $_POST['ets_ultimatemember_discord_welcome_message'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_welcome_message'] ) ) : '';
                 $retry_failed_api = isset( $_POST['retry_failed_api'] ) ? sanitize_textarea_field( trim( $_POST['retry_failed_api'] ) ) : '';
-                $retry_api_count = isset( $_POST['retry_api_count'] ) ? sanitize_textarea_field( trim( $_POST['retry_api_count'] ) ) : '';
+                $retry_api_count = isset( $_POST['ets_ultimatemember_retry_api_count'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_retry_api_count'] ) ) : '';
                 $set_job_cnrc = isset( $_POST['set_job_cnrc'] ) ? sanitize_textarea_field( trim( $_POST['set_job_cnrc'] ) ) : '';
                 $set_job_q_batch_size = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
                 $log_api_res = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
                 
                 if ( isset( $_POST['ets_ultimatemember_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
                     if( isset( $_POST['adv_submit'] ) ){
+                        
                         
                         
                         if ( isset( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ) {
@@ -268,7 +269,37 @@ class Ultimate_Member_Discord_Add_On_Admin {
 			} else {
 			    update_option( 'ets_ultimatemember_discord_welcome_message', '' );
 			}
-
+                        if ( isset( $_POST['retry_failed_api'] ) ) {
+			    update_option( 'ets_ultimatemember_retry_failed_api', true );
+			} else {
+			    update_option( 'ets_ultimatemember_retry_failed_api', false );
+			}
+			if ( isset( $_POST['ets_ultimatemember_retry_api_count'] ) ) {
+			    if ( $retry_api_count < 1 ) {
+				update_option( 'ets_ultimatemember_retry_api_count', 1 );
+			    } else {
+				update_option( 'ets_ultimatemember_retry_api_count', $retry_api_count );
+			    }
+			}
+			if ( isset( $_POST['set_job_cnrc'] ) ) {
+			    if ( $set_job_cnrc < 1 ) {
+				update_option( 'ets_ultimatemember_discord_job_queue_concurrency', 1 );
+			    } else {
+				update_option( 'ets_ultimatemember_discord_job_queue_concurrency', $set_job_cnrc );
+			    }
+			}
+			if ( isset( $_POST['set_job_q_batch_size'] ) ) {
+			    if ( $set_job_q_batch_size < 1 ) {
+				update_option( 'ets_ultimatemember_discord_job_queue_batch_size', 1 );
+			    } else {
+				update_option( 'ets_ultimatemember_discord_job_queue_batch_size', $set_job_q_batch_size );
+			    }
+			}
+			if ( isset( $_POST['log_api_res'] ) ) {
+			    update_option( 'ets_ultimatemember_discord_log_api_response', true );
+			} else {
+			    update_option( 'ets_ultimatemember_discord_log_api_response', false );
+		        }
                         
 			$message = 'Your settings are saved successfully.';
 			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
