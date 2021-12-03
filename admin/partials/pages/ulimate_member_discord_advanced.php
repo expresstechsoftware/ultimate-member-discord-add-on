@@ -29,7 +29,7 @@ $log_api_res                                  = sanitize_text_field( trim( get_o
 		<td> <fieldset>
 		<textarea class="ets_ultimate-member_discord_dm_textarea" name="ets_ultimatemember_discord_welcome_message" id="ets_ultimatemember_discord_welcome_message" row="25" cols="50"><?php if ( $ets_ultimatemember_discord_welcome_message ) { echo wp_unslash($ets_ultimatemember_discord_welcome_message); } ?></textarea> 
 	<br/>
-	<small>Merge fields: [MEMBER_USERNAME], [MEMBER_EMAIL], [MEMBERSHIP_LEVEL], [SITE_URL], [BLOG_NAME], [MEMBERSHIP_ENDDATE], [MEMBERSHIP_STARTDATE]</small>
+	<small>Merge fields: [MEMBER_USERNAME], [MEMBER_EMAIL], [MEMBER_ROLE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
 	  </tr>
 
