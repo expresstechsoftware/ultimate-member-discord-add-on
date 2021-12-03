@@ -89,6 +89,15 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
                                 <div class="um-field-area">
 				<a href="?action=discord-login" class="ultimate-member-btn-connect ets-btn" ><?php echo __( 'Connect To Discord', 'ultimate-member-discord-add-on' ); ?> <i class='fab fa-discord'></i></a>
                                 </div>
+                                    <?php
+                                                                    var_dump($mapped_role_name);
+                                    ?>
+                                    <br>
+                                    <pre>
+                                    <?php
+                                    var_dump($ets_ultimatemember_discord_role_mapping);
+                                    ?>
+                                    </pre>
 				<?php if ( $mapped_role_name ) { ?>
 					<p class="ets_assigned_role">
 					<?php
