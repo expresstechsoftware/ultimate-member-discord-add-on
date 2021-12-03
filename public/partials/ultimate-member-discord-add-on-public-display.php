@@ -55,18 +55,7 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 		}
                 
 		if ( ultimatemember_discord_check_saved_settings_status() ) {
-//                    echo '<pre>';
-//                    var_dump($curr_level_id);
-//                    echo '</pre>';
-//                    echo '<pre>';
-//                    var_dump($access_token);
-//                    echo '</pre>';
-//                    echo '<pre>';
-//                    var_dump($mapped_role_name);
-//                    echo '</pre>';
-//                    echo '<pre>';
-//                    var_dump($default_role_name);
-//                    echo '</pre>';
+
 			if ( $access_token ) {
 				?>
                                 <div class="um-field um-field-text">
@@ -89,15 +78,6 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
                                 <div class="um-field-area">
 				<a href="?action=discord-login" class="ultimate-member-btn-connect ets-btn" ><?php echo __( 'Connect To Discord', 'ultimate-member-discord-add-on' ); ?> <i class='fab fa-discord'></i></a>
                                 </div>
-                                    <?php
-                                                                    var_dump($mapped_role_name);
-                                    ?>
-                                    <br>
-                                    <pre>
-                                    <?php
-                                    var_dump($ets_ultimatemember_discord_role_mapping);
-                                    ?>
-                                    </pre>
 				<?php if ( $mapped_role_name ) { ?>
 					<p class="ets_assigned_role">
 					<?php
