@@ -48,8 +48,8 @@ jQuery(document).ready(function ($) {
 					window.location = window.location.href.split("?")[0];
 				}
 			},
-			error: function (response) {
-				console.error(response);
+			error: function (response ,  textStatus, errorThrown) {
+				console.log( textStatus + " :  " + response.status + " : " + errorThrown );
 			}
 		});
 	});
