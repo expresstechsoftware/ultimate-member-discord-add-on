@@ -115,7 +115,6 @@ class Ultimate_Member_Discord_Add_On {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-add-on-loader.php';
                 
-                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-api.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
@@ -173,6 +172,9 @@ class Ultimate_Member_Discord_Add_On {
                 $this->loader->add_action( 'admin_post_ultimatemember_discord_application_settings', $plugin_admin, 'ets_ultimatemember_discord_application_settings' );
                 $this->loader->add_action( 'admin_post_ultimatemember_discord_save_role_mapping', $plugin_admin, 'ets_ultimatemember_discord_save_role_mapping' );
                 $this->loader->add_action( 'admin_post_ultimatemember_discord_save_advance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_advance_settings' );
+                $this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_load_discord_roles', $plugin_admin, 'ets_ultimatemember_discord_load_discord_roles' );
+                
+               
 	}
 
 	/**
