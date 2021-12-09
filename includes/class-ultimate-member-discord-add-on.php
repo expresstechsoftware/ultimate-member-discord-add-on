@@ -115,7 +115,6 @@ class Ultimate_Member_Discord_Add_On {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-add-on-loader.php';
                 
-
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
