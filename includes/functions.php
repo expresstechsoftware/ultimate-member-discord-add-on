@@ -110,11 +110,38 @@ function ets_ultimatemember_discord_check_api_errors( $api_response ) {
  * Get formatted message to send in DM
  *
  * @param INT $user_id
- * Merge fields: [ULTIMATEMEMBER_USERNAME], [ULTIMATEMEMBER_EMAIL], [MEMBER_ROLE], [SITE_URL], [BLOG_NAME], [ULTIMATEMEMBER_ENDDATE], [ULTIMATEMEMBER_STARTDATE]</small>
+ * Merge fields: [MEMBER_USERNAME], [MEMBER_EMAIL], [MEMBER_ROLE], [SITE_URL], [BLOG_NAME]</small>
  */
-function ets_ultimatemember_discord_get_formatted_dm( $user_id, $message ) {
+function ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $message ) {
     
-//
+        $user_obj= get_user_by( 'id', $user_id );
+	$MEMBER_USERNAME = $user_obj->user_login;
+	$MEMBER_EMAIL    = $user_obj->user_email;
+        
+        $MEMBER_ROLE = UM()->roles()->get_roles()['um_'.$um_role_id] ;
+        
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );        
+    
+    
+        $find    = array(
+		'[MEMBER_USERNAME]',
+		'[MEMBER_EMAIL]',
+		'[MEMBER_ROLE]',
+		'[SITE_URL]',
+		'[BLOG_NAME]',
+	);
+	$replace = array(
+		$MEMBER_USERNAME,
+		$MEMBER_EMAIL,
+		$MEMBER_ROLE,
+		$SITE_URL,
+		$BLOG_NAME,
+	);
+        
+        update_option('dm_message_test', str_replace( $find, $replace, $message ) );
+
+	return str_replace( $find, $replace, $message );
 
 }
 
