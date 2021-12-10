@@ -140,7 +140,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 				wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
 				exit;
 			}
-			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) ) {
+			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'ultimate-discord' ) {
 				$code     = sanitize_text_field( trim( $_GET['code'] ) );
 				$response = $this->create_discord_auth_token( $code, $user_id );
 
@@ -689,7 +689,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 		$created_dm_response = wp_remote_post( $create_channel_dm_url, $dm_channel_args );
 		ets_ultimatemember_discord_log_api_response( $user_id, $create_channel_dm_url, $dm_channel_args, $created_dm_response );
 		$response_arr = json_decode( wp_remote_retrieve_body( $created_dm_response ), true );
-
+                
 		if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
 			// check if there is error in create dm response
 			if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {

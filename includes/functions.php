@@ -7,12 +7,12 @@ Common functions
 function ets_get_ultimatemember_discord_formated_discord_redirect_url( $url ) {
 	$parsed = parse_url( $url, PHP_URL_QUERY );
 	if ( $parsed === null ) {
-		return $url .= '?via=discord';
+		return $url .= '?via=ultimate-discord';
 	} else {
-		if ( stristr( $url, 'via=discord' ) !== false ) {
+		if ( stristr( $url, 'via=ultimate-discord' ) !== false ) {
 			return $url;
 		} else {
-			return $url .= '&via=discord';
+			return $url .= '&via=ultimate-discord';
 		}
 	}
 }
