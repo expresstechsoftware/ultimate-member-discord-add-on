@@ -47,7 +47,7 @@ class Ultimate_Member_Discord_Add_On_Activator {
 		
 		update_option( 'ets_ultimatemember_retry_api_count', '5' );
 		update_option( 'ets_ultimatemember_discord_send_welcome_dm', true );
-		update_option( 'ets_ultimatemember_discord_welcome_message', 'Hi [ULTIMATEMEMBER_USERNAME] ([ULTIMATEMEMBER_EMAIL]), Welcome, Your membership [MEMBER_ROLE] is starting from [ULTIMATEMEMBER_STARTDATE] at [SITE_URL] the last date of your membership is [ULTIMATEMEMBER_ENDDATE] Thanks, Kind Regards, [BLOG_NAME]' );
+		update_option( 'ets_ultimatemember_discord_welcome_message', 'Hi [MEMBER_USERNAME] ([MEMBER_EMAIL]), Welcome, Your  [MEMBER_ROLE] at [SITE_URL] Thanks, Kind Regards, [BLOG_NAME]' );
 		
 	}
 
