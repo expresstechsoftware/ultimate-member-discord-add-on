@@ -87,7 +87,15 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 						echo ', ' . esc_html( $default_role_name ); }
 					?>
 					 </p>
-				<?php } ?>
+				<?php } elseif( $default_role_name ) { ?>
+                                        <p class="ets_assigned_role">
+					<?php
+					echo __( 'Following Role will be assigned to you in Discord: ', 'ultimate-member-discord-add-on' );
+                                        echo  esc_html( $default_role_name ); 
+					?>
+                                        </p>
+                                         
+                                <?php }?>
                                    
                                 </div>
 				<?php
