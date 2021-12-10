@@ -188,14 +188,14 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 					
 					
-					$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#skeletabsTab1';
+					$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_ultimatemember_application_details';
 					wp_safe_redirect( $pre_location );
 				}
 			}
 		}
 	}
 	/**
-	 * Save Role mappiing settings
+	 * Save Role mapping settings
 	 *
 	 * @param NONE
 	 * @return NONE
@@ -303,7 +303,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
                         
 			$message = 'Your settings are saved successfully.';
 			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-                            $pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#skeletabsTab3';
+                            $pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_advanced';
                             wp_safe_redirect( $pre_location );
 			}
                         
