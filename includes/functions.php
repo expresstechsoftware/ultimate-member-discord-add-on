@@ -139,7 +139,6 @@ function ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $me
 		$BLOG_NAME,
 	);
         
-        update_option('dm_message_test', str_replace( $find, $replace, $message ) );
 
 	return str_replace( $find, $replace, $message );
 
