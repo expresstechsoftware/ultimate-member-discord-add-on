@@ -148,9 +148,9 @@ class Ultimate_Member_Discord_Add_On_Public {
 					$res_body              = json_decode( wp_remote_retrieve_body( $response ), true );
 					$discord_exist_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
 					if ( is_array( $res_body ) ) {
-                                           // update_option('verif_arr', $res_body );
+                                           
 						if ( array_key_exists( 'access_token', $res_body ) ) {
-                                                    update_option('verif_2', 'array_key_exists');
+                                                    
 							$access_token = sanitize_text_field( trim( $res_body['access_token'] ) );
 							update_user_meta( $user_id, '_ets_ultimatemember_discord_access_token', $access_token );
 							if ( array_key_exists( 'refresh_token', $res_body ) ) {
@@ -184,10 +184,10 @@ class Ultimate_Member_Discord_Add_On_Public {
 								$this->add_discord_member_in_guild( $_ets_ultimatemember_discord_user_id, $user_id, $access_token );
 							}
 						}else{
-                                                   // update_option('verif_3', 'no_array_key_exists');
+                                                   
                                                 }
 					}else{
-                                           // update_option('verif_4', 'no_array');
+                                           
                                         }
 				}
 			}
