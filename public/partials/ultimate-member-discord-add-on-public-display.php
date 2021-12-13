@@ -16,10 +16,7 @@
 Class Ultimate_Member_Discord_Add_On_Public_Display{
     
         public function __construct() {
-            // Add new button in Ultimate Member profile
-            add_shortcode( 'discord_connect_button', array( $this, 'ets_ultimatemember_discord_add_connect_discord_button' ) );
 
-            add_action( 'um_after_account_general', array( $this, 'ets_ultimatemember_show_discord_button' ) );
         }
         /**
         * Add button to make connection in between user and discord
@@ -104,14 +101,13 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
         }
     
 	/**
-	 * 
+	 * Show status of Ultimate Member connection with Discord user
 	 *
 	 * @param NONE
 	 * @return NONE
 	 */
 	public function ets_ultimatemember_show_discord_button() {
-		echo do_shortcode( '[discord_connect_button]' );
+		echo do_shortcode( '[restrictcontent-discord]' );
 	}
     
 }
-//new Ultimate_Member_Discord_Add_On_Public_Display();

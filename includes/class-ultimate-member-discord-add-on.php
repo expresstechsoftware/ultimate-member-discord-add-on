@@ -185,10 +185,14 @@ class Ultimate_Member_Discord_Add_On {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Ultimate_Member_Discord_Add_On_Public( $this->get_plugin_name(), $this->get_version() );
-
+		$plugin_public = new Ultimate_Member_Discord_Add_On_Public( $this->get_plugin_name(), $this->get_version()  );
+                
+                $plugin_public_display = new Ultimate_Member_Discord_Add_On_Public_Display();
+                
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_shortcode( 'restrictcontent-discord', $plugin_public_display, 'ets_ultimatemember_discord_add_connect_discord_button' );
+		$this->loader->add_action( 'um_after_account_general', $plugin_public_display, 'ets_ultimatemember_show_discord_button' );                
                 $this->loader->add_action( 'init', $plugin_public, 'ets_ultimatemember_discord_api_callback' );
                 $this->loader->add_action( 'wp_ajax_disconnect_from_discord', $plugin_public, 'ets_ultimatemember_discord_disconnect_from_discord' );
                 $this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_delete_member', $plugin_public, 'ets_ultimatemember_discord_as_handler_delete_member_from_guild', 10, 3 );
@@ -198,8 +202,7 @@ class Ultimate_Member_Discord_Add_On {
                 $this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_member_put_role', $plugin_public, 'ets_ultimatemember_discord_as_handler_put_memberrole', 10, 3 );
                 
                
-                new Ultimate_Member_Discord_Add_On_Public_Display();
-                
+               
 	}
 
 	/**
