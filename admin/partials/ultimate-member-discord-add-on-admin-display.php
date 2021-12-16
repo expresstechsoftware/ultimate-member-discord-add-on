@@ -51,11 +51,13 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 			require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/ulimate_member_discord_application_details.php';
     ?>
 		</div>
+                <?php if ( ultimatemember_discord_check_saved_settings_status() ): ?>
 		<div id="ets_ultimatemember_discord_role_mapping" class="ultimate-discord-tab-conetent skltbs-panel">
 		<?php
 			require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/ulimate_member_discord_role_mapping.php';
     ?>
 		</div>
+                <?php endif; ?>
 		<div id="ets_ultimatemember_discord_advanced" class="ultimate-discord-tab-conetent skltbs-panel">
 		<?php
 			require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/ulimate_member_discord_advanced.php';
