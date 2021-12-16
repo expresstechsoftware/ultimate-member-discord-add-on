@@ -86,13 +86,22 @@ jQuery(document).ready(function ($) {
 
 					$("#ultimate-member_maaping_json_val").html(mapjson);
 					$.each(JSON.parse(mapjson), function (key, val) {
-						var arrayofkey = key.split('id_');
-						$('*[data-ultimate-member_level_id="' + arrayofkey[1] + '"]').append($('*[data-ultimate-member_role_id="' + val + '"]')).attr('data-drop-ultimate-member_role_id', val).find('span').css({ 'order': '2' });
-						if (jQuery('*[data-ultimate-member_level_id="' + arrayofkey[1] + '"]').find('.makeMeDraggable').length >= 1) {
-							$('*[data-ultimate-member_level_id="' + arrayofkey[1] + '"]').droppable("destroy");
-						}
-						$('*[data-ultimate-member_role_id="' + val + '"]').css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '0px', 'order': '1' }).attr('data-ultimate-member_level_id', arrayofkey[1]);
-					});
+							var arrayofkey = key.split('id_');
+							var preclone = $('*[data-ultimate-member_role_id="' + val + '"]').clone();
+							
+							if(preclone.length>1){
+								preclone.slice(1).hide();
+							}
+							if (jQuery('*[data-ultimate-member_level_id="' + arrayofkey[1] + '"]').find('*[data-ultimate-member_role_id="' + val + '"]').length == 0) {
+								$('*[data-ultimate-member_level_id="' + arrayofkey[1] + '"]').append(preclone).attr('data-drop-ultimate-member_role_id', val).find('span').css({ 'order': '2' });
+							}
+							if ($('*[data-ultimate-member_level_id="' + arrayofkey[1] + '"]').find('.makeMeDraggable').length >= 1) {
+								$('*[data-ultimate-member_level_id="' + arrayofkey[1] + '"]').droppable("destroy");
+							}
+							preclone.css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '0px', 'order': '1' }).attr('data-ultimate-member_level_id', arrayofkey[1]);
+							makeDrag(preclone);
+							
+						});
 				}
 
 			},
@@ -118,7 +127,7 @@ jQuery(document).ready(function ($) {
 					$(".clr-log.spinner").addClass("is-active").show();
 				},
 				success: function (data) {
-                                    console.log(data);
+                                    //console.log(data);
 					if (data.error) {
 						// handle the error
 						alert(data.error.msg);
@@ -159,104 +168,116 @@ jQuery(document).ready(function ($) {
 		function makeDrag(el) {
 			// Pass me an object, and I will make it draggable
 			el.draggable({
-				revert: "invalid"
+				revert: "invalid",
+                                helper: 'clone',
+					start: function(e, ui) {
+					ui.helper.css({"width":"45%"});
+					}
 			});
 		}
 
 		/*Handel droppable event for saved mapping*/
 		function handlePreviousDropEvent(event, ui) {
-			var draggable = ui.draggable;
-			$(this).append(draggable);
-			$('*[data-drop-ultimate-member_role_id="' + draggable.data('ultimate-member_role_id') + '"]').droppable({
-				drop: handleDropEvent,
-				hoverClass: 'hoverActive',
-			});
-			$('*[data-drop-ultimate-member_role_id="' + draggable.data('ultimate-member_role_id') + '"]').attr('data-drop-ultimate-member_role_id', '');
+				var draggable = ui.draggable;
+				if(draggable.data('ultimate-member_level_id')){
+					$(ui.draggable).remove().hide();
+				}
+				
+				$(this).append(draggable);
+				$('*[data-drop-ultimate-member_role_id="' + draggable.data('ultimate-member_role_id') + '"]').droppable({
+					drop: handleDropEvent,
+					hoverClass: 'hoverActive',
+				});
+				$('*[data-drop-ultimate-member_role_id="' + draggable.data('ultimate-member_role_id') + '"]').attr('data-drop-ultimate-member_role_id', '');
 
 			var oldItems = JSON.parse(localStorage.getItem('ultimatemember_mapArray')) || [];
-			$.each(oldItems, function (key, val) {
-				if (val) {
-					var arrayofval = val.split(',');
-					if (arrayofval[0] == 'ultimate-member_level_id_' + draggable.data('ultimate-member_level_id') || arrayofval[1] == draggable.data('ultimate-member_role_id')) {
-						delete oldItems[key];
-					}
-				}
-			});
-			var jsonStart = "{";
-			$.each(oldItems, function (key, val) {
-				if (val) {
-					var arrayofval = val.split(',');
-					if (arrayofval[0] != 'ultimate-member_level_id_' + draggable.data('ultimate-member_level_id') || arrayofval[1] != draggable.data('ultimate-member_role_id')) {
-						jsonStart = jsonStart + '"' + arrayofval[0] + '":' + '"' + arrayofval[1] + '",';
-					}
-				}
-			});
-			localStorage.setItem('ultimatemember_mapArray', JSON.stringify(oldItems));
-			var lastChar = jsonStart.slice(-1);
-			if (lastChar == ',') {
-				jsonStart = jsonStart.slice(0, -1);
-			}
-
-			var ultimatemember_mappingjson = jsonStart + '}';
-			$("#ultimate-member_maaping_json_val").html(ultimatemember_mappingjson);
-			localStorage.setItem('ultimatemember_mappingjson', ultimatemember_mappingjson);
-			draggable.css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '10px' });
-		}
-
-		/*Handel droppable area for current mapping*/
-		function handleDropEvent(event, ui) {
-			var draggable = ui.draggable;
-			var newItem = [];
-			$('*[data-drop-ultimate-member_role_id="' + draggable.data('ultimate-member_role_id') + '"]').droppable({
-				drop: handleDropEvent,
-				hoverClass: 'hoverActive',
-			});
-			$('*[data-drop-ultimate-member_role_id="' + draggable.data('ultimate-member_role_id') + '"]').attr('data-drop-ultimate-member_role_id', '');
-			if ($(this).data('drop-ultimate-member_role_id') != draggable.data('ultimate-member_role_id')) {
-				var oldItems = JSON.parse(localStorage.getItem('ultimatemember_mapArray')) || [];
-				$(this).attr('data-drop-ultimate-member_role_id', draggable.data('ultimate-member_role_id'));
-				draggable.attr('data-ultimate-member_level_id', $(this).data('ultimate-member_level_id'));
-
 				$.each(oldItems, function (key, val) {
 					if (val) {
 						var arrayofval = val.split(',');
-						if (arrayofval[0] == 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id') || arrayofval[1] == draggable.data('ultimate-member_role_id')) {
+						if (arrayofval[0] == 'ultimate-member_level_id_' + draggable.data('ultimate-member_level_id') && arrayofval[1] == draggable.data('ultimate-member_role_id')) {
 							delete oldItems[key];
 						}
 					}
 				});
-
-				var newkey = 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id');
-				oldItems.push(newkey + ',' + draggable.data('ultimate-member_role_id'));
 				var jsonStart = "{";
 				$.each(oldItems, function (key, val) {
 					if (val) {
 						var arrayofval = val.split(',');
-						if (arrayofval[0] == 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id') || arrayofval[1] != draggable.data('ultimate-member_role_id') && arrayofval[0] != 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id') || arrayofval[1] == draggable.data('ultimate-member_role_id')) {
+						if (arrayofval[0] != 'ultimate-member_level_id_' + draggable.data('ultimate-member_level_id') || arrayofval[1] != draggable.data('ultimate-member_role_id')) {
 							jsonStart = jsonStart + '"' + arrayofval[0] + '":' + '"' + arrayofval[1] + '",';
 						}
 					}
 				});
-
-				localStorage.setItem('ultimatemember_mapArray', JSON.stringify(oldItems));
+			localStorage.setItem('ultimatemember_mapArray', JSON.stringify(oldItems));
 				var lastChar = jsonStart.slice(-1);
 				if (lastChar == ',') {
 					jsonStart = jsonStart.slice(0, -1);
 				}
 
+			var ultimatemember_mappingjson = jsonStart + '}';
+			$("#ultimate-member_maaping_json_val").html(ultimatemember_mappingjson);
+			localStorage.setItem('ultimatemember_mappingjson', ultimatemember_mappingjson);
+		        draggable.css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '10px' });
+		}
+
+		/*Handel droppable area for current mapping*/
+		function handleDropEvent(event, ui) {
+				var draggable = ui.draggable;
+                                var newClone = $(ui.helper).clone();
+				if($(this).find(".makeMeDraggable").length == 1){
+					return false;
+				}
+				$('*[data-drop-ultimate-member_role_id="' + newClone.data('ultimate-member_role_id') + '"]').droppable({
+					drop: handleDropEvent,
+					hoverClass: 'hoverActive',
+				});
+				$('*[data-drop-ultimate-member_role_id="' + newClone.data('ultimate-member_role_id') + '"]').attr('data-drop-ultimate-member_role_id', '');
+				if ($(this).data('drop-ultimate-member_id') != newClone.data('ultimate-member_role_id')) {
+					var oldItems = JSON.parse(localStorage.getItem('ultimatemember_mapArray')) || [];
+					$(this).attr('data-drop-ultimate-member_role_id', newClone.data('ultimate-member_role_id'));
+					newClone.attr('data-ultimate-member_level_id', $(this).data('ultimate-member_level_id'));
+
+					$.each(oldItems, function (key, val) {
+						if (val) {
+							var arrayofval = val.split(',');
+							if (arrayofval[0] == 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id') ) {
+								delete oldItems[key];
+							}
+						}
+					});
+
+					var newkey = 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id');
+					oldItems.push(newkey + ',' + newClone.data('ultimate-member_role_id'));
+					var jsonStart = "{";
+					$.each(oldItems, function (key, val) {
+						if (val) {
+							var arrayofval = val.split(',');
+							if (arrayofval[0] == 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id') || arrayofval[1] != newClone.data('ultimate-member_role_id') && arrayofval[0] != 'ultimate-member_level_id_' + $(this).data('ultimate-member_level_id') || arrayofval[1] == newClone.data('ultimate-member_role_id')) {
+								jsonStart = jsonStart + '"' + arrayofval[0] + '":' + '"' + arrayofval[1] + '",';
+							}
+						}
+					});
+
+				localStorage.setItem('ultimatemember_mapArray', JSON.stringify(oldItems));
+					var lastChar = jsonStart.slice(-1);
+					if (lastChar == ',') {
+						jsonStart = jsonStart.slice(0, -1);
+					}
+
 				var ultimatemember_mappingjson = jsonStart + '}';
 				localStorage.setItem('ultimatemember_mappingjson', ultimatemember_mappingjson);
 				$("#ultimate-member_maaping_json_val").html(ultimatemember_mappingjson);
-			}
+				}
 
-			$(this).append(ui.draggable);
-			$(this).find('span').css({ 'order': '2' });
-			if (jQuery(this).find('.makeMeDraggable').length >= 1) {
-				$(this).droppable("destroy");
+				$(this).append(newClone);
+				$(this).find('span').css({ 'order': '2' });
+				if (jQuery(this).find('.makeMeDraggable').length >= 1) {
+					$(this).droppable("destroy");
+			    }
+				makeDrag($('.makeMeDraggable'));
+				
+				newClone.css({ 'width': '100%','margin-bottom': '0px', 'left': '0', 'position':'unset', 'order': '1' });
 			}
-
-			draggable.css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '0px', 'order': '1' });
-		}
         }
 
 
