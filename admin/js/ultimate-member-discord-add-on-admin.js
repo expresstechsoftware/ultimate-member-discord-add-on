@@ -217,7 +217,7 @@ jQuery(document).ready(function ($) {
 			var ultimatemember_mappingjson = jsonStart + '}';
 			$("#ultimate-member_maaping_json_val").html(ultimatemember_mappingjson);
 			localStorage.setItem('ultimatemember_mappingjson', ultimatemember_mappingjson);
-		        draggable.css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '10px' });
+		        draggable.css({  'left': '0', 'top': '0', 'margin-bottom': '10px' });
 		}
 
 		/*Handel droppable area for current mapping*/
