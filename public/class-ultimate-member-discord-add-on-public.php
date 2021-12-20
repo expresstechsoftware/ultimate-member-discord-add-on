@@ -190,7 +190,7 @@ class Ultimate_Member_Discord_Add_On_Public {
                                            
                                         }
 				}
-			}
+                        }
 		}
 	}
         
@@ -210,8 +210,120 @@ class Ultimate_Member_Discord_Add_On_Public {
 		$curr_level_id = sanitize_text_field( trim( ets_ultimatemember_discord_get_current_level_id( $user_id ) ) );
 		if ( $curr_level_id !== null ) {
 			// It is possible that we may exhaust API rate limit while adding members to guild, so handling off the job to queue.
-			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_ultimatemember_discord_as_handle_add_member_to_guild', array( $_ets_ultimatemember_discord_user_id, $user_id, $access_token ), ETSULTIMATE_MEMBER_DISCORD_AS_GROUP_NAME );
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_ultimatemember_discord_as_handle_add_member_to_guild', array( $_ets_ultimatemember_discord_user_id, $user_id, $access_token ), ETS_ULTIMATE_MEMBER_DISCORD_AS_GROUP_NAME );
 		}
+	}
+        
+	/**
+	 * Discord DM a member using bot.
+	 *
+	 * @param INT    $user_id
+	 * @param STRING $type (warning|expired)
+	 */
+	public function ets_ultimatemember_discord_handler_send_dm( $user_id, $um_role_id, $type = 'warning' ) {
+		$discord_user_id                              = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
+		$discord_bot_token                            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
+//		$ets_ultimatemember_discord_expiration_warning_message = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_expiration_warning_message' ) ) );
+//		$ets_ultimatemember_discord_expiration_expired_message = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_expiration_expired_message' ) ) );
+		$ets_ultimatemember_discord_welcome_message            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_welcome_message' ) ) );
+//		$ets_ultimatemember_discord_cancel_message             = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_cancel_message' ) ) );
+		// Check if DM channel is already created for the user.
+		$user_dm = get_user_meta( $user_id, '_ets_ultimatemember_discord_dm_channel', true );
+                
+               
+
+		if ( ! isset( $user_dm['id'] ) || $user_dm === false || empty( $user_dm ) ) {
+			$this->ets_ultimatemember_discord_create_member_dm_channel( $user_id );
+			$user_dm       = get_user_meta( $user_id, '_ets_ultimatemember_discord_dm_channel', true );
+			$dm_channel_id = $user_dm['id'];
+                       
+		} else {
+			$dm_channel_id = $user_dm['id'];
+                       
+		}
+
+//		if ( $type == 'warning' ) {
+//			update_user_meta( $user_id, '_ets_ultimatemember_discord_expitration_warning_dm_for_' . $um_role_id, true );
+//			$message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_expiration_warning_message );
+//		}
+//		if ( $type == 'expired' ) {
+//			update_user_meta( $user_id, '_ets_ultimatemember_discord_expired_dm_for_' . $um_role_id, true );
+//			$message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_expiration_expired_message );
+//		}
+		if ( $type == 'welcome' ) {
+			update_user_meta( $user_id, '_ets_ultimatemember_discord_welcome_dm_for_' . $um_role_id, true );
+			$message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_welcome_message );
+		}
+
+//		if ( $type == 'cancel' ) {
+//			update_user_meta( $user_id, '_ets_ultimatemember_discord_cancel_dm_for_' . $um_role_id, true );
+//			$message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_cancel_message );
+//		}
+
+		$creat_dm_url = ETS_UM_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
+		$dm_args      = array(
+			'method'  => 'POST',
+			'headers' => array(
+				'Content-Type'  => 'application/json',
+				'Authorization' => 'Bot ' . $discord_bot_token,
+			),
+			'body'    => json_encode(
+				array(
+					'content' => sanitize_text_field( trim( wp_unslash( $message ) ) ),
+				)
+			),
+		);
+		$dm_response  = wp_remote_post( $creat_dm_url, $dm_args );
+		ets_ultimatemember_discord_log_api_response( $user_id, $creat_dm_url, $dm_args, $dm_response );
+		$dm_response_body = json_decode( wp_remote_retrieve_body( $dm_response ), true );
+		if ( ets_ultimatemember_discord_check_api_errors( $dm_response ) ) {
+                    Ultimate_Member_Discord_Add_On_Logs::write_api_response_logs( $dm_response_body, $user_id, debug_backtrace()[0] );
+			// this should be catch by Action schedule failed action.
+			throw new Exception( 'Failed in function ets_ultimatemember_discord_handler_send_dm' );
+		}
+              
+	}
+
+	/**
+	 * Create DM channel for a give user_id
+	 *
+	 * @param INT $user_id
+	 * @return MIXED
+	 */
+	public function ets_ultimatemember_discord_create_member_dm_channel( $user_id ) {
+		$discord_user_id       = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
+		$discord_bot_token     = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
+		$create_channel_dm_url = ETS_UM_DISCORD_API_URL . '/users/@me/channels';
+		$dm_channel_args       = array(
+			'method'  => 'POST',
+			'headers' => array(
+				'Content-Type'  => 'application/json',
+				'Authorization' => 'Bot ' . $discord_bot_token,
+			),
+			'body'    => json_encode(
+				array(
+					'recipient_id' => $discord_user_id,
+				)
+			),
+		);
+
+		$created_dm_response = wp_remote_post( $create_channel_dm_url, $dm_channel_args );
+		ets_ultimatemember_discord_log_api_response( $user_id, $create_channel_dm_url, $dm_channel_args, $created_dm_response );
+		$response_arr = json_decode( wp_remote_retrieve_body( $created_dm_response ), true );
+                
+		if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
+			// check if there is error in create dm response
+			if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {
+                            Ultimate_Member_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				if ( ets_ultimatemember_discord_check_api_errors( $created_dm_response ) ) {
+					// this should be catch by Action schedule failed action.
+					throw new Exception( 'Failed in function ets_ultimatemember_discord_create_member_dm_channel' );
+				}
+			} else {
+				update_user_meta( $user_id, '_ets_ultimatemember_discord_dm_channel', $response_arr );
+			}
+		}
+		return $response_arr;
 	}
         
      
@@ -230,7 +342,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 		}
 		$guild_id                          = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
 		$discord_bot_token                 = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
-		$default_role                      = sanitize_text_field( trim( get_option( '_ets_ultimatemember_discord_default_role_id' ) ) );
+		$default_role                      = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) );
 		$ets_ultimatemember_discord_role_mapping    = json_decode( get_option( 'ets_ultimatemember_discord_role_mapping' ), true );
 		$discord_role                      = '';
 		$curr_level_id                     = sanitize_text_field( trim( ets_ultimatemember_discord_get_current_level_id( $user_id ) ) );
@@ -272,7 +384,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 		update_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $discord_role );
 		if ( $discord_role && $discord_role != 'none' && isset( $user_id ) ) {
 			$this->put_discord_role_api( $user_id, $discord_role );
-		}
+                }
 
 		if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
 			$this->put_discord_role_api( $user_id, $default_role );
@@ -331,7 +443,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 			);
 
 			$response = wp_remote_get( $discord_change_role_api_url, $param );
-
+                        
 			ets_ultimatemember_discord_log_api_response( $user_id, $discord_change_role_api_url, $param, $response );
 			if ( ets_ultimatemember_discord_check_api_errors( $response ) ) {
 				$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
@@ -341,7 +453,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 					throw new Exception( 'Failed in function ets_ultimatemember_discord_as_handler_put_memberrole' );
 				}
 			}
-		}
+                }
 	}
         
 	/**
@@ -482,7 +594,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 		delete_user_meta( $user_id, '_ets_ultimatemember_discord_access_token' );
 		delete_user_meta( $user_id, '_ets_ultimatemember_discord_refresh_token' );
 		delete_user_meta( $user_id, '_ets_ultimatemember_discord_role_id' );
-		delete_user_meta( $user_id, '_ets_ultimatemember_discord_default_role_id' );
+		delete_user_meta( $user_id, 'ets_ultimatemember_discord_default_role_id' );
 		delete_user_meta( $user_id, '_ets_ultimatemember_discord_username' );
 		delete_user_meta( $user_id, '_ets_ultimatemember_discord_expires_in' );
 
@@ -598,111 +710,4 @@ class Ultimate_Member_Discord_Add_On_Public {
 	}
         
         
-	/**
-	 * Discord DM a member using bot.
-	 *
-	 * @param INT    $user_id
-	 * @param STRING $type (warning|expired)
-	 */
-	public function ets_ultimatemember_discord_handler_send_dm( $user_id, $um_role_id, $type = 'warning' ) {
-		$discord_user_id                              = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
-		$discord_bot_token                            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
-		$ets_ultimatemember_discord_expiration_warning_message = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_expiration_warning_message' ) ) );
-		$ets_ultimatemember_discord_expiration_expired_message = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_expiration_expired_message' ) ) );
-		$ets_ultimatemember_discord_welcome_message            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_welcome_message' ) ) );
-		$ets_ultimatemember_discord_cancel_message             = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_cancel_message' ) ) );
-		// Check if DM channel is already created for the user.
-		$user_dm = get_user_meta( $user_id, '_ets_ultimatemember_discord_dm_channel', true );
-
-		if ( ! isset( $user_dm['id'] ) || $user_dm === false || empty( $user_dm ) ) {
-			$this->ets_ultimatemember_discord_create_member_dm_channel( $user_id );
-			$user_dm       = get_user_meta( $user_id, '_ets_ultimatemember_discord_dm_channel', true );
-			$dm_channel_id = $user_dm['id'];
-		} else {
-			$dm_channel_id = $user_dm['id'];
-		}
-
-		if ( $type == 'warning' ) {
-			update_user_meta( $user_id, '_ets_ultimatemember_discord_expitration_warning_dm_for_' . $um_role_id, true );
-			$message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_expiration_warning_message );
-		}
-		if ( $type == 'expired' ) {
-			update_user_meta( $user_id, '_ets_ultimatemember_discord_expired_dm_for_' . $um_role_id, true );
-			$message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_expiration_expired_message );
-		}
-		if ( $type == 'welcome' ) {
-			update_user_meta( $user_id, '_ets_ultimatemember_discord_welcome_dm_for_' . $um_role_id, true );
-			$message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_welcome_message );
-		}
-
-		if ( $type == 'cancel' ) {
-			update_user_meta( $user_id, '_ets_ultimatemember_discord_cancel_dm_for_' . $um_role_id, true );
-			$message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_cancel_message );
-		}
-
-		$creat_dm_url = ETS_UM_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
-		$dm_args      = array(
-			'method'  => 'POST',
-			'headers' => array(
-				'Content-Type'  => 'application/json',
-				'Authorization' => 'Bot ' . $discord_bot_token,
-			),
-			'body'    => json_encode(
-				array(
-					'content' => sanitize_text_field( trim( wp_unslash( $message ) ) ),
-				)
-			),
-		);
-		$dm_response  = wp_remote_post( $creat_dm_url, $dm_args );
-		ets_ultimatemember_discord_log_api_response( $user_id, $creat_dm_url, $dm_args, $dm_response );
-		$dm_response_body = json_decode( wp_remote_retrieve_body( $dm_response ), true );
-		if ( ets_ultimatemember_discord_check_api_errors( $dm_response ) ) {
-                    Ultimate_Member_Discord_Add_On_Logs::write_api_response_logs( $dm_response_body, $user_id, debug_backtrace()[0] );
-			// this should be catch by Action schedule failed action.
-			throw new Exception( 'Failed in function ets_ultimatemember_discord_handler_send_dm' );
-		}
-	}
-        
-	/**
-	 * Create DM channel for a give user_id
-	 *
-	 * @param INT $user_id
-	 * @return MIXED
-	 */
-	public function ets_ultimatemember_discord_create_member_dm_channel( $user_id ) {
-		$discord_user_id       = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
-		$discord_bot_token     = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
-		$create_channel_dm_url = ETS_UM_DISCORD_API_URL . '/users/@me/channels';
-		$dm_channel_args       = array(
-			'method'  => 'POST',
-			'headers' => array(
-				'Content-Type'  => 'application/json',
-				'Authorization' => 'Bot ' . $discord_bot_token,
-			),
-			'body'    => json_encode(
-				array(
-					'recipient_id' => $discord_user_id,
-				)
-			),
-		);
-
-		$created_dm_response = wp_remote_post( $create_channel_dm_url, $dm_channel_args );
-		ets_ultimatemember_discord_log_api_response( $user_id, $create_channel_dm_url, $dm_channel_args, $created_dm_response );
-		$response_arr = json_decode( wp_remote_retrieve_body( $created_dm_response ), true );
-                
-		if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
-			// check if there is error in create dm response
-			if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {
-                            Ultimate_Member_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
-				if ( ets_ultimatemember_discord_check_api_errors( $created_dm_response ) ) {
-					// this should be catch by Action schedule failed action.
-					throw new Exception( 'Failed in function ets_ultimatemember_discord_create_member_dm_channel' );
-				}
-			} else {
-				update_user_meta( $user_id, '_ets_ultimatemember_discord_dm_channel', $response_arr );
-			}
-		}
-		return $response_arr;
-	}
-
 }
