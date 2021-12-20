@@ -33,7 +33,7 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 
 		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_access_token', true ) ) );
 
-		$default_role                   = sanitize_text_field( trim( get_option( '_ets_ultimatemember_discord_default_role_id' ) ) );
+		$default_role                   = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) );
 		$ets_ultimatemember_discord_role_mapping = json_decode( get_option( 'ets_ultimatemember_discord_role_mapping' ), true );
 		$all_roles                      = unserialize( get_option( 'ets_ultimatemember_discord_all_roles' ) );
 		$curr_level_id                  = ets_ultimatemember_discord_get_current_level_id( $user_id );

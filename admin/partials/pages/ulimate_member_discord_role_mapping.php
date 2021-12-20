@@ -15,7 +15,7 @@ foreach( UM()->roles()->get_roles() as $k => $v ){
         }
 }
 
-$default_role        = sanitize_text_field( trim( get_option( '_ets_ultimatemember_discord_default_role_id' ) ) );
+$default_role        = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) );
 ?>
 <div class="notice notice-warning ets-notice">
   <p><i class='fas fa-info'></i> <?php echo __( 'Drag and Drop the Discord Roles over to the Ultimate Member Roles', 'ultimate-member-discord-add-on' ); ?></p>

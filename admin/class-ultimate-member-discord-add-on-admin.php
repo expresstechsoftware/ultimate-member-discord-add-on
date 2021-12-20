@@ -207,7 +207,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		}
 		$ets_discord_roles = isset( $_POST['ets_ultimatemember_discord_role_mapping'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_role_mapping'] ) ) : '';
 
-		$_ets_ultimatemember_discord_default_role_id = isset( $_POST['ultimate-member_defaultRole'] ) ? sanitize_textarea_field( trim( $_POST['ultimate-member_defaultRole'] ) ) : '';
+		$ets_ultimatemember_discord_default_role_id = isset( $_POST['ultimate-member_defaultRole'] ) ? sanitize_textarea_field( trim( $_POST['ultimate-member_defaultRole'] ) ) : '';
 
 		
 
@@ -215,8 +215,8 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		$save_mapping_status = update_option( 'ets_ultimatemember_discord_role_mapping', $ets_discord_roles );
 		if ( isset( $_POST['ets_ultimatemember_discord_role_mappings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_role_mappings_nonce'], 'ultimatemember_discord_role_mappings_nonce' ) ) {
 			if ( ( $save_mapping_status || isset( $_POST['ets_ultimatemember_discord_role_mapping'] ) ) && ! isset( $_POST['flush'] ) ) {
-				if ( $_ets_ultimatemember_discord_default_role_id ) {
-					update_option( '_ets_ultimatemember_discord_default_role_id', $_ets_ultimatemember_discord_default_role_id );
+				if ( $ets_ultimatemember_discord_default_role_id ) {
+					update_option( 'ets_ultimatemember_discord_default_role_id', $ets_ultimatemember_discord_default_role_id );
 				}
 
 
@@ -224,7 +224,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 			}
 			if ( isset( $_POST['flush'] ) ) {
 				delete_option( 'ets_ultimatemember_discord_role_mapping' );
-				delete_option( '_ets_ultimatemember_discord_default_role_id' );
+				delete_option( 'ets_ultimatemember_discord_default_role_id' );
 				
 				$message = 'Your settings flushed successfully.';
 			}
