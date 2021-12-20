@@ -281,6 +281,9 @@ height: auto;
 text-align: center;
 min-height: 300px;
 }
+.hoverActive{
+border:2px dashed #275EE8;
+}
 .makeMeDroppable {
 background-color: #77a02e;
 margin-bottom: 10px;
