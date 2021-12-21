@@ -78,7 +78,7 @@ class Ultimate_Member_Discord_Add_On {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-                $this->define_common_hooks();
+				$this->define_common_hooks();
 
 	}
 
@@ -99,23 +99,22 @@ class Ultimate_Member_Discord_Add_On {
 	 * @access   private
 	 */
 	private function load_dependencies() {
-            
-                
-                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'libraries/action-scheduler/action-scheduler.php';
-                
-                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-add-on-logs.php';
-            
-                /**
-                 * 
-                 */
-                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions.php';
+
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'libraries/action-scheduler/action-scheduler.php';
+
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-add-on-logs.php';
+
+				/**
+				 *
+				 */
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions.php';
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-add-on-loader.php';
-                
+
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
@@ -132,7 +131,7 @@ class Ultimate_Member_Discord_Add_On {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-ultimate-member-discord-add-on-public.php';
-                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/ultimate-member-discord-add-on-public-display.php';
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/ultimate-member-discord-add-on-public-display.php';
 
 		$this->loader = new Ultimate_Member_Discord_Add_On_Loader();
 
@@ -165,16 +164,15 @@ class Ultimate_Member_Discord_Add_On {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Ultimate_Member_Discord_Add_On_Admin( $this->get_plugin_name(), $this->get_version() );
-                
+
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'ets_ultimatemember_add_settings_menu' );
-                $this->loader->add_action( 'admin_post_ultimatemember_discord_application_settings', $plugin_admin, 'ets_ultimatemember_discord_application_settings' );
-                $this->loader->add_action( 'admin_post_ultimatemember_discord_save_role_mapping', $plugin_admin, 'ets_ultimatemember_discord_save_role_mapping' );
-                $this->loader->add_action( 'admin_post_ultimatemember_discord_save_advance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_advance_settings' );
-                $this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_load_discord_roles', $plugin_admin, 'ets_ultimatemember_discord_load_discord_roles' );
-                
-               
+				$this->loader->add_action( 'admin_post_ultimatemember_discord_application_settings', $plugin_admin, 'ets_ultimatemember_discord_application_settings' );
+				$this->loader->add_action( 'admin_post_ultimatemember_discord_save_role_mapping', $plugin_admin, 'ets_ultimatemember_discord_save_role_mapping' );
+				$this->loader->add_action( 'admin_post_ultimatemember_discord_save_advance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_advance_settings' );
+				$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_load_discord_roles', $plugin_admin, 'ets_ultimatemember_discord_load_discord_roles' );
+
 	}
 
 	/**
@@ -186,27 +184,25 @@ class Ultimate_Member_Discord_Add_On {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Ultimate_Member_Discord_Add_On_Public( $this->get_plugin_name(), $this->get_version()  );
-                
-                $plugin_public_display = new Ultimate_Member_Discord_Add_On_Public_Display();
-                
+		$plugin_public = new Ultimate_Member_Discord_Add_On_Public( $this->get_plugin_name(), $this->get_version() );
+
+				$plugin_public_display = new Ultimate_Member_Discord_Add_On_Public_Display();
+
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_shortcode( 'restrictcontent_discord', $plugin_public_display, 'ets_ultimatemember_discord_add_connect_discord_button' );
-		$this->loader->add_action( 'um_after_account_general', $plugin_public_display, 'ets_ultimatemember_show_discord_button' );                
-                $this->loader->add_action( 'init', $plugin_public, 'ets_ultimatemember_discord_api_callback' );
-                $this->loader->add_action( 'wp_ajax_disconnect_from_discord', $plugin_public, 'ets_ultimatemember_discord_disconnect_from_discord' );
-                $this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_delete_member', $plugin_public, 'ets_ultimatemember_discord_as_handler_delete_member_from_guild', 10, 3 );
-                $this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_delete_role', $plugin_public, 'ets_ultimatemember_discord_as_handler_delete_memberrole', 10, 3 );
-                $this->loader->add_action( 'ets_ultimatemember_discord_as_handle_add_member_to_guild', $plugin_public, 'ets_ultimatemember_discord_as_handler_add_member_to_guild', 10, 3 );
-                $this->loader->add_action( 'ets_ultimatemember_discord_as_send_dm', $plugin_public, 'ets_ultimatemember_discord_handler_send_dm', 10, 3 );
-                //$this->loader->add_action( 'ets_ultimatemember_discord_as_send_welcome_dm', $this, 'ets_ultimatemember_discord_handler_send_dm', 10, 3 );
-                $this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_member_put_role', $plugin_public, 'ets_ultimatemember_discord_as_handler_put_memberrole', 10, 3 );
-                
-               
-               
+		$this->loader->add_action( 'um_after_account_general', $plugin_public_display, 'ets_ultimatemember_show_discord_button' );
+				$this->loader->add_action( 'init', $plugin_public, 'ets_ultimatemember_discord_api_callback' );
+				$this->loader->add_action( 'wp_ajax_disconnect_from_discord', $plugin_public, 'ets_ultimatemember_discord_disconnect_from_discord' );
+				$this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_delete_member', $plugin_public, 'ets_ultimatemember_discord_as_handler_delete_member_from_guild', 10, 3 );
+				$this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_delete_role', $plugin_public, 'ets_ultimatemember_discord_as_handler_delete_memberrole', 10, 3 );
+				$this->loader->add_action( 'ets_ultimatemember_discord_as_handle_add_member_to_guild', $plugin_public, 'ets_ultimatemember_discord_as_handler_add_member_to_guild', 10, 3 );
+				$this->loader->add_action( 'ets_ultimatemember_discord_as_send_dm', $plugin_public, 'ets_ultimatemember_discord_handler_send_dm', 10, 3 );
+				// $this->loader->add_action( 'ets_ultimatemember_discord_as_send_welcome_dm', $this, 'ets_ultimatemember_discord_handler_send_dm', 10, 3 );
+				$this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_member_put_role', $plugin_public, 'ets_ultimatemember_discord_as_handler_put_memberrole', 10, 3 );
+
 	}
-        
+
 	/**
 	 * Define actions / filters which are not in admin or not public
 	 *
@@ -218,7 +214,7 @@ class Ultimate_Member_Discord_Add_On {
 		$this->loader->add_filter( 'action_scheduler_queue_runner_concurrent_batches', $this, 'ets_ultimatemember_discord_concurrent_batches' );
 		$this->loader->add_action( 'action_scheduler_failed_execution', $this, 'ets_ultimatemember_discord_reschedule_failed_action', 10, 3 );
 	}
-        
+
 	/**
 	 * Set action scheuduler batch size.
 	 *
@@ -232,7 +228,7 @@ class Ultimate_Member_Discord_Add_On {
 			return $batch_size;
 		}
 	}
-        
+
 	/**
 	 * Set action scheuduler concurrent batches.
 	 *
@@ -246,7 +242,7 @@ class Ultimate_Member_Discord_Add_On {
 			return $concurrent_batches;
 		}
 	}
-        
+
 	/**
 	 * This method catch the failed action from action scheduler and re-queue that.
 	 *
@@ -269,9 +265,9 @@ class Ultimate_Member_Discord_Add_On {
 			}
 		}
 	}
-        
 
-        
+
+
 
 
 	/**

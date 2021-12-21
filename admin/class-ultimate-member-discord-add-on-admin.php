@@ -74,7 +74,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 */
 		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-admin.css', array(), $this->version, 'all' );
-                wp_enqueue_style( $this->plugin_name . 'fa-icon', '//use.fontawesome.com/releases/v5.5.0/css/all.css', array(), $this->version, 'all' );
+				wp_enqueue_style( $this->plugin_name . 'fa-icon', '//use.fontawesome.com/releases/v5.5.0/css/all.css', array(), $this->version, 'all' );
 
 	}
 
@@ -97,30 +97,27 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 * class.
 		 */
 		wp_enqueue_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
-		
-               
-                
-                wp_register_script(
-                        'ultimate-member-discord-add-on-admin',
-			plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.js',
-			array( 'jquery' ),
-			$this->version, 
-                        false
-		);
-                
-                wp_enqueue_script( 'ultimate-member-discord-add-on-admin' );
-		
-                wp_enqueue_script( 'jquery-ui-draggable' );
+
+				wp_register_script(
+					'ultimate-member-discord-add-on-admin',
+					plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.js',
+					array( 'jquery' ),
+					$this->version,
+					false
+				);
+
+				wp_enqueue_script( 'ultimate-member-discord-add-on-admin' );
+
+				wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );
-               
-                
+
 		$script_params = array(
-			'admin_ajax'        => admin_url( 'admin-ajax.php' ),
-			'permissions_const' => ULTIMATE_MEMBER_DISCORD_BOT_PERMISSIONS,
-			'is_admin'          => is_admin(),
+			'admin_ajax'                       => admin_url( 'admin-ajax.php' ),
+			'permissions_const'                => ULTIMATE_MEMBER_DISCORD_BOT_PERMISSIONS,
+			'is_admin'                         => is_admin(),
 			'ets_ultimatemember_discord_nonce' => wp_create_nonce( 'ets-ultimatemember-ajax-nonce' ),
 		);
-		wp_localize_script( 'ultimate-member-discord-add-on-admin', 'etsUltimateMemberParams', $script_params );                
+		wp_localize_script( 'ultimate-member-discord-add-on-admin', 'etsUltimateMemberParams', $script_params );
 
 	}
 
@@ -186,8 +183,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 
 				$message = 'Your settings are saved successfully.';
 				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-					
-					
+
 					$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_ultimatemember_application_details';
 					wp_safe_redirect( $pre_location );
 				}
@@ -209,8 +205,6 @@ class Ultimate_Member_Discord_Add_On_Admin {
 
 		$ets_ultimatemember_discord_default_role_id = isset( $_POST['ultimate-member_defaultRole'] ) ? sanitize_textarea_field( trim( $_POST['ultimate-member_defaultRole'] ) ) : '';
 
-		
-
 		$ets_discord_roles   = stripslashes( $ets_discord_roles );
 		$save_mapping_status = update_option( 'ets_ultimatemember_discord_role_mapping', $ets_discord_roles );
 		if ( isset( $_POST['ets_ultimatemember_discord_role_mappings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_role_mappings_nonce'], 'ultimatemember_discord_role_mappings_nonce' ) ) {
@@ -219,107 +213,101 @@ class Ultimate_Member_Discord_Add_On_Admin {
 					update_option( 'ets_ultimatemember_discord_default_role_id', $ets_ultimatemember_discord_default_role_id );
 				}
 
-
 				$message = 'Your mappings are saved successfully.';
 			}
 			if ( isset( $_POST['flush'] ) ) {
 				delete_option( 'ets_ultimatemember_discord_role_mapping' );
 				delete_option( 'ets_ultimatemember_discord_default_role_id' );
-				
+
 				$message = 'Your settings flushed successfully.';
 			}
 			$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_role_mapping';
 			wp_safe_redirect( $pre_location );
 		}
 	}
-        
-        /**
-         * Save advanced settings
-         * 
-         * @param NONE
-         * @return NONE
-         */
-        public function ets_ultimatemember_discord_save_advance_settings() {
-          
+
+		/**
+		 * Save advanced settings
+		 *
+		 * @param NONE
+		 * @return NONE
+		 */
+	public function ets_ultimatemember_discord_save_advance_settings() {
+
 		if ( ! current_user_can( 'administrator' ) || ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
 			exit();
 		}
-                
-                $ets_ultimatemember_discord_send_welcome_dm = isset( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ) : '';
-                $ets_ultimatemember_discord_welcome_message = isset( $_POST['ets_ultimatemember_discord_welcome_message'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_welcome_message'] ) ) : '';
-                $retry_failed_api = isset( $_POST['retry_failed_api'] ) ? sanitize_textarea_field( trim( $_POST['retry_failed_api'] ) ) : '';
-                $retry_api_count = isset( $_POST['ets_ultimatemember_retry_api_count'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_retry_api_count'] ) ) : '';
-                $set_job_cnrc = isset( $_POST['set_job_cnrc'] ) ? sanitize_textarea_field( trim( $_POST['set_job_cnrc'] ) ) : '';
-                $set_job_q_batch_size = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
-                $log_api_res = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
-                
-                if ( isset( $_POST['ets_ultimatemember_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
-                    if( isset( $_POST['adv_submit'] ) ){
-                        
-                        
-                        
-                        if ( isset( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ) {
-			    update_option( 'ets_ultimatemember_discord_send_welcome_dm', true );
-			} else {
-			    update_option( 'ets_ultimatemember_discord_send_welcome_dm', false );
+
+			$ets_ultimatemember_discord_send_welcome_dm = isset( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ) : '';
+			$ets_ultimatemember_discord_welcome_message = isset( $_POST['ets_ultimatemember_discord_welcome_message'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_welcome_message'] ) ) : '';
+			$retry_failed_api                           = isset( $_POST['retry_failed_api'] ) ? sanitize_textarea_field( trim( $_POST['retry_failed_api'] ) ) : '';
+			$retry_api_count                            = isset( $_POST['ets_ultimatemember_retry_api_count'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_retry_api_count'] ) ) : '';
+			$set_job_cnrc                               = isset( $_POST['set_job_cnrc'] ) ? sanitize_textarea_field( trim( $_POST['set_job_cnrc'] ) ) : '';
+			$set_job_q_batch_size                       = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
+			$log_api_res                                = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
+
+		if ( isset( $_POST['ets_ultimatemember_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
+			if ( isset( $_POST['adv_submit'] ) ) {
+
+				if ( isset( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ) {
+					update_option( 'ets_ultimatemember_discord_send_welcome_dm', true );
+				} else {
+					update_option( 'ets_ultimatemember_discord_send_welcome_dm', false );
+				}
+				if ( isset( $_POST['ets_ultimatemember_discord_welcome_message'] ) && $_POST['ets_ultimatemember_discord_welcome_message'] != '' ) {
+					update_option( 'ets_ultimatemember_discord_welcome_message', $ets_ultimatemember_discord_welcome_message );
+				} else {
+					update_option( 'ets_ultimatemember_discord_welcome_message', '' );
+				}
+				if ( isset( $_POST['retry_failed_api'] ) ) {
+					update_option( 'ets_ultimatemember_retry_failed_api', true );
+				} else {
+					update_option( 'ets_ultimatemember_retry_failed_api', false );
+				}
+				if ( isset( $_POST['ets_ultimatemember_retry_api_count'] ) ) {
+					if ( $retry_api_count < 1 ) {
+						update_option( 'ets_ultimatemember_retry_api_count', 1 );
+					} else {
+						update_option( 'ets_ultimatemember_retry_api_count', $retry_api_count );
+					}
+				}
+				if ( isset( $_POST['set_job_cnrc'] ) ) {
+					if ( $set_job_cnrc < 1 ) {
+						update_option( 'ets_ultimatemember_discord_job_queue_concurrency', 1 );
+					} else {
+						update_option( 'ets_ultimatemember_discord_job_queue_concurrency', $set_job_cnrc );
+					}
+				}
+				if ( isset( $_POST['set_job_q_batch_size'] ) ) {
+					if ( $set_job_q_batch_size < 1 ) {
+						update_option( 'ets_ultimatemember_discord_job_queue_batch_size', 1 );
+					} else {
+						update_option( 'ets_ultimatemember_discord_job_queue_batch_size', $set_job_q_batch_size );
+					}
+				}
+				if ( isset( $_POST['log_api_res'] ) ) {
+					update_option( 'ets_ultimatemember_discord_log_api_response', true );
+				} else {
+					update_option( 'ets_ultimatemember_discord_log_api_response', false );
+				}
+
+				$message = 'Your settings are saved successfully.';
+				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+						$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_advanced';
+						wp_safe_redirect( $pre_location );
+				}
 			}
-                        if ( isset( $_POST['ets_ultimatemember_discord_welcome_message'] ) && $_POST['ets_ultimatemember_discord_welcome_message'] !=''  ) {
-			    update_option( 'ets_ultimatemember_discord_welcome_message', $ets_ultimatemember_discord_welcome_message );
-			} else {
-			    update_option( 'ets_ultimatemember_discord_welcome_message', '' );
-			}
-                        if ( isset( $_POST['retry_failed_api'] ) ) {
-			    update_option( 'ets_ultimatemember_retry_failed_api', true );
-			} else {
-			    update_option( 'ets_ultimatemember_retry_failed_api', false );
-			}
-			if ( isset( $_POST['ets_ultimatemember_retry_api_count'] ) ) {
-			    if ( $retry_api_count < 1 ) {
-				update_option( 'ets_ultimatemember_retry_api_count', 1 );
-			    } else {
-				update_option( 'ets_ultimatemember_retry_api_count', $retry_api_count );
-			    }
-			}
-			if ( isset( $_POST['set_job_cnrc'] ) ) {
-			    if ( $set_job_cnrc < 1 ) {
-				update_option( 'ets_ultimatemember_discord_job_queue_concurrency', 1 );
-			    } else {
-				update_option( 'ets_ultimatemember_discord_job_queue_concurrency', $set_job_cnrc );
-			    }
-			}
-			if ( isset( $_POST['set_job_q_batch_size'] ) ) {
-			    if ( $set_job_q_batch_size < 1 ) {
-				update_option( 'ets_ultimatemember_discord_job_queue_batch_size', 1 );
-			    } else {
-				update_option( 'ets_ultimatemember_discord_job_queue_batch_size', $set_job_q_batch_size );
-			    }
-			}
-			if ( isset( $_POST['log_api_res'] ) ) {
-			    update_option( 'ets_ultimatemember_discord_log_api_response', true );
-			} else {
-			    update_option( 'ets_ultimatemember_discord_log_api_response', false );
-		        }
-                        
-			$message = 'Your settings are saved successfully.';
-			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-                            $pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_advanced';
-                            wp_safe_redirect( $pre_location );
-			}
-                        
-                    }
-                    
-                }
-           
-        }
-        
+		}
+
+	}
+
 	/**
 	 * Add new member into discord guild
 	 *
 	 * @return OBJECT REST API response
 	 */
 	public function ets_ultimatemember_discord_load_discord_roles() {
-            
 
 		if ( ! current_user_can( 'administrator' ) ) {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
@@ -351,7 +339,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 
 			if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
 				if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {
-                                    Ultimate_Member_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+									Ultimate_Member_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 				} else {
 					$response_arr['previous_mapping'] = get_option( 'ets_ultimatemember_discord_role_mapping' );
 
@@ -374,8 +362,8 @@ class Ultimate_Member_Discord_Add_On_Admin {
 			}
 				return wp_send_json( $response_arr );
 		}
-                
-                exit();
+
+				exit();
 
 	}
 

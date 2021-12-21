@@ -28,7 +28,7 @@ function ultimatemember_discord_check_saved_settings_status() {
 	$ets_ultimatemember_discord_client_secret = get_option( 'ets_ultimatemember_discord_client_secret' );
 	$ets_ultimatemember_discord_bot_token     = get_option( 'ets_ultimatemember_discord_bot_token' );
 	$ets_ultimatemember_discord_redirect_url  = get_option( 'ets_ultimatemember_discord_redirect_url' );
-	$ets_ultimatemember_discord_server_id      = get_option( 'ets_ultimatemember_discord_server_id' );
+	$ets_ultimatemember_discord_server_id     = get_option( 'ets_ultimatemember_discord_server_id' );
 
 	if ( $ets_ultimatemember_discord_client_id && $ets_ultimatemember_discord_client_secret && $ets_ultimatemember_discord_bot_token && $ets_ultimatemember_discord_redirect_url && $ets_ultimatemember_discord_server_id ) {
 			$status = true;
@@ -66,14 +66,14 @@ function ets_ultimatemember_discord_log_api_response( $user_id, $api_url = '', $
  * @return INT|NULL $curr_level_id
  */
 function ets_ultimatemember_discord_get_current_level_id( $user_id ) {
-    um_fetch_user( $user_id );
-    $curr_level_id = substr( UM()->user()->get_role(), 3 ) ;
-    if ( $curr_level_id ) {
-        $curr_level_id = sanitize_text_field( trim( $curr_level_id ) );
-        return $curr_level_id;
-       
-    } else {
-        return null;
+	um_fetch_user( $user_id );
+	$curr_level_id = substr( UM()->user()->get_role(), 3 );
+	if ( $curr_level_id ) {
+		$curr_level_id = sanitize_text_field( trim( $curr_level_id ) );
+		return $curr_level_id;
+
+	} else {
+		return null;
 	}
 }
 
@@ -113,34 +113,32 @@ function ets_ultimatemember_discord_check_api_errors( $api_response ) {
  * Merge fields: [MEMBER_USERNAME], [MEMBER_EMAIL], [MEMBER_ROLE], [SITE_URL], [BLOG_NAME]</small>
  */
 function ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $message ) {
-    
-        $user_obj= get_user_by( 'id', $user_id );
+
+		$user_obj    = get_user_by( 'id', $user_id );
 	$MEMBER_USERNAME = $user_obj->user_login;
 	$MEMBER_EMAIL    = $user_obj->user_email;
-        
-        $MEMBER_ROLE = UM()->roles()->get_roles()['um_'.$um_role_id] ;
-        
-	$SITE_URL  = get_bloginfo( 'url' );
-	$BLOG_NAME = get_bloginfo( 'name' );        
-    
-    
-        $find    = array(
-		'[MEMBER_USERNAME]',
-		'[MEMBER_EMAIL]',
-		'[MEMBER_ROLE]',
-		'[SITE_URL]',
-		'[BLOG_NAME]',
-	);
-	$replace = array(
-		$MEMBER_USERNAME,
-		$MEMBER_EMAIL,
-		$MEMBER_ROLE,
-		$SITE_URL,
-		$BLOG_NAME,
-	);
-        
 
-	return str_replace( $find, $replace, $message );
+		$MEMBER_ROLE = UM()->roles()->get_roles()[ 'um_' . $um_role_id ];
+
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );
+
+		$find    = array(
+			'[MEMBER_USERNAME]',
+			'[MEMBER_EMAIL]',
+			'[MEMBER_ROLE]',
+			'[SITE_URL]',
+			'[BLOG_NAME]',
+		);
+		$replace = array(
+			$MEMBER_USERNAME,
+			$MEMBER_EMAIL,
+			$MEMBER_ROLE,
+			$SITE_URL,
+			$BLOG_NAME,
+		);
+
+		return str_replace( $find, $replace, $message );
 
 }
 
