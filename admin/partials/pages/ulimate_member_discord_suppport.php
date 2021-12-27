@@ -62,6 +62,15 @@ if ( $currentUser ) {
 					<p>ravi.soni971</p>
 				  </div>
 				</div>
+				<div class="contact-details d-inline-block w-100 mb-4">
+				  <div class="top-icon-title d-flex align-items-center w-100">
+					<i class="fab fa-discord title-icon fa-lg fa-inverse" aria-hidden="true"></i>
+					<p><?php echo __( 'Discord', 'ultimate-member-discord-add-on' ); ?></p>
+				  </div>
+				  <div class="contact-body mt-3">
+					<p>expresstechceo#9284</p>
+				  </div>
+				</div>                              
 				<div class="contact-details d-inline-block w-100">
 				  <div class="top-icon-title d-flex align-items-center w-100">
 					<i class="fab fa-whatsapp title-icon fa-lg fa-inverse" aria-hidden="true"></i>
