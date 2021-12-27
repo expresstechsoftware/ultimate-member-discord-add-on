@@ -31,6 +31,7 @@ class Ultimate_Member_Discord_Add_On_Activator {
 	 */
 	public static function activate() {
 			update_option( 'ets_ultimatemember_discord_uuid_file_name', wp_generate_uuid4() );
+                        self::auto_save_redirect_url();
 			self::set_default_setting_values();
 	}
 
@@ -49,5 +50,24 @@ class Ultimate_Member_Discord_Add_On_Activator {
 		update_option( 'ets_ultimatemember_discord_welcome_message', 'Hi [MEMBER_USERNAME] ([MEMBER_EMAIL]), Welcome, Your  [MEMBER_ROLE] at [SITE_URL] Thanks, Kind Regards, [BLOG_NAME]' );
 
 	}
+        
+        /**
+         * Auto save redirect URL from Ultimate member settings
+         * 
+         * @since    1.0.0
+         */
+        public static function auto_save_redirect_url() {
+            
+            $ets_ultimatemember_discord_redirect_url  = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_redirect_url' ) ) );
+            
+            if ( $ets_ultimatemember_discord_redirect_url ) {
+                return;
+            }
+            $um_account_page_id = sanitize_text_field( get_option('um_options')['core_account'] );
+            $url = esc_url( get_permalink( $um_account_page_id ) );
+            update_option( 'ets_ultimatemember_discord_redirect_url', $url .= '?via=ultimate-discord' );
+            
+            
+        }
 
 }
