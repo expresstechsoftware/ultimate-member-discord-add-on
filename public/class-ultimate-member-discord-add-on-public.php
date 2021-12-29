@@ -73,7 +73,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-public.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -96,7 +96,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-public.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-public.js', array( 'jquery' ), $this->version, false );
 
 				$script_params = array(
 					'admin_ajax'                       => admin_url( 'admin-ajax.php' ),

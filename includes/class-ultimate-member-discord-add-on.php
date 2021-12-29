@@ -186,7 +186,7 @@ class Ultimate_Member_Discord_Add_On {
 
 		$plugin_public = new Ultimate_Member_Discord_Add_On_Public( $this->get_plugin_name(), $this->get_version() );
 
-				$plugin_public_display = new Ultimate_Member_Discord_Add_On_Public_Display();
+				$plugin_public_display = new Ultimate_Member_Discord_Add_On_Public_Display( $this->get_plugin_name() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );

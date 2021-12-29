@@ -15,7 +15,18 @@
 
 Class Ultimate_Member_Discord_Add_On_Public_Display{
     
-        public function __construct() {
+	/**
+	 * The ID of this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $plugin_name    The ID of this plugin.
+	 */
+	private $plugin_name;    
+    
+        public function __construct( $plugin_name ) {
+            
+		$this->plugin_name = $plugin_name;            
 
         }
         /**
@@ -100,6 +111,8 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 			
 			}
 		}
+                wp_enqueue_style( $this->plugin_name );
+                wp_enqueue_script( $this->plugin_name ); 
                 
                 return $restrictcontent_discord ;
         }

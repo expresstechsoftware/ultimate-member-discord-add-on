@@ -59,7 +59,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles( $hook ) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -72,6 +72,10 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		if ( $hook !== 'ultimate-member_page_ultimatemember-discord' )
+                
+                    return;
+                
 		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-admin.css', array(), $this->version, 'all' );
 				wp_enqueue_style( $this->plugin_name . 'fa-icon', '//use.fontawesome.com/releases/v5.5.0/css/all.css', array(), $this->version, 'all' );
@@ -83,7 +87,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts( $hook ) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -96,6 +100,10 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		if ( $hook !== 'ultimate-member_page_ultimatemember-discord' )
+                
+                    return;
+            
 		wp_enqueue_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
 
 				wp_register_script(
