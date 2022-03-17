@@ -423,7 +423,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				if( $current_user_role ){
 					$this->ultimatemember_discord_public_instance->delete_discord_role($user_id, $current_user_role );
 					delete_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $current_user_role );
-					//update_option('user_remove_role', $current_user_role);
+			
 
 				}
 			}
