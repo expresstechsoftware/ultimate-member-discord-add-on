@@ -71,7 +71,7 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 				$restrictcontent_discord .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'ultimate-member-discord-add-on' ) . '</label>';
                                 $restrictcontent_discord .= '</div>';
                                 $restrictcontent_discord .= '<div class="um-field-area">';
-				$restrictcontent_discord .= '<a href="#" class="ets-btn ultimate-member-btn-disconnect" id="ultimate-member-disconnect-discord" data-user-id="'. esc_attr( $user_id ) .'">'. esc_html__( 'Disconnect From Discord ', 'ultimate-member-discord-add-on' ) . '<i class="fab fa-discord"></i></a>';
+				$restrictcontent_discord .= '<a href="#" class="ets-btn ultimate-member-btn-disconnect" id="ultimate-member-disconnect-discord" data-user-id="'. esc_attr( $user_id ) .'">'. esc_html__( 'Disconnect From Discord ', 'ultimate-member-discord-add-on' ) . Ultimate_Member_Discord_Add_On::get_discord_logo_white() . '</a>';
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
                                 $restrictcontent_discord .= '</div>';
                                 $restrictcontent_discord .= '</div>';
@@ -84,7 +84,7 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 				$restrictcontent_discord .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'ultimate-member-discord-add-on' ) .'</label>';
                                 $restrictcontent_discord .= '</div>';
                                 $restrictcontent_discord .= '<div class="um-field-area">';
-				$restrictcontent_discord .= '<a href="?action=discord-login" class="ultimate-member-btn-connect ets-btn" >' . esc_html__( 'Connect To Discord', 'ultimate-member-discord-add-on' ) . '<i class="fab fa-discord"></i></a>';
+				$restrictcontent_discord .= '<a href="?action=discord-login" class="ultimate-member-btn-connect ets-btn" >' . esc_html__( 'Connect To Discord', 'ultimate-member-discord-add-on' ) . Ultimate_Member_Discord_Add_On::get_discord_logo_white() . '</a>';
                                 $restrictcontent_discord .= '</div>';
 				if ( $mapped_role_name ) {
 					$restrictcontent_discord .= '<p class="ets_assigned_role">';

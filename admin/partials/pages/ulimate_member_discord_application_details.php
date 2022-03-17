@@ -8,6 +8,7 @@ $ets_ultimatemember_discord_server_id     = sanitize_text_field( trim( get_optio
 ?>
 <form method="post" action="<?php echo get_site_url() . '/wp-admin/admin-post.php'; ?>">
   <input type="hidden" name="action" value="ultimatemember_discord_application_settings">
+  <input type="hidden" name="current_url" value="<?php echo ultimatemember_discord_get_current_screen_url()?>">   
 	<?php wp_nonce_field( 'save_ultimatemember_discord_general_settings', 'ets_ultimatemember_discord_save_settings' ); ?>
   <div class="ets-discord-input-group">
 	<label><?php echo __( 'Client ID', 'ultimate-member-discord-add-on' ); ?> :</label>
@@ -34,7 +35,7 @@ $ets_ultimatemember_discord_server_id     = sanitize_text_field( trim( get_optio
 	</div>
 	<div class="ets-discord-input-group">
 	  <label><?php echo __( 'Bot Token', 'ultimate-member-discord-add-on' ); ?> :</label>
-		<input type="text" class="ets-input" name="ets_ultimatemember_discord_bot_token" value="<?php
+          <input type="password" class="ets-input" name="ets_ultimatemember_discord_bot_token" value="<?php
 		if ( isset( $ets_ultimatemember_discord_bot_token ) ) {
 			echo esc_attr( $ets_ultimatemember_discord_bot_token ); }
 		?>" required placeholder="Discord Bot Token">
@@ -57,7 +58,7 @@ $ets_ultimatemember_discord_server_id     = sanitize_text_field( trim( get_optio
 		<?php echo __( 'Save Settings', 'ultimate-member-discord-add-on' ); ?>
 	  </button>
 	  <?php if ( get_option( 'ets_ultimatemember_discord_client_id' ) ) : ?>
-		<a href="?action=discord-connect-to-bot" class="ets-btn-submit ultimatemember-btn-connect-to-bot" id="ultimatemember-connect-discord-bot"><?php echo __( 'Connect your Bot', 'ultimate-member-discord-add-on' ); ?> <i class='fab fa-discord'></i></a>
+            <a href="?action=discord-connect-to-bot" class="ets-btn-submit ultimatemember-btn-connect-to-bot" id="ultimatemember-connect-discord-bot"><?php echo __( 'Connect your Bot', 'ultimate-member-discord-add-on' ) . Ultimate_Member_Discord_Add_On::get_discord_logo_white(); ?> </a>
 	  <?php endif; ?>
 	</p>
 </form>

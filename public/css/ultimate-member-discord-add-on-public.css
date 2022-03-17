@@ -43,3 +43,10 @@
  .ets_assigned_role{
   font-size: 12px;
  }
+a.ultimate-member-btn-disconnect img ,
+a.ultimate-member-btn-connect img{
+    width: 20px;
+    display: inline-block;
+    margin-left: 5px;
+    
+}

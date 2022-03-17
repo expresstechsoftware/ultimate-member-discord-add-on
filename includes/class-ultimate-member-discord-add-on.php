@@ -268,6 +268,12 @@ class Ultimate_Member_Discord_Add_On {
 		}
 	}
 
+	public static function get_discord_logo_white(){
+		$img = file_get_contents( plugin_dir_path( dirname( __FILE__ ) ) . 'public/images/discord-logo-white.svg' );
+		$data = base64_encode( $img );
+                
+		return '<img class="discord-logo-white" src="data:image/svg+xml;base64,' . $data . '" />';
+        }
 
 
 

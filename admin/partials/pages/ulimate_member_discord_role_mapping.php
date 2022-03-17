@@ -47,6 +47,7 @@ $default_role        = sanitize_text_field( trim( get_option( 'ets_ultimatemembe
 </div>
 <form method="post" action="<?php echo get_site_url().'/wp-admin/admin-post.php' ?>">
  <input type="hidden" name="action" value="ultimatemember_discord_save_role_mapping">
+ <input type="hidden" name="current_url" value="<?php echo ultimatemember_discord_get_current_screen_url()?>">   
   <table class="form-table" role="presentation">
 	<tbody>
 	  <tr>

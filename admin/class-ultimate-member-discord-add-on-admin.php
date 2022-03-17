@@ -87,7 +87,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
                 
 		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-admin.css', array(), $this->version, 'all' );
-				wp_enqueue_style( $this->plugin_name . 'fa-icon', '//use.fontawesome.com/releases/v5.5.0/css/all.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name . 'fa-icon', '//use.fontawesome.com/releases/v5.5.0/css/all.css', array(), $this->version, 'all' );
 
 	}
 
@@ -174,6 +174,8 @@ class Ultimate_Member_Discord_Add_On_Admin {
 
 		$ets_ultimatemember_discord_server_id = isset( $_POST['ets_ultimatemember_discord_server_id'] ) ? sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_server_id'] ) ) : '';
 
+		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                
+
 		if ( isset( $_POST['submit'] ) ) {
 			if ( isset( $_POST['ets_ultimatemember_discord_save_settings'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_save_settings'], 'save_ultimatemember_discord_general_settings' ) ) {
 				if ( $ets_ultimatemember_discord_client_id ) {
@@ -199,11 +201,11 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				}
 
 				$message = 'Your settings are saved successfully.';
-				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 
-					$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_ultimatemember_application_details';
-					wp_safe_redirect( $pre_location );
-				}
+				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_ultimatemember_application_details';
+					
+				wp_safe_redirect( $pre_location );
+
 			}
 		}
 	}
@@ -224,6 +226,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 
 		$ets_discord_roles   = stripslashes( $ets_discord_roles );
 		$save_mapping_status = update_option( 'ets_ultimatemember_discord_role_mapping', $ets_discord_roles );
+		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                                                                                
 		if ( isset( $_POST['ets_ultimatemember_discord_role_mappings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_role_mappings_nonce'], 'ultimatemember_discord_role_mappings_nonce' ) ) {
 			if ( ( $save_mapping_status || isset( $_POST['ets_ultimatemember_discord_role_mapping'] ) ) && ! isset( $_POST['flush'] ) ) {
 				if ( $ets_ultimatemember_discord_default_role_id ) {
@@ -238,7 +241,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 
 				$message = 'Your settings flushed successfully.';
 			}
-			$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_role_mapping';
+                        $pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_role_mapping';
 			wp_safe_redirect( $pre_location );
 		}
 	}
@@ -256,13 +259,14 @@ class Ultimate_Member_Discord_Add_On_Admin {
 			exit();
 		}
 
-			$ets_ultimatemember_discord_send_welcome_dm = isset( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ) : '';
-			$ets_ultimatemember_discord_welcome_message = isset( $_POST['ets_ultimatemember_discord_welcome_message'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_welcome_message'] ) ) : '';
-			$retry_failed_api                           = isset( $_POST['retry_failed_api'] ) ? sanitize_textarea_field( trim( $_POST['retry_failed_api'] ) ) : '';
-			$retry_api_count                            = isset( $_POST['ets_ultimatemember_retry_api_count'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_retry_api_count'] ) ) : '';
-			$set_job_cnrc                               = isset( $_POST['set_job_cnrc'] ) ? sanitize_textarea_field( trim( $_POST['set_job_cnrc'] ) ) : '';
-			$set_job_q_batch_size                       = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
-			$log_api_res                                = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
+		$ets_ultimatemember_discord_send_welcome_dm = isset( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_send_welcome_dm'] ) ) : '';
+		$ets_ultimatemember_discord_welcome_message = isset( $_POST['ets_ultimatemember_discord_welcome_message'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_welcome_message'] ) ) : '';
+		$retry_failed_api                           = isset( $_POST['retry_failed_api'] ) ? sanitize_textarea_field( trim( $_POST['retry_failed_api'] ) ) : '';
+		$retry_api_count                            = isset( $_POST['ets_ultimatemember_retry_api_count'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_retry_api_count'] ) ) : '';
+		$set_job_cnrc                               = isset( $_POST['set_job_cnrc'] ) ? sanitize_textarea_field( trim( $_POST['set_job_cnrc'] ) ) : '';
+		$set_job_q_batch_size                       = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
+		$log_api_res                                = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
+		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                                        
 
 		if ( isset( $_POST['ets_ultimatemember_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
 			if ( isset( $_POST['adv_submit'] ) ) {
@@ -310,10 +314,10 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				}
 
 				$message = 'Your settings are saved successfully.';
-				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-						$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_advanced';
-						wp_safe_redirect( $pre_location );
-				}
+				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_advanced';
+					
+				wp_safe_redirect( $pre_location );				
+				
 			}
 		}
 
