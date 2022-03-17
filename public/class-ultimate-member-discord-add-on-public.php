@@ -210,7 +210,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 		$curr_level_id = sanitize_text_field( trim( ets_ultimatemember_discord_get_current_level_id( $user_id ) ) );
 		if ( $curr_level_id !== null ) {
 			// It is possible that we may exhaust API rate limit while adding members to guild, so handling off the job to queue.
-			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_ultimatemember_discord_as_handle_add_member_to_guild', array( $_ets_ultimatemember_discord_user_id, $user_id, $access_token ), ETS_ULTIMATE_MEMBER_DISCORD_AS_GROUP_NAME );
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_ultimatemember_discord_as_handle_add_member_to_guild', array( $_ets_ultimatemember_discord_user_id, $user_id, $access_token ), ETS_UM_DISCORD_AS_GROUP_NAME );
 		}
 	}
 
@@ -346,11 +346,6 @@ class Ultimate_Member_Discord_Add_On_Public {
 		$curr_level_id                              = sanitize_text_field( trim( ets_ultimatemember_discord_get_current_level_id( $user_id ) ) );
 		$ets_ultimatemember_discord_send_welcome_dm = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_send_welcome_dm' ) ) );
 
-		if ( is_array( $ets_ultimatemember_discord_role_mapping ) && array_key_exists( 'ultimate-member_level_id_' . $curr_level_id, $ets_ultimatemember_discord_role_mapping ) ) {
-			$discord_role = sanitize_text_field( trim( $ets_ultimatemember_discord_role_mapping[ 'ultimate-member_level_id_' . $curr_level_id ] ) );
-		} elseif ( $discord_role = '' && $default_role ) {
-			$discord_role = $default_role;
-		}
 
 		$guilds_memeber_api_url = ETS_UM_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_ultimatemember_discord_user_id;
 		$guild_args             = array(
@@ -362,9 +357,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 			'body'    => json_encode(
 				array(
 					'access_token' => $access_token,
-					'roles'        => array(
-						$discord_role,
-					),
+
 				)
 			),
 		);
@@ -379,21 +372,23 @@ class Ultimate_Member_Discord_Add_On_Public {
 			throw new Exception( 'Failed in function ets_ultimatemember_discord_as_handler_add_member_to_guild' );
 		}
 
-		update_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $discord_role );
-		if ( $discord_role && $discord_role != 'none' && isset( $user_id ) ) {
-			$this->put_discord_role_api( $user_id, $discord_role );
+		if ( is_array( $ets_ultimatemember_discord_role_mapping ) && array_key_exists( 'ultimate-member_level_id_' . $curr_level_id, $ets_ultimatemember_discord_role_mapping ) ) {
+			$discord_role = sanitize_text_field( trim( $ets_ultimatemember_discord_role_mapping[ 'ultimate-member_level_id_' . $curr_level_id ] ) );
+			update_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $discord_role );                        
+			$this->put_discord_role_api( $user_id, $discord_role );                        
+		} 
+                if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
+			update_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $discord_role );                        
+			$this->put_discord_role_api( $user_id, $default_role );                        
 		}
-
-		if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
-			$this->put_discord_role_api( $user_id, $default_role );
-		}
+                
 		if ( empty( get_user_meta( $user_id, '_ets_ultimatemember_discord_join_date', true ) ) ) {
 			update_user_meta( $user_id, '_ets_ultimatemember_discord_join_date', current_time( 'Y-m-d H:i:s' ) );
 		}
 
 		// Send welcome message.
 		if ( $ets_ultimatemember_discord_send_welcome_dm == true ) {
-			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_ultimatemember_discord_as_send_dm', array( $user_id, $curr_level_id, 'welcome' ), 'ultimate-member-discord-add-on' );
+			as_schedule_single_action( ets_ultimatemember_discord_get_random_timestamp( ets_ultimatemember_discord_get_highest_last_attempt_timestamp() ), 'ets_ultimatemember_discord_as_send_dm', array( $user_id, $curr_level_id, 'welcome' ), ETS_UM_DISCORD_AS_GROUP_NAME );
 		}
 	}
 
@@ -425,7 +420,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 	 */
 	public function ets_ultimatemember_discord_as_handler_put_memberrole( $user_id, $role_id, $is_schedule ) {
 		$access_token                        = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_access_token', true ) ) );
-		$guild_id                            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_guild_id' ) ) );
+		$guild_id                            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
 		$_ets_ultimatemember_discord_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
 		$discord_bot_token                   = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
 		$discord_change_role_api_url         = ETS_UM_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_ultimatemember_discord_user_id . '/roles/' . $role_id;
@@ -528,8 +523,8 @@ class Ultimate_Member_Discord_Add_On_Public {
 		}
 		$user_id = sanitize_text_field( trim( $_POST['user_id'] ) );
 		if ( $user_id ) {
+			ets_ultimatemember_discord_remove_usermeta( $user_id );                    
 			$this->delete_member_from_guild( $user_id, false );
-			delete_user_meta( $user_id, '_ets_ultimatemember_discord_access_token' );
 		}
 		$event_res = array(
 			'status'  => 1,
@@ -564,7 +559,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 	 * @return OBJECT API response
 	 */
 	public function ets_ultimatemember_discord_as_handler_delete_member_from_guild( $user_id, $is_schedule ) {
-		$guild_id                            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_guild_id' ) ) );
+		$guild_id                            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
 		$discord_bot_token                   = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
 		$_ets_ultimatemember_discord_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
 		$guilds_delete_memeber_api_url       = ETS_UM_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_ultimatemember_discord_user_id;
@@ -588,13 +583,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 		}
 
 		/*Delete all usermeta related to discord connection*/
-		delete_user_meta( $user_id, '_ets_ultimatemember_discord_user_id' );
-		delete_user_meta( $user_id, '_ets_ultimatemember_discord_access_token' );
-		delete_user_meta( $user_id, '_ets_ultimatemember_discord_refresh_token' );
-		delete_user_meta( $user_id, '_ets_ultimatemember_discord_role_id' );
-		delete_user_meta( $user_id, 'ets_ultimatemember_discord_default_role_id' );
-		delete_user_meta( $user_id, '_ets_ultimatemember_discord_username' );
-		delete_user_meta( $user_id, '_ets_ultimatemember_discord_expires_in' );
+                ets_ultimatemember_discord_remove_usermeta( $user_id );
 
 	}
 

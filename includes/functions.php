@@ -114,11 +114,11 @@ function ets_ultimatemember_discord_check_api_errors( $api_response ) {
  */
 function ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $message ) {
 
-		$user_obj    = get_user_by( 'id', $user_id );
+	$user_obj    = get_user_by( 'id', $user_id );
 	$MEMBER_USERNAME = $user_obj->user_login;
 	$MEMBER_EMAIL    = $user_obj->user_email;
 
-		$MEMBER_ROLE = UM()->roles()->get_roles()[ 'um_' . $um_role_id ];
+	$MEMBER_ROLE = UM()->roles()->get_roles()[ 'um_' . $um_role_id ];
 
 	$SITE_URL  = get_bloginfo( 'url' );
 	$BLOG_NAME = get_bloginfo( 'name' );
@@ -213,4 +213,15 @@ function ets_ultimatemember_discord_count_of_hooks_failures( $hook ) {
 	} else {
 		return false;
 	}
+}
+function ets_ultimatemember_discord_remove_usermeta ( $user_id ){
+ 
+	global $wpdb;
+        
+        
+	$usermeta_table = $wpdb->prefix . "usermeta";
+	$usermeta_sql = "DELETE FROM " . $usermeta_table . " WHERE `user_id` = %d AND  `meta_key` LIKE '_ets_ultimatemember_discord%'; ";
+	$delete_usermeta_sql = $wpdb->prepare( $usermeta_sql, $user_id );
+	$wpdb->query( $delete_usermeta_sql );
+             
 }
