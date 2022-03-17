@@ -357,3 +357,25 @@ img.discord-logo-white{
     display: inline-block;
     margin-left: 5px;
 }
+span.discord-bot{
+    background-color: #5865F2;
+    color: #fff;
+    /* padding: 4px 4px 4px 4px; */
+    font-size: 10px;
+    /* font-weight: 500; */
+    border-radius: 5px;
+    display: inline-block;
+    margin-left: 3px;
+    margin-right: 4px;
+    line-height: 10px;
+    position: relative;
+    width: 30px;
+    /* max-width: 40px; */
+    height: 18px;   
+}
+span.discord-bot b{
+    display: inline-block;
+    position: absolute;
+    top: 2px;
+    left: 5px;
+}

@@ -5,6 +5,7 @@ $ets_ultimatemember_discord_bot_token     = sanitize_text_field( trim( get_optio
 $ets_ultimatemember_discord_redirect_url  = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_redirect_url' ) ) );
 $ets_ultimatemember_discord_roles         = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_role_mapping' ) ) );
 $ets_ultimatemember_discord_server_id     = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
+$ets_ultimatemember_discord_connected_bot_name     = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_connected_bot_name' ) ) );
 ?>
 <form method="post" action="<?php echo get_site_url() . '/wp-admin/admin-post.php'; ?>">
   <input type="hidden" name="action" value="ultimatemember_discord_application_settings">
@@ -34,6 +35,11 @@ $ets_ultimatemember_discord_server_id     = sanitize_text_field( trim( get_optio
 		<p class="description"><?php echo __( 'Registered discord app url', 'ultimate-member-discord-add-on' ); ?></p>
 	</div>
 	<div class="ets-discord-input-group">
+            <?php
+            if ( isset( $ets_ultimatemember_discord_connected_bot_name ) && !empty( $ets_ultimatemember_discord_connected_bot_name ) ){
+                echo sprintf(__( '<p class="description">Make sure the Bot %1$s <span class="discord-bot"><b>BOT</b></span>have the high priority than the roles it has to manage. Open <a href="https://discord.com/channels/%2$s">Discord Server</a></p>', 'ultimate-member-discord-add-on' ), $ets_ultimatemember_discord_connected_bot_name, $ets_ultimatemember_discord_server_id );
+            }
+            ?>            
 	  <label><?php echo __( 'Bot Token', 'ultimate-member-discord-add-on' ); ?> :</label>
           <input type="password" class="ets-input" name="ets_ultimatemember_discord_bot_token" value="<?php
 		if ( isset( $ets_ultimatemember_discord_bot_token ) ) {

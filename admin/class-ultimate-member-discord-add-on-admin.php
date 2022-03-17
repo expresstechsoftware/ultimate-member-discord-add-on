@@ -199,7 +199,10 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				if ( $ets_ultimatemember_discord_server_id ) {
 					update_option( 'ets_ultimatemember_discord_server_id', $ets_ultimatemember_discord_server_id );
 				}
-
+				/**
+                                 * Call function to save bot name option 
+				 */
+				ets_ultimatemember_discord_update_bot_name_option();
 				$message = 'Your settings are saved successfully.';
 
 				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_ultimatemember_application_details';
