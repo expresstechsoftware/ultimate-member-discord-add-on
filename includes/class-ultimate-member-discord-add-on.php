@@ -164,7 +164,7 @@ class Ultimate_Member_Discord_Add_On {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Ultimate_Member_Discord_Add_On_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Ultimate_Member_Discord_Add_On_Admin( $this->get_plugin_name(), $this->get_version(), Ultimate_Member_Discord_Add_On_Public::get_ultimatemember_discord_public_instance( $this->get_plugin_name(), $this->get_version() ) );                
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -173,6 +173,7 @@ class Ultimate_Member_Discord_Add_On {
 		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_role_mapping', $plugin_admin, 'ets_ultimatemember_discord_save_role_mapping' );
 		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_advance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_advance_settings' );
 		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_load_discord_roles', $plugin_admin, 'ets_ultimatemember_discord_load_discord_roles' );
+		$this->loader->add_action( 'profile_update', $plugin_admin, 'ets_ultimatemember_discord_update_user_profil' , 99, 3 );                  
 
 	}
 

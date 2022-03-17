@@ -41,16 +41,25 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	private $version;
 
 	/**
+	 * Instance of Ultimate_Member_Discord_Add_On_Public class
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      Ultimate_Member_Discord_Add_On_Public
+	 */
+	private $ultimatemember_discord_public_instance; 
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 * @param      string $plugin_name       The name of this plugin.
 	 * @param      string $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $version, $ultimatemember_discord_public_instance ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
+		$this->ultimatemember_discord_public_instance = $ultimatemember_discord_public_instance;                                
 
 	}
 
@@ -374,6 +383,60 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				exit();
 
 	}
+	/**
+	 * Update discord role when user profile is updated
+	 *
+	 * @param int $user_id
+	 * @param WP_User $old_user_data
+	 * @param array $userdata
+	 * 
+	 * @return NONE
+	 */
+	public function ets_ultimatemember_discord_update_user_profil( $user_id, $old_user_data, $userdata ) {
 
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+
+		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_access_token', true ) ) );                
+		$ets_ultimatemember_discord_role_mapping = json_decode( get_option( 'ets_ultimatemember_discord_role_mapping' ), true );
+		$old_discord_role = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', true ) ) );
+		$default_role = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) ); 
+		$user_default_role = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_default_role', true ) ) );                                        
+		$new_user_role = substr ( $userdata['role'], 3 );
+		$current_user_role = ets_ultimatemember_discord_get_user_roles( $user_id );
+                
+		if ( $access_token ){
+                                    
+			if ( isset( $new_user_role ) && !empty( $new_user_role ) ){
+                        
+				if ( is_array( $ets_ultimatemember_discord_role_mapping ) && array_key_exists( 'ultimate-member_level_id_' . $new_user_role, $ets_ultimatemember_discord_role_mapping ) ) {
+					$new_discord_role = sanitize_text_field( trim( $ets_ultimatemember_discord_role_mapping[ 'ultimate-member_level_id_' . $new_user_role ] ) );
+					if( $old_discord_role != $new_discord_role ){
+						update_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $new_discord_role );                        
+						$this->ultimatemember_discord_public_instance->put_discord_role_api( $user_id, $new_discord_role ); 
+						$this->ultimatemember_discord_public_instance->delete_discord_role($user_id, $old_discord_role );
+					}                       
+				}
+			}else{
+				if( $current_user_role ){
+					$this->ultimatemember_discord_public_instance->delete_discord_role($user_id, $current_user_role );
+					delete_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $current_user_role );
+					//update_option('user_remove_role', $current_user_role);
+
+				}
+			}
+                        
+      			if ( $default_role && $default_role != 'none' ) {
+				update_user_meta( $user_id, '_ets_ultimatemember_discord_default_role', $default_role );                        
+				$this->ultimatemember_discord_public_instance->put_discord_role_api( $user_id, $default_role );
+				if( $user_default_role ){
+					$this->ultimatemember_discord_public_instance->delete_discord_role($user_id, $user_default_role );  
+				}
+                                
+			}                 
+		}	
+	}
 
 }

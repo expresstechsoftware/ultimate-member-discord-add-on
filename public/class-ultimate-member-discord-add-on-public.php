@@ -41,6 +41,15 @@ class Ultimate_Member_Discord_Add_On_Public {
 	private $version;
 
 	/**
+	 * The single object Ultimate_Member_Discord_Add_On_Public
+	 * 
+	 * @since    1.0.0 
+	 * @access   private 
+	 * @var Ultimate_Member_Discord_Add_On_Public 
+	 */
+	private static $instance;        
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -53,6 +62,15 @@ class Ultimate_Member_Discord_Add_On_Public {
 		$this->version     = $version;
 
 	}
+
+	public static function get_ultimatemember_discord_public_instance( $plugin_name, $version ) {
+
+		if ( ! self::$instance ) {
+			self::$instance = new Ultimate_Member_Discord_Add_On_Public( $plugin_name, $version );
+
+		}
+		return self::$instance;
+	}        
 
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
@@ -378,7 +396,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 			$this->put_discord_role_api( $user_id, $discord_role );                        
 		} 
                 if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
-			update_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $discord_role );                        
+			update_user_meta( $user_id, '_ets_ultimatemember_discord_default_role', $default_role );                        
 			$this->put_discord_role_api( $user_id, $default_role );                        
 		}
                 

@@ -225,3 +225,29 @@ function ets_ultimatemember_discord_remove_usermeta ( $user_id ){
 	$wpdb->query( $delete_usermeta_sql );
              
 }
+/**
+ * Get member' role id
+ *
+ * @param INT $user_id
+ * @return STRING $role
+ */
+function ets_ultimatemember_discord_get_user_roles ( $user_id ){
+	global $wpdb;
+
+	$usermeta_table = $wpdb->prefix . "usermeta";
+	$user_role_sql = "SELECT * FROM " . $usermeta_table . " WHERE `user_id` = %d AND  `meta_key` like '_ets_ultimatemember_discord_role_id%' ; ";
+	$user_role_prepare = $wpdb->prepare( $user_role_sql, $user_id );
+	
+	$user_role = $wpdb->get_results( $user_role_prepare , ARRAY_A );
+        
+        
+	if ( is_array( $user_role ) && count( $user_role ) ){
+		
+		return  $user_role[0]['meta_value'];
+            
+	}else{
+            
+		return null;
+	}
+   
+}
