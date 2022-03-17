@@ -43,7 +43,7 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 		$user_id = sanitize_text_field( trim( get_current_user_id() ) );
 
 		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_access_token', true ) ) );
-
+		$_ets_ultimatemember_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_username', true ) ) );
 		$default_role                   = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) );
 		$ets_ultimatemember_discord_role_mapping = json_decode( get_option( 'ets_ultimatemember_discord_role_mapping' ), true );
 		$all_roles                      = unserialize( get_option( 'ets_ultimatemember_discord_all_roles' ) );
@@ -72,6 +72,7 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
                                 $restrictcontent_discord .= '</div>';
                                 $restrictcontent_discord .= '<div class="um-field-area">';
 				$restrictcontent_discord .= '<a href="#" class="ets-btn ultimate-member-btn-disconnect" id="ultimate-member-disconnect-discord" data-user-id="'. esc_attr( $user_id ) .'">'. esc_html__( 'Disconnect From Discord ', 'ultimate-member-discord-add-on' ) . Ultimate_Member_Discord_Add_On::get_discord_logo_white() . '</a>';
+				$restrictcontent_discord .= '<p>' . esc_html__( sprintf( 'Connected account: %s', $_ets_ultimatemember_discord_username ), 'ultimate-member-discord-add-on' ) . '</p>';
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
                                 $restrictcontent_discord .= '</div>';
                                 $restrictcontent_discord .= '</div>';

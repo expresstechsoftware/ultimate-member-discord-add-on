@@ -438,7 +438,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
       			if ( $default_role && $default_role != 'none' ) {
 				update_user_meta( $user_id, '_ets_ultimatemember_discord_default_role', $default_role );                        
 				$this->ultimatemember_discord_public_instance->put_discord_role_api( $user_id, $default_role );
-				if( $user_default_role ){
+				if( $user_default_role != $default_role ){
 					$this->ultimatemember_discord_public_instance->delete_discord_role($user_id, $user_default_role );  
 				}
                                 
