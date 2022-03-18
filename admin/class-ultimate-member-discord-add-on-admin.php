@@ -499,23 +499,13 @@ class Ultimate_Member_Discord_Add_On_Admin {
 
                 
 		$user_id              = sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_user_id'] ) );
-		
+		//$user_default_role = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_default_role', true ) ) );                                        		
 		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_access_token', true ) ) );
 		$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_refresh_token', true ) ) );                
 		if ( $user_id && $access_token && $refresh_token ) {
-                    ets_ultimatemember_discord_remove_usermeta($user_id);
-
-//			$user_roles = ets_ultimatemember_discord_get_user_roles( $user_id );                        
-//			if( $kick_upon_disconnect ){
-//                            
-//				if( is_array( $user_roles ) ) {
-//					foreach ( $user_roles as $user_role ) {
-//						$this->learnpress_discord_public_instance->delete_discord_role( $user_id, $user_role );
-//					}
-//				}
-//			}else{
-				$this->ultimatemember_discord_public_instance->delete_member_from_guild( $user_id, false );
-                        //}
+			ets_ultimatemember_discord_remove_usermeta($user_id);
+			$this->ultimatemember_discord_public_instance->delete_member_from_guild( $user_id, false );
+                        
 			$event_res = array(
 				'status'  => 1,
 				'message' => 'Successfully disconnected',
