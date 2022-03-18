@@ -278,6 +278,33 @@ jQuery(document).ready(function ($) {
 				
 				newClone.css({ 'width': '100%','margin-bottom': '0px', 'left': '0', 'position':'unset', 'order': '1' });
 			}
+			$('.disconnect-discord-user').click(function (e) {
+				e.preventDefault();
+				$.ajax({
+					url: etsUltimateMemberParams.admin_ajax,
+					type: "POST",
+					context: this,
+					data: { 'action': 'ets_ultimatemember_discord_disconnect_user', 'ets_ultimatemember_discord_user_id': $(this).data('user-id') , 'ets_ultimatemember_discord_nonce': etsUltimateMemberParams.ets_ultimatemember_discord_nonce },
+					beforeSend: function () {
+						$(this).find('span').addClass("is-active").show();
+					},
+					success: function (data) {         
+						if (data.error) {
+							// handle the error
+							alert(data.error.msg);
+						} else {
+							$(this).prop('disabled', true);
+							console.log(data);
+						}
+					},
+					error: function (response, textStatus, errorThrown ) {
+						console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+					},
+					complete: function () {
+						$(this).find('span').removeClass("is-active").hide();
+					}
+				});
+			});                         
         }
 
 

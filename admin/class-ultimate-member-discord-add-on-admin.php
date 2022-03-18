@@ -68,7 +68,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles( $hook ) {
+	public function enqueue_styles(  ) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -81,13 +81,11 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		if ( $hook !== 'ultimate-member_page_ultimatemember-discord' )
+
                 
-                    return;
-                
-		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-admin.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name . 'fa-icon', '//use.fontawesome.com/releases/v5.5.0/css/all.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-admin.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name . 'fa-icon', '//use.fontawesome.com/releases/v5.5.0/css/all.css', array(), $this->version, 'all' );
 
 	}
 
@@ -96,7 +94,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts( $hook ) {
+	public function enqueue_scripts(  ) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -109,23 +107,14 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		if ( $hook !== 'ultimate-member_page_ultimatemember-discord' )
-                
-                    return;
+
             
-		wp_enqueue_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
 
-				wp_register_script(
-					'ultimate-member-discord-add-on-admin',
-					plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.js',
-					array( 'jquery' ),
-					$this->version,
-					false
-				);
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.js', array( 'jquery' ), $this->version, false );
 
-				wp_enqueue_script( 'ultimate-member-discord-add-on-admin' );
 
-				wp_enqueue_script( 'jquery-ui-draggable' );
+		wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );
 
 		$script_params = array(
@@ -134,7 +123,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 			'is_admin'                         => is_admin(),
 			'ets_ultimatemember_discord_nonce' => wp_create_nonce( 'ets-ultimatemember-ajax-nonce' ),
 		);
-		wp_localize_script( 'ultimate-member-discord-add-on-admin', 'etsUltimateMemberParams', $script_params );
+		wp_localize_script( $this->plugin_name, 'etsUltimateMemberParams', $script_params );
 
 	}
 
@@ -152,7 +141,13 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		if ( ! current_user_can( 'administrator' ) ) {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
 			exit();
-		}
+		}              
+		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css' );
+		wp_enqueue_style( $this->plugin_name );                
+		wp_enqueue_script( $this->plugin_name . '-tabs-js' );                
+		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_script( 'jquery-ui-draggable' );
+		wp_enqueue_script( 'jquery-ui-droppable' );                  
 		require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/ultimate-member-discord-add-on-admin-display.php';
 	}
 
@@ -212,6 +207,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 			}
 		}
 	}
+
 	/**
 	 * Save Role mapping settings
 	 *
@@ -249,12 +245,12 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		}
 	}
 
-		/**
-		 * Save advanced settings
-		 *
-		 * @param NONE
-		 * @return NONE
-		 */
+	/**
+	 * Save advanced settings
+	 *
+	 * @param NONE
+	 * @return NONE
+	 */
 	public function ets_ultimatemember_discord_save_advance_settings() {
 
 		if ( ! current_user_can( 'administrator' ) || ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
@@ -390,6 +386,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				exit();
 
 	}
+
 	/**
 	 * Update discord role when user profile is updated
 	 *
@@ -450,4 +447,85 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		}	
 	}
 
-}
+	/**
+	 * Add Ultimate Member Discord Connection column to WP Users listing 
+	 *
+	 * @param array $columns 
+	 * @return NONE
+	 */        
+	public function ets_ultimatemember_discord_add_disconnect_discord_column( $columns ) {
+            
+		$columns['ets_ultimatemember_disconnect_discord_connection'] = esc_html__( 'UM Discord Connection', 'ultimate-member-discord-add-on' );
+		return $columns;            
+        }
+
+	/**
+	 * Display Disconnect Discord button
+	 *
+	 * @param array $columns 
+	 * @return NONE
+	 */        
+	public function ets_ultimatemember_discord_disconnect_discord_button( $value, $column_name, $user_id ) {
+           
+		if ( $column_name === 'ets_ultimatemember_disconnect_discord_connection' ){
+			wp_enqueue_script( $this->plugin_name . '-tabs-js' );                
+			wp_enqueue_script( $this->plugin_name );		
+			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_access_token', true ) ) );
+			$_ets_ultimatemember_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_username', true ) ) );                                                                        
+			if ( $access_token  ){
+				return '<button  data-user-id="' . $user_id  . '" class="disconnect-discord-user" >' . esc_html__ ( 'Disconnect from discord ' , 'ultimate-member-discord-add-on' ) . Ultimate_Member_Discord_Add_On::get_discord_logo_white() . ' <span class="spinner"></span> </button><p>' . esc_html__ ( sprintf( 'Connected account: %s', $_ets_ultimatemember_discord_username ) , 'ultimate-member-discord-add-on' ) . '</p>';                                 
+			}
+			return esc_html__( 'Not Connected', 'ultimate-member-discord-add-on' );			
+		}
+		return $value;            
+	}
+
+	/**
+	 * Run disconnect discord
+	 * 
+	 * 
+	 */        
+	public function ets_ultimatemember_disconnect_user(  ) {
+           
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		// Check for nonce security
+		if ( ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_nonce'], 'ets-ultimatemember-ajax-nonce' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		} 
+
+                
+		$user_id              = sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_user_id'] ) );
+		
+		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_access_token', true ) ) );
+		$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_refresh_token', true ) ) );                
+		if ( $user_id && $access_token && $refresh_token ) {
+                    ets_ultimatemember_discord_remove_usermeta($user_id);
+
+//			$user_roles = ets_ultimatemember_discord_get_user_roles( $user_id );                        
+//			if( $kick_upon_disconnect ){
+//                            
+//				if( is_array( $user_roles ) ) {
+//					foreach ( $user_roles as $user_role ) {
+//						$this->learnpress_discord_public_instance->delete_discord_role( $user_id, $user_role );
+//					}
+//				}
+//			}else{
+				$this->ultimatemember_discord_public_instance->delete_member_from_guild( $user_id, false );
+                        //}
+			$event_res = array(
+				'status'  => 1,
+				'message' => 'Successfully disconnected',
+			);
+			wp_send_json( $event_res );
+                	exit();                        
+		}
+		
+                exit();                                        
+                
+	}        
+
+}   

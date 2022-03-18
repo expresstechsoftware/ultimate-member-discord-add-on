@@ -173,7 +173,10 @@ class Ultimate_Member_Discord_Add_On {
 		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_role_mapping', $plugin_admin, 'ets_ultimatemember_discord_save_role_mapping' );
 		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_advance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_advance_settings' );
 		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_load_discord_roles', $plugin_admin, 'ets_ultimatemember_discord_load_discord_roles' );
-		$this->loader->add_action( 'profile_update', $plugin_admin, 'ets_ultimatemember_discord_update_user_profil' , 99, 3 );                  
+		$this->loader->add_action( 'profile_update', $plugin_admin, 'ets_ultimatemember_discord_update_user_profil' , 99, 3 );
+		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_ultimatemember_discord_add_disconnect_discord_column' );                                                                                
+		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_ultimatemember_discord_disconnect_discord_button', 99, 3 );                 
+		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_disconnect_user', $plugin_admin, 'ets_ultimatemember_disconnect_user' );                                                                
 
 	}
 
@@ -272,7 +275,7 @@ class Ultimate_Member_Discord_Add_On {
 		$img = file_get_contents( plugin_dir_path( dirname( __FILE__ ) ) . 'public/images/discord-logo-white.svg' );
 		$data = base64_encode( $img );
                 
-		return '<img class="discord-logo-white" src="data:image/svg+xml;base64,' . $data . '" />';
+		return '<img style="width: 20px;display: inline-block; margin-left: 5px;" class="discord-logo-white" src="data:image/svg+xml;base64,' . $data . '" />';
         }
 
 

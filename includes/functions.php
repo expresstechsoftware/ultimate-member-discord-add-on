@@ -129,8 +129,11 @@ function ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $me
 	$user_obj    = get_user_by( 'id', $user_id );
 	$MEMBER_USERNAME = $user_obj->user_login;
 	$MEMBER_EMAIL    = $user_obj->user_email;
+	$MEMBER_ROLE = '';
+	if( is_array( UM()->roles()->get_roles() ) && array_key_exists( 'um_' . $um_role_id, UM()->roles()->get_roles() ) ) {
+		$MEMBER_ROLE = UM()->roles()->get_roles()[ 'um_' . $um_role_id ];            
+	}
 
-	$MEMBER_ROLE = UM()->roles()->get_roles()[ 'um_' . $um_role_id ];
 
 	$SITE_URL  = get_bloginfo( 'url' );
 	$BLOG_NAME = get_bloginfo( 'name' );
