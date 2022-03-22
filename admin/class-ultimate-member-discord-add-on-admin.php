@@ -415,7 +415,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		$default_role = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) ); 
 		$user_default_role = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_default_role', true ) ) );                                        
 		$new_user_role = substr ( $userdata['role'], 3 );
-		$current_user_role = ets_ultimatemember_discord_get_user_roles( $user_id );
+                update_option('new_user_role', $new_user_role);
                 
 		if ( $access_token ){
                                     
@@ -428,11 +428,17 @@ class Ultimate_Member_Discord_Add_On_Admin {
 						$this->ultimatemember_discord_public_instance->put_discord_role_api( $user_id, $new_discord_role ); 
 						$this->ultimatemember_discord_public_instance->delete_discord_role($user_id, $old_discord_role );
 					}                       
-				}
+				}else{
+					if( $old_discord_role ){
+						$this->ultimatemember_discord_public_instance->delete_discord_role($user_id, $old_discord_role );
+						delete_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $old_discord_role );                                    
+                                    }
+                                }
+                        // No role for this site        
 			}else{
-				if( $current_user_role ){
-					$this->ultimatemember_discord_public_instance->delete_discord_role($user_id, $current_user_role );
-					delete_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $current_user_role );
+				if( $old_discord_role ){
+					$this->ultimatemember_discord_public_instance->delete_discord_role($user_id, $old_discord_role );
+					delete_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $old_discord_role );
 			
 
 				}
