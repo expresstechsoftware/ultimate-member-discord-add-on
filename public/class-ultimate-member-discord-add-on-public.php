@@ -540,9 +540,22 @@ class Ultimate_Member_Discord_Add_On_Public {
 				exit();
 		}
 		$user_id = sanitize_text_field( trim( $_POST['user_id'] ) );
+		$kick_upon_disconnect = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_kick_upon_disconnect' ) ) ); 
+                
 		if ( $user_id ) {
-			ets_ultimatemember_discord_remove_usermeta( $user_id );                    
-			$this->delete_member_from_guild( $user_id, false );
+			delete_user_meta( $user_id, '_ets_ultimatemember_discord_access_token' );
+			delete_user_meta( $user_id, '_ets_ultimatemember_discord_refresh_token' );
+                        if( $kick_upon_disconnect ){
+				$member_discord_roles = ets_ultimatemember_discord_get_user_roles( $user_id ); 
+				if( is_array( $member_discord_roles ) ) {
+					foreach ( $member_discord_roles as $key => $member_discord_role ) {
+						
+                                                $this->delete_discord_role( $user_id, $member_discord_roles[$key]['meta_value'] );
+					}
+				}
+			}else{
+				$this->delete_member_from_guild( $user_id, false );                            
+			}
 		}
 		$event_res = array(
 			'status'  => 1,

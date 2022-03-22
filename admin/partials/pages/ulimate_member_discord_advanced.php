@@ -6,6 +6,7 @@ $retry_api_count                              = sanitize_text_field( trim( get_o
 $set_job_cnrc                                 = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_job_queue_concurrency' ) ) );
 $set_job_q_batch_size                         = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_job_queue_batch_size' ) ) );
 $log_api_res                                  = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_log_api_response' ) ) );
+$kick_upon_disconnect                          = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_kick_upon_disconnect' ) ) );
 
 ?>
 <form method="post" action="<?php echo get_site_url().'/wp-admin/admin-post.php' ?>">
@@ -45,6 +46,17 @@ $log_api_res                                  = sanitize_text_field( trim( get_o
 		 value="1">
 		</fieldset></td>
 	  </tr>
+	  <tr>
+		<th scope="row"><?php echo __( 'Don\'t kick members upon disconnect', 'ultimate-member-discord-add-on' ); ?></th>
+		<td> <fieldset>
+		<input name="kick_upon_disconnect" type="checkbox" id="kick_upon_disconnect" 
+		<?php
+		if ( $kick_upon_disconnect == true ) {
+			echo 'checked="checked"'; }
+		?>
+		 value="1">
+		</fieldset></td>
+	  </tr>          
 	<tr>
 		<th scope="row"><?php echo __( 'How many times a failed API call should get re-try', 'ultimate-member-discord-add-on' ); ?></th>
 		<td> <fieldset>

@@ -266,6 +266,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		$set_job_q_batch_size                       = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
 		$log_api_res                                = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
 		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                                        
+		$kick_upon_disconnect                       = isset( $_POST['kick_upon_disconnect'] ) ? sanitize_textarea_field( trim( $_POST['kick_upon_disconnect'] ) ) : '';                                        
 
 		if ( isset( $_POST['ets_ultimatemember_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
 			if ( isset( $_POST['adv_submit'] ) ) {
@@ -285,6 +286,11 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				} else {
 					update_option( 'ets_ultimatemember_retry_failed_api', false );
 				}
+				if ( isset( $_POST['kick_upon_disconnect'] ) ) {
+					update_option( 'ets_ultimatemember_discord_kick_upon_disconnect', true );
+				} else {
+					update_option( 'ets_ultimatemember_discord_kick_upon_disconnect', false );
+				}                                
 				if ( isset( $_POST['ets_ultimatemember_retry_api_count'] ) ) {
 					if ( $retry_api_count < 1 ) {
 						update_option( 'ets_ultimatemember_retry_api_count', 1 );

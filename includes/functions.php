@@ -250,7 +250,7 @@ function ets_ultimatemember_discord_get_user_roles ( $user_id ){
 	global $wpdb;
 
 	$usermeta_table = $wpdb->prefix . "usermeta";
-	$user_role_sql = "SELECT * FROM " . $usermeta_table . " WHERE `user_id` = %d AND  `meta_key` like '_ets_ultimatemember_discord_role_id%' ; ";
+	$user_role_sql = "SELECT * FROM " . $usermeta_table . " WHERE `user_id` = %d AND  ( `meta_key` = '_ets_ultimatemember_discord_role_id' OR `meta_key` = '_ets_ultimatemember_discord_default_role' ) ; ";
 	$user_role_prepare = $wpdb->prepare( $user_role_sql, $user_id );
 	
 	$user_role = $wpdb->get_results( $user_role_prepare , ARRAY_A );
@@ -258,7 +258,7 @@ function ets_ultimatemember_discord_get_user_roles ( $user_id ){
         
 	if ( is_array( $user_role ) && count( $user_role ) ){
 		
-		return  $user_role[0]['meta_value'];
+		return  $user_role;
             
 	}else{
             
