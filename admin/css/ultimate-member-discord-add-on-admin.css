@@ -326,6 +326,15 @@ box-sizing: border-box;
   background-color: #2ca450 !important;
   color: #fff;
 }
+.ets-submit.ets-ultimate-member-bg-scheduled-actions{
+  margin: 0 2px;
+  text-align: center; 
+  margin: 0 2px;
+  min-width: 170px;  
+}
+.ets-submit.ets-ultimate-member-bg-scheduled-actions:hover{
+    color: #ccc;
+}
 .error-log {
   height: 400px;
   overflow: scroll;
