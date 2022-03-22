@@ -330,7 +330,7 @@ box-sizing: border-box;
   margin: 0 2px;
   text-align: center; 
   margin: 0 2px;
-  min-width: 170px;  
+  min-width: 70px;  
 }
 .ets-submit.ets-ultimate-member-bg-scheduled-actions:hover{
     color: #ccc;
