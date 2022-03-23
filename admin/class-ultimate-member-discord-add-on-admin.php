@@ -413,10 +413,9 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		$ets_ultimatemember_discord_role_mapping = json_decode( get_option( 'ets_ultimatemember_discord_role_mapping' ), true );
 		$old_discord_role = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', true ) ) );
 		$default_role = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) ); 
-		$user_default_role = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_default_role', true ) ) );                                        
-		$new_user_role = substr ( $userdata['role'], 3 );
-                update_option('new_user_role', $new_user_role);
-                
+		$user_default_role = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_default_role', true ) ) );                                        	                
+                $new_user_role = ets_ultimatemember_discord_get_current_level_id($user_id);
+                      
 		if ( $access_token ){
                                     
 			if ( isset( $new_user_role ) && !empty( $new_user_role ) ){
