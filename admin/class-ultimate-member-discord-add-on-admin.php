@@ -169,8 +169,9 @@ class Ultimate_Member_Discord_Add_On_Admin {
 
 		$ets_ultimatemember_discord_server_id = isset( $_POST['ets_ultimatemember_discord_server_id'] ) ? sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_server_id'] ) ) : '';
 
-		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                
-
+		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;
+                
+		$ets_ultimatemember_discord_admin_redirect_url = isset( $_POST['ets_ultimatemember_discord_admin_redirect_url'] ) ? sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_admin_redirect_url'] ) ) : '';
 		if ( isset( $_POST['submit'] ) ) {
 			if ( isset( $_POST['ets_ultimatemember_discord_save_settings'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_save_settings'], 'save_ultimatemember_discord_general_settings' ) ) {
 				if ( $ets_ultimatemember_discord_client_id ) {
@@ -194,6 +195,11 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				if ( $ets_ultimatemember_discord_server_id ) {
 					update_option( 'ets_ultimatemember_discord_server_id', $ets_ultimatemember_discord_server_id );
 				}
+
+				if ( $ets_ultimatemember_discord_admin_redirect_url ) {
+					$ets_ultimatemember_discord_admin_redirect_url = $ets_ultimatemember_discord_admin_redirect_url ;
+					update_option( 'ets_ultimatemember_discord_admin_redirect_url', $ets_ultimatemember_discord_admin_redirect_url );
+				}                                
 				/**
                                  * Call function to save bot name option 
 				 */
@@ -529,4 +535,30 @@ class Ultimate_Member_Discord_Add_On_Admin {
                 
 	}        
 
+	/**
+	 *  Bot Auth
+	 * 
+	 */        
+	public function ets_ultimatemember_disconnect_bot_auth( ) {
+
+		if ( isset( $_GET['action'] ) && $_GET['action'] == 'discord-connect-to-bot' ) {
+			if ( ! current_user_can( 'administrator' ) ) {
+				wp_send_json_error( 'You do not have sufficient rights', 403 );
+				exit();
+			}
+			$params                    = array(
+				'client_id'            => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_client_id' ) ) ),
+				'permissions'          => ULTIMATE_MEMBER_DISCORD_BOT_PERMISSIONS,
+				'response_type' => 'code',
+				'scope'                => 'bot',
+				'guild_id'             => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) ),
+				'disable_guild_select' => 'true',
+				'redirect_uri'         => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_admin_redirect_url' ) ) ),
+			);
+			$discord_authorise_api_url = ETS_UM_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
+
+			wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
+			exit;
+		}                        
+	}
 }   

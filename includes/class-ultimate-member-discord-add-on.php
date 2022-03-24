@@ -177,7 +177,7 @@ class Ultimate_Member_Discord_Add_On {
 		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_ultimatemember_discord_add_disconnect_discord_column' );                                                                                
 		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_ultimatemember_discord_disconnect_discord_button', 99, 3 );                 
 		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_disconnect_user', $plugin_admin, 'ets_ultimatemember_disconnect_user' );                                                                
-
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'ets_ultimatemember_disconnect_bot_auth' );                                                                
 	}
 
 	/**

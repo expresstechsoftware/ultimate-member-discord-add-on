@@ -146,18 +146,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 				exit;
 			}
 
-			if ( isset( $_GET['action'] ) && $_GET['action'] == 'discord-connect-to-bot' ) {
-				$params                    = array(
-					'client_id'   => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_client_id' ) ) ),
-					'permissions' => ULTIMATE_MEMBER_DISCORD_BOT_PERMISSIONS,
-					'scope'       => 'bot',
-					'guild_id'    => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) ),
-				);
-				$discord_authorise_api_url = ETS_UM_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
 
-				wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
-				exit;
-			}
 			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'ultimate-discord' ) {
 				$code     = sanitize_text_field( trim( $_GET['code'] ) );
 				$response = $this->create_discord_auth_token( $code, $user_id );

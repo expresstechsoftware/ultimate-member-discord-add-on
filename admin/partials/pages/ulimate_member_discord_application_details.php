@@ -35,6 +35,10 @@ $ets_ultimatemember_discord_connected_bot_name     = sanitize_text_field( trim( 
 		<p class="description"><?php echo __( 'Registered discord app url', 'ultimate-member-discord-add-on' ); ?></p>
 	</div>
 	<div class="ets-discord-input-group">
+            <label><?php echo __( 'Admin Redirect URL Connect to bot', 'ultimate-member-discord-add-on' ); ?> :</label>
+            <input type="text" class="ets-input" name="ets_ultimatemember_discord_admin_redirect_url" value="<?php echo get_admin_url('', 'admin.php').'?page=ultimatemember-discord&via=ultimatemember-discord-bot'; ?>" readonly required />
+        </div>   
+	<div class="ets-discord-input-group">
             <?php
             if ( isset( $ets_ultimatemember_discord_connected_bot_name ) && !empty( $ets_ultimatemember_discord_connected_bot_name ) ){
                 echo sprintf(__( '<p class="description">Make sure the Bot %1$s &nbsp;<span class="discord-bot"><b>BOT</b></span>&nbsp;have the high priority than the roles it has to manage. Open <a href="https://discord.com/channels/%2$s">Discord Server</a></p>', 'ultimate-member-discord-add-on' ), $ets_ultimatemember_discord_connected_bot_name, $ets_ultimatemember_discord_server_id );
