@@ -71,7 +71,7 @@ jQuery(document).ready(function ($) {
 						}
                                                 
 
-						if (key != 'previous_mapping' && isbot == false && val.name != '@everyone') {
+						if (key != 'bot_connected' && key != 'previous_mapping' && isbot == false && val.name != '@everyone') {
 							$('.ultimate-member-discord-roles').append('<div class="makeMeDraggable" style="background-color:#'+val.color.toString(16)+'" data-ultimate-member_role_id="' + val.id + '" >' + val.name + '</div>');
 							$('#ultimate-member-defaultRole').append('<option value="' + val.id + '" >' + val.name + '</option>');
 							makeDrag($('.makeMeDraggable'));
