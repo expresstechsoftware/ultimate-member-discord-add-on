@@ -51,7 +51,11 @@ jQuery(document).ready(function ($) {
 					if ($('.ets-tabs button[data-identity="level-mapping"]').length) {
 						$('.ets-tabs button[data-identity="level-mapping"]').show();
 					}
-					$("#ultimatemember-connect-discord-bot").show().html("Bot Connected <i class='fab fa-discord'></i>").addClass('not-active');
+					if (response.bot_connected === 'yes') {
+						$("#ultimatemember-connect-discord-bot").show().html("Bot Connected <i class='fab fa-discord'></i>").addClass('not-active');                                            
+					}else{
+						$("#ultimatemember-connect-discord-bot").show().html("Error: Please check the Client ID is correct").addClass('error-bk');
+                                        }                                        
 
 					var activeTab = localStorage.getItem('activeTab');
 					if ($('.ets-tabs button[data-identity="level-mapping"]').length == 0 && activeTab == 'level-mapping') {

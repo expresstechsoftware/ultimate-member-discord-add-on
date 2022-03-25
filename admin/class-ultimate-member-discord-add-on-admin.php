@@ -354,6 +354,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 
 		$guild_id          = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
 		$discord_bot_token = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
+		$client_id          = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_client_id' ) ) );                                                
 		if ( $guild_id && $discord_bot_token ) {
 			$discod_server_roles_api = ETS_UM_DISCORD_API_URL . 'guilds/' . $guild_id . '/roles';
 			$guild_args              = array(
@@ -382,6 +383,9 @@ class Ultimate_Member_Discord_Add_On_Admin {
 							if ( array_key_exists( 'tags', $value ) ) {
 								if ( array_key_exists( 'bot_id', $value['tags'] ) ) {
 									$isbot = true;
+									if( $value['tags']['bot_id'] === $client_id ){
+										$response_arr['bot_connected'] = 'yes';
+									}                                                                        
 								}
 							}
 						}
