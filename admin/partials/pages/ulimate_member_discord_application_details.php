@@ -6,6 +6,7 @@ $ets_ultimatemember_discord_redirect_url  = sanitize_text_field( trim( get_optio
 $ets_ultimatemember_discord_roles         = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_role_mapping' ) ) );
 $ets_ultimatemember_discord_server_id     = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
 $ets_ultimatemember_discord_connected_bot_name     = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_connected_bot_name' ) ) );
+$ets_ultimatemember_discord_redirect_page_id  = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_redirect_page_id' ) ) );
 ?>
 <form method="post" action="<?php echo get_site_url() . '/wp-admin/admin-post.php'; ?>">
   <input type="hidden" name="action" value="ultimatemember_discord_application_settings">
@@ -27,11 +28,12 @@ $ets_ultimatemember_discord_connected_bot_name     = sanitize_text_field( trim( 
 	</div>
 	<div class="ets-discord-input-group">
     <label><?php echo __( 'Redirect URL', 'ultimate-member-discord-add-on' ); ?> :</label>
-		<input type="text" class="ets-input" name="ets_ultimatemember_discord_redirect_url"
-		placeholder="Discord Redirect Url" value="<?php
-		if ( isset( $ets_ultimatemember_discord_redirect_url ) ) {
-			echo esc_attr( $ets_ultimatemember_discord_redirect_url ); }
-		?>" required>
+
+            <p class="redirect-url"><b><?php echo $ets_ultimatemember_discord_redirect_url ?></b></p>
+		<select class= "ets-input" id="ets_ultimatemember_discord_redirect_url" name="ets_ultimatemember_discord_redirect_url" style="max-width: 100%" required>
+		<?php echo ets_ultimatemember_discord_pages_list( $ets_ultimatemember_discord_redirect_page_id ) ; ?>
+		</select>                
+                
 		<p class="description"><?php echo __( 'Registered discord app url', 'ultimate-member-discord-add-on' ); ?></p>
 	</div>
 	<div class="ets-discord-input-group">

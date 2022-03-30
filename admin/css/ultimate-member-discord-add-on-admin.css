@@ -397,3 +397,11 @@ span.discord-bot b{
     top: 2px;
     left: 5px;
 }
+.select2-container {
+width: 100% !important;
+}
+p.redirect-url{
+    /* border: 1px solid; */
+    padding: 10px 10px;
+    background-color: #fafafa;    
+}

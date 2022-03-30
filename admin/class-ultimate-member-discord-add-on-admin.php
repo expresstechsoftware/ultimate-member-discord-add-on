@@ -82,7 +82,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 * class.
 		 */
 
-                
+		wp_register_style( $this->plugin_name .'-select2', plugin_dir_url( __FILE__ ) . 'css/select2.css', array(), $this->version, 'all' );                
 		wp_register_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
 		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-admin.css', array(), $this->version, 'all' );
 
@@ -107,7 +107,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		 * class.
 		 */
 
-            
+		wp_register_script( $this->plugin_name . '-select2',  plugin_dir_url( __FILE__ ) . 'js/select2.js', array( 'jquery' ), $this->version, false );            
 		wp_register_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
 
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-admin.js', array( 'jquery' ), $this->version, false );
@@ -140,9 +140,11 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		if ( ! current_user_can( 'administrator' ) ) {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
 			exit();
-		}              
+		}
+		wp_enqueue_style( $this->plugin_name .'-select2' );                
 		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css' );
-		wp_enqueue_style( $this->plugin_name );                
+		wp_enqueue_style( $this->plugin_name ); 
+		wp_enqueue_script( $this->plugin_name . '-select2' );                
 		wp_enqueue_script( $this->plugin_name . '-tabs-js' );                
 		wp_enqueue_script( $this->plugin_name );
 		wp_enqueue_script( 'jquery-ui-draggable' );
@@ -186,7 +188,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				}
 
 				if ( $ets_ultimatemember_discord_redirect_url ) {
-					// add a query string param `via` GH #185.
+					update_option( 'ets_ultimatemember_discord_redirect_page_id', $ets_ultimatemember_discord_redirect_url );					
 					$ets_ultimatemember_discord_redirect_url = ets_get_ultimatemember_discord_formated_discord_redirect_url( $ets_ultimatemember_discord_redirect_url );
 					update_option( 'ets_ultimatemember_discord_redirect_url', $ets_ultimatemember_discord_redirect_url );
 				}

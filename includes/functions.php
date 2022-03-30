@@ -4,7 +4,8 @@ Common functions
 */
 
 // function to get formated redirect url
-function ets_get_ultimatemember_discord_formated_discord_redirect_url( $url ) {
+function ets_get_ultimatemember_discord_formated_discord_redirect_url( $page_id ) {
+	$url = esc_url( get_permalink( $page_id ) );
 	$parsed = parse_url( $url, PHP_URL_QUERY );
 	if ( $parsed === null ) {
 		return $url .= '?via=ultimate-discord';
@@ -296,4 +297,29 @@ function ets_ultimatemember_discord_update_bot_name_option ( ){
                 
 	}
 
+}
+function ets_ultimatemember_discord_pages_list( $ets_ultimatemember_discord_redirect_page_id ){
+	$args = array(
+		'sort_order' => 'asc',
+		'sort_column' => 'post_title',
+		'hierarchical' => 1,
+		'exclude' => '',
+		'include' => '',
+		'meta_key' => '',
+		'meta_value' => '',
+		'exclude_tree' => '',
+		'number' => '',
+		'offset' => 0,
+		'post_type' => 'page',
+		'post_status' => 'publish'
+		); 
+	$pages = get_pages( $args );
+	$options = '<option value="" disabled>-</option>';
+	if ( is_array( $pages ) ) {
+		foreach( $pages as $page ){ 
+			$selected = ( esc_attr( $page->ID ) === $ets_ultimatemember_discord_redirect_page_id  ) ? ' selected="selected"' : '';
+			$options .= '<option data-page-url="' . ets_get_ultimatemember_discord_formated_discord_redirect_url ( $page->ID ) .'" value="' . esc_attr( $page->ID ) . '" '. $selected .'> ' . $page->post_title . ' </option>';
+		}
+	}
+	return $options;
 }
