@@ -401,9 +401,15 @@ span.discord-bot b{
 width: 100% !important;
 }
 p.redirect-url{
-    /* border: 1px solid; */
+    border: 1px solid;
     padding: 10px 10px;
-    background-color: #fafafa;    
+    background-color: #f0f0f1;
+    height: 25px;
+    min-height: 25px;   
+}
+p.redirect-url > span.spinner{
+    float: left;
+    display: none;
 }
 .select2-selection__rendered {
     line-height: 34px !important;

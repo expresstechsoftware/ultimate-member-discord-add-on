@@ -29,8 +29,8 @@ $ets_ultimatemember_discord_redirect_page_id  = sanitize_text_field( trim( get_o
 	<div class="ets-discord-input-group">
     <label><?php echo __( 'Redirect URL', 'ultimate-member-discord-add-on' ); ?> :</label>
 
-            <p class="redirect-url"><b><?php echo $ets_ultimatemember_discord_redirect_url ?></b></p>
-		<select class= "ets-input" id="ets_ultimatemember_discord_redirect_url" name="ets_ultimatemember_discord_redirect_url" style="max-width: 100%" required>
+    <p class="redirect-url"><span class="spinner"></span><b><?php echo $ets_ultimatemember_discord_redirect_url ?></b></p>
+		<select class= "ets-input ets_ultimatemember_discord_redirect_url" id="ets_ultimatemember_discord_redirect_url" name="ets_ultimatemember_discord_redirect_url" style="max-width: 100%" required>
 		<?php echo ets_ultimatemember_discord_pages_list( $ets_ultimatemember_discord_redirect_page_id ) ; ?>
 		</select>                
                 
