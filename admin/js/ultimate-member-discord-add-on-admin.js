@@ -30,7 +30,10 @@ jQuery(document).ready(function ($) {
 	 */
        
         if (etsUltimateMemberParams.is_admin) {
-		$('#ets_ultimatemember_discord_redirect_url').select2({ width: 'resolve' }); 
+		if(jQuery().select2) {
+			$('#ets_ultimatemember_discord_redirect_url').select2({ width: 'resolve' });                     
+ 		}
+
 		$.ajax({
 			type: "POST",
 			dataType: "JSON",
