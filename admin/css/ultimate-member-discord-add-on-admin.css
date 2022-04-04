@@ -21,6 +21,9 @@
   height: 40px;
   border-radius: 0px !important;
 }
+.ets-discord-input-group p.description span.spinner{
+    float: none;
+}
 .ets-input:hover{
   border-bottom: 2px solid #77a02e;
 }
@@ -420,4 +423,7 @@ p.redirect-url > span.spinner{
 }
 .select2-selection__arrow {
     height: 40px !important;
+}
+p.ets-discord-update-message{
+    display: none;
 }

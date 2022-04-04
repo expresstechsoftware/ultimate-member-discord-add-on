@@ -40,20 +40,22 @@ jQuery(document).ready(function ($) {
 					data: { 'action': 'ets_ultimatemember_discord_update_redirect_url', 'ets_ultimatemember_page_id': $(this).val() , 'ets_ultimatemember_discord_nonce': etsUltimateMemberParams.ets_ultimatemember_discord_nonce },
 					beforeSend: function () {
 						$('p.redirect-url').find('b').html("");
-                                                $('p.redirect-url').find('span').addClass("is-active").show();
+                                                $('p.ets-discord-update-message').css('display','none');                                               
+						$(this).siblings('p.description').find('span').addClass("is-active").show();
 					},
 					success: function (data) { 
-                                            $('p.redirect-url').find('b').html(data);
+						$('p.redirect-url').find('b').html(data.formated_discord_redirect_url);
+						$('p.ets-discord-update-message').css('display','block');                                               
 					},
 					error: function (response, textStatus, errorThrown ) {
 						console.log( textStatus + " :  " + response.status + " : " + errorThrown );
 					},
 					complete: function () {
-						$('p.redirect-url').find('span').removeClass("is-active").hide();
+						$(this).siblings('p.description').find('span').removeClass("is-active").hide();
 					}
 				});
 
-                        });
+			});
  		}
 
 		$.ajax({

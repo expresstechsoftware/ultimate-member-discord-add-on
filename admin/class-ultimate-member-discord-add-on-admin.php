@@ -584,7 +584,11 @@ class Ultimate_Member_Discord_Add_On_Admin {
 			$formated_discord_redirect_url = ets_get_ultimatemember_discord_formated_discord_redirect_url( $page_id );
 			update_option( 'ets_ultimatemember_discord_redirect_page_id' ,$page_id );
 			update_option( 'ets_ultimatemember_discord_redirect_url' ,$formated_discord_redirect_url );
-			echo $formated_discord_redirect_url;
+			$res = array(
+				'formated_discord_redirect_url' => $formated_discord_redirect_url,
+			);
+			wp_send_json( $res );
+		
 		}
 		exit();
                 

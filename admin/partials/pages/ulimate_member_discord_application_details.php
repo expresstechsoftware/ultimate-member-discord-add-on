@@ -29,12 +29,13 @@ $ets_ultimatemember_discord_redirect_page_id  = sanitize_text_field( trim( get_o
 	<div class="ets-discord-input-group">
     <label><?php echo __( 'Redirect URL', 'ultimate-member-discord-add-on' ); ?> :</label>
 
-    <p class="redirect-url"><span class="spinner"></span><b><?php echo $ets_ultimatemember_discord_redirect_url ?></b></p>
+    <p class="redirect-url"><b><?php echo $ets_ultimatemember_discord_redirect_url ?></b></p>
 		<select class= "ets-input ets_ultimatemember_discord_redirect_url" id="ets_ultimatemember_discord_redirect_url" name="ets_ultimatemember_discord_redirect_url" style="max-width: 100%" required>
 		<?php echo ets_ultimatemember_discord_pages_list( $ets_ultimatemember_discord_redirect_page_id ) ; ?>
 		</select>                
                 
-		<p class="description"><?php echo __( 'Registered discord app url', 'ultimate-member-discord-add-on' ); ?></p>
+		<p class="description"><?php echo __( 'Registered discord app url', 'ultimate-member-discord-add-on' ); ?><span class="spinner"></span></p>
+                <p class="description ets-discord-update-message"><?php echo sprintf( __( 'Redirect URL updated, kindly add/update the same in your discord.com application link <a href="https://discord.com/developers/applications/%s/oauth2/general">https://discord.com/developers</a>', 'ultimate-member-discord-add-on' ),  $ets_ultimatemember_discord_client_id ); ?></p>
 	</div>
 	<div class="ets-discord-input-group">
             <label><?php echo __( 'Admin Redirect URL Connect to bot', 'ultimate-member-discord-add-on' ); ?> :</label>
