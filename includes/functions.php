@@ -323,3 +323,48 @@ function ets_ultimatemember_discord_pages_list( $ets_ultimatemember_discord_redi
 	}
 	return $options;
 }
+
+function ets_ultimatemember_discord_get_rich_embed_message ( $message ){
+    
+	$blog_logo_full = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] );
+	$blog_logo_thumbnail =  esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'thumbnail' )[0] );
+	
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );
+    
+	$timestamp = date( "c", strtotime( "now" ) );
+
+	$rich_embed_message = json_encode( [
+		"content" => '',
+		"username" =>  $BLOG_NAME,
+		"avatar_url" => $blog_logo_thumbnail,
+		"tts" => false,
+		"embeds" => [
+			[
+				"title" => $message,
+				"type" => "rich",
+				"description" => "",
+				"url" => $SITE_URL,
+				"timestamp" => $timestamp,
+				"color" => hexdec( "3366ff" ),
+				"footer" => [
+					"text" => $BLOG_NAME,
+					"icon_url" => $blog_logo_thumbnail
+				],
+				"image" => [
+					"url" => $blog_logo_full
+				],
+				"thumbnail" => [
+					"url" => $blog_logo_thumbnail
+				],
+				"author" => [
+					"name" => $BLOG_NAME,
+					"url" => $SITE_URL
+				],
+			]
+		]
+
+	], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+
+	return $rich_embed_message ; 
+}
