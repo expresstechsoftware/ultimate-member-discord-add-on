@@ -47,19 +47,20 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
 		$default_role                   = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) );
 		$ets_ultimatemember_discord_role_mapping = json_decode( get_option( 'ets_ultimatemember_discord_role_mapping' ), true );
 		$all_roles                      = unserialize( get_option( 'ets_ultimatemember_discord_all_roles' ) );
+		$roles_color = unserialize( get_option( 'ets_ultimatemember_discord_roles_color' ) );                
 		$curr_level_id                  = ets_ultimatemember_discord_get_current_level_id( $user_id );
 		$mapped_role_name               = '';
 		if ( $curr_level_id && is_array( $all_roles ) ) {
 			if ( is_array( $ets_ultimatemember_discord_role_mapping ) && array_key_exists( 'ultimate-member_level_id_' . $curr_level_id, $ets_ultimatemember_discord_role_mapping ) ) {
 				$mapped_role_id = $ets_ultimatemember_discord_role_mapping[ 'ultimate-member_level_id_' . $curr_level_id ];
 				if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
-					$mapped_role_name = $all_roles[ $mapped_role_id ];
+					$mapped_role_name .= '<span> <i style="background-color:#' . dechex( $roles_color[ $mapped_role_id ] ) . '"></i>' . $all_roles[ $mapped_role_id ] . '</span>';                                        
 				}
 			}
 		}
 		$default_role_name = '';
 		if ( $default_role != 'none' && is_array( $all_roles ) && array_key_exists( $default_role, $all_roles ) ) {
-			$default_role_name = $all_roles[ $default_role ];
+			$default_role_name = '<span><i style="background-color:#' . dechex( $roles_color[ $default_role ] ) . '"></i> ' . $all_roles[ $default_role ] . '</span>';                        
 		}
                 $restrictcontent_discord = '';
 		if ( ultimatemember_discord_check_saved_settings_status() ) {
@@ -73,6 +74,7 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
                                 $restrictcontent_discord .= '<div class="um-field-area">';
 				$restrictcontent_discord .= '<a href="#" class="ets-btn ultimate-member-btn-disconnect" id="ultimate-member-disconnect-discord" data-user-id="'. esc_attr( $user_id ) .'">'. esc_html__( 'Disconnect From Discord ', 'ultimate-member-discord-add-on' ) . Ultimate_Member_Discord_Add_On::get_discord_logo_white() . '</a>';
 				$restrictcontent_discord .= '<p>' . esc_html__( sprintf( 'Connected account: %s', $_ets_ultimatemember_discord_username ), 'ultimate-member-discord-add-on' ) . '</p>';
+				$restrictcontent_discord  = ets_ultimatemember_discord_roles_assigned_message ( $mapped_role_name, $default_role_name, $restrictcontent_discord );
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
                                 $restrictcontent_discord .= '</div>';
                                 $restrictcontent_discord .= '</div>';
@@ -87,27 +89,7 @@ Class Ultimate_Member_Discord_Add_On_Public_Display{
                                 $restrictcontent_discord .= '<div class="um-field-area">';
 				$restrictcontent_discord .= '<a href="?action=discord-login" class="ultimate-member-btn-connect ets-btn" >' . esc_html__( 'Connect To Discord', 'ultimate-member-discord-add-on' ) . Ultimate_Member_Discord_Add_On::get_discord_logo_white() . '</a>';
                                 $restrictcontent_discord .= '</div>';
-				if ( $mapped_role_name ) {
-					$restrictcontent_discord .= '<p class="ets_assigned_role">';
-					
-					$restrictcontent_discord .= __( 'Following Roles will be assigned to you in Discord: ', 'ultimate-member-discord-add-on' );
-					$restrictcontent_discord .= esc_html( $mapped_role_name );
-					if ( $default_role_name ) {
-						$restrictcontent_discord .= ', ' . esc_html( $default_role_name ); 
-                                                
-                                        }
-					
-					$restrictcontent_discord .= '</p>';
-				 } elseif( $default_role_name ) {
-                                        $restrictcontent_discord .= '<p class="ets_assigned_role">';
-					
-					$restrictcontent_discord .= esc_html__( 'Following Role will be assigned to you in Discord: ', 'ultimate-member-discord-add-on' );
-                                        $restrictcontent_discord .= esc_html( $default_role_name ); 
-					
-                                        $restrictcontent_discord .= '</p>';
-                                         
-                                 }
-                                   
+				$restrictcontent_discord  = ets_ultimatemember_discord_roles_assigned_message ( $mapped_role_name, $default_role_name, $restrictcontent_discord );                                   
                                 $restrictcontent_discord .= '</div>';
 			
 			}
