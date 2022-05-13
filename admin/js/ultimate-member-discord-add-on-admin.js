@@ -335,7 +335,9 @@ jQuery(document).ready(function ($) {
 						$(this).find('span').removeClass("is-active").hide();
 					}
 				});
-			});                         
+			});
+		$('#ets_ultimatemember_discord_connect_button_bg_color').wpColorPicker();
+		$('#ets_ultimatemember_discord_disconnect_button_bg_color').wpColorPicker();                         
         }
 
 

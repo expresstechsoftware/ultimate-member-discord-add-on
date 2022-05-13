@@ -34,6 +34,10 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
   <li class="skltbs-tab-item">
      <button class="skltbs-tab" data-identity="advanced" ><?php echo __( 'Advanced settings', 'ultimate-member-discord-add-on' ); ?></button> 
   </li>
+<li class="skltbs-tab-item">
+     <button class="skltbs-tab" data-identity="appearance" ><?php echo __( 'Appearance', 'ultimate-member-discord-add-on' ); ?>	
+     </button>
+</li>
   <li class="skltbs-tab-item">
      <button class="skltbs-tab" data-identity="logs" ><?php echo __( 'Logs', 'ultimate-member-discord-add-on' ); ?></button> 
   </li>
@@ -62,7 +66,12 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 		<?php
 			require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/ulimate_member_discord_advanced.php';
     ?>
-		</div>
+		</div> 
+		<div id="ets_ultimatemember_discord_appearance" class="ultimate-discord-tab-conetent skltbs-panel">
+		<?php
+			require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/ulimate_member_discord_appearance.php';
+    ?>
+		</div>      
 		<div id="ets_ultimatemember_discord_erro_log" class="ultimate-discord-tab-conetent skltbs-panel">
 		<?php
 			require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/ulimate_member_discord_error_log.php';

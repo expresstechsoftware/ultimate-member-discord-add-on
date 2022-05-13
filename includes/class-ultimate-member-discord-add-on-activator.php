@@ -48,7 +48,12 @@ class Ultimate_Member_Discord_Add_On_Activator {
 		update_option( 'ets_ultimatemember_retry_api_count', '5' );
 		update_option( 'ets_ultimatemember_discord_send_welcome_dm', true );
 		update_option( 'ets_ultimatemember_discord_welcome_message', 'Hi [MEMBER_USERNAME] ([MEMBER_EMAIL]), Welcome, Your  [MEMBER_ROLE] at [SITE_URL] Thanks, Kind Regards, [BLOG_NAME]' );
-		update_option( 'ets_ultimatemember_discord_embed_messaging_feature', false );                
+		update_option( 'ets_ultimatemember_discord_embed_messaging_feature', false );
+		update_option( 'ets_ultimatemember_discord_connect_button_bg_color', '#7bbc36' );
+		update_option( 'ets_ultimatemember_discord_disconnect_button_bg_color', '#ff0000' );                
+		update_option( 'ets_ultimatemember_discord_loggedin_button_text', 'Connect With Discord' );
+		update_option( 'ets_ultimatemember_discord_non_login_button_text', 'Login With Discord' );
+		update_option( 'ets_ultimatemember_discord_disconnect_button_text', 'Disconnect From Discord' );                
 
 	}
 
