@@ -48,6 +48,7 @@ class Ultimate_Member_Discord_Add_On_Activator {
 		update_option( 'ets_ultimatemember_retry_api_count', '5' );
 		update_option( 'ets_ultimatemember_discord_send_welcome_dm', true );
 		update_option( 'ets_ultimatemember_discord_welcome_message', 'Hi [MEMBER_USERNAME] ([MEMBER_EMAIL]), Welcome, Your  [MEMBER_ROLE] at [SITE_URL] Thanks, Kind Regards, [BLOG_NAME]' );
+		update_option( 'ets_ultimatemember_discord_embed_messaging_feature', false );                
 
 	}
 

@@ -274,7 +274,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		$log_api_res                                = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
 		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                                        
 		$kick_upon_disconnect                       = isset( $_POST['kick_upon_disconnect'] ) ? sanitize_textarea_field( trim( $_POST['kick_upon_disconnect'] ) ) : '';                                        
-
+		$embed_messaging_feature                    = isset( $_POST['embed_messaging_feature'] ) ? sanitize_textarea_field( trim( $_POST['embed_messaging_feature'] ) ) : '';                        
 		if ( isset( $_POST['ets_ultimatemember_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
 			if ( isset( $_POST['adv_submit'] ) ) {
 
@@ -324,6 +324,11 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				} else {
 					update_option( 'ets_ultimatemember_discord_log_api_response', false );
 				}
+				if ( isset( $_POST['embed_messaging_feature'] ) ) {
+					update_option( 'ets_ultimatemember_discord_embed_messaging_feature', true );
+				} else {
+					update_option( 'ets_ultimatemember_discord_embed_messaging_feature', false );
+				}                                
 
 				$message = 'Your settings are saved successfully.';
 				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_advanced';

@@ -331,20 +331,28 @@ function ets_ultimatemember_discord_get_rich_embed_message ( $message ){
 	
 	$SITE_URL  = get_bloginfo( 'url' );
 	$BLOG_NAME = get_bloginfo( 'name' );
+	$BLOG_DESCRIPTION = get_bloginfo( 'description' );
     
 	$timestamp = date( "c", strtotime( "now" ) );
+	$convert_lines = preg_split( "/\[LINEBREAK\]/", $message );
+	$fields = [];
+	if ( is_array ( $convert_lines ) ){
+		for ( $i = 0; $i< count( $convert_lines ); $i++ ){
+			array_push( $fields, ["name" => ".", "value" => $convert_lines[$i], "inline" => false ] );
+		}
+	}
 
 	$rich_embed_message = json_encode( [
-		"content" => '',
+		"content" => "",
 		"username" =>  $BLOG_NAME,
 		"avatar_url" => $blog_logo_thumbnail,
 		"tts" => false,
 		"embeds" => [
 			[
-				"title" => $message,
+				"title" => "",
 				"type" => "rich",
-				"description" => "",
-				"url" => $SITE_URL,
+				"description" => $BLOG_DESCRIPTION,
+				"url" => '',
 				"timestamp" => $timestamp,
 				"color" => hexdec( "3366ff" ),
 				"footer" => [
@@ -361,6 +369,8 @@ function ets_ultimatemember_discord_get_rich_embed_message ( $message ){
 					"name" => $BLOG_NAME,
 					"url" => $SITE_URL
 				],
+				"fields" => $fields
+                            
 			]
 		]
 
