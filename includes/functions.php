@@ -5,7 +5,7 @@ Common functions
 
 // function to get formated redirect url
 function ets_get_ultimatemember_discord_formated_discord_redirect_url( $page_id ) {
-	$url = esc_url( get_permalink( $page_id ) );
+	$url    = esc_url( get_permalink( $page_id ) );
 	$parsed = parse_url( $url, PHP_URL_QUERY );
 	if ( $parsed === null ) {
 		return $url .= '?via=ultimate-discord';
@@ -24,10 +24,10 @@ function ets_get_ultimatemember_discord_formated_discord_redirect_url( $page_id 
  * @return STRING $url
  */
 function ultimatemember_discord_get_current_screen_url() {
-	$parts           = parse_url( home_url() );
+	$parts       = parse_url( home_url() );
 	$current_uri = "{$parts['scheme']}://{$parts['host']}" . ( isset( $parts['port'] ) ? ':' . $parts['port'] : '' ) . add_query_arg( null, null );
-	
-        return $current_uri;
+
+		return $current_uri;
 }
 
 /**
@@ -127,14 +127,13 @@ function ets_ultimatemember_discord_check_api_errors( $api_response ) {
  */
 function ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $message ) {
 
-	$user_obj    = get_user_by( 'id', $user_id );
+	$user_obj        = get_user_by( 'id', $user_id );
 	$MEMBER_USERNAME = $user_obj->user_login;
 	$MEMBER_EMAIL    = $user_obj->user_email;
-	$MEMBER_ROLE = '';
-	if( is_array( UM()->roles()->get_roles() ) && array_key_exists( 'um_' . $um_role_id, UM()->roles()->get_roles() ) ) {
-		$MEMBER_ROLE = UM()->roles()->get_roles()[ 'um_' . $um_role_id ];            
+	$MEMBER_ROLE     = '';
+	if ( is_array( UM()->roles()->get_roles() ) && array_key_exists( 'um_' . $um_role_id, UM()->roles()->get_roles() ) ) {
+		$MEMBER_ROLE = UM()->roles()->get_roles()[ 'um_' . $um_role_id ];
 	}
-
 
 	$SITE_URL  = get_bloginfo( 'url' );
 	$BLOG_NAME = get_bloginfo( 'name' );
@@ -230,16 +229,15 @@ function ets_ultimatemember_discord_count_of_hooks_failures( $hook ) {
 		return false;
 	}
 }
-function ets_ultimatemember_discord_remove_usermeta ( $user_id ){
- 
+function ets_ultimatemember_discord_remove_usermeta( $user_id ) {
+
 	global $wpdb;
-        
-        
-	$usermeta_table = $wpdb->prefix . "usermeta";
-	$usermeta_sql = "DELETE FROM " . $usermeta_table . " WHERE `user_id` = %d AND  `meta_key` LIKE '_ets_ultimatemember_discord%'; ";
+
+	$usermeta_table      = $wpdb->prefix . 'usermeta';
+	$usermeta_sql        = 'DELETE FROM ' . $usermeta_table . " WHERE `user_id` = %d AND  `meta_key` LIKE '_ets_ultimatemember_discord%'; ";
 	$delete_usermeta_sql = $wpdb->prepare( $usermeta_sql, $user_id );
 	$wpdb->query( $delete_usermeta_sql );
-             
+
 }
 /**
  * Get member' role id
@@ -247,167 +245,174 @@ function ets_ultimatemember_discord_remove_usermeta ( $user_id ){
  * @param INT $user_id
  * @return STRING $role
  */
-function ets_ultimatemember_discord_get_user_roles ( $user_id ){
+function ets_ultimatemember_discord_get_user_roles( $user_id ) {
 	global $wpdb;
 
-	$usermeta_table = $wpdb->prefix . "usermeta";
-	$user_role_sql = "SELECT * FROM " . $usermeta_table . " WHERE `user_id` = %d AND  ( `meta_key` = '_ets_ultimatemember_discord_role_id' OR `meta_key` = '_ets_ultimatemember_discord_default_role' ) ; ";
+	$usermeta_table    = $wpdb->prefix . 'usermeta';
+	$user_role_sql     = 'SELECT * FROM ' . $usermeta_table . " WHERE `user_id` = %d AND  ( `meta_key` = '_ets_ultimatemember_discord_role_id' OR `meta_key` = '_ets_ultimatemember_discord_default_role' ) ; ";
 	$user_role_prepare = $wpdb->prepare( $user_role_sql, $user_id );
-	
-	$user_role = $wpdb->get_results( $user_role_prepare , ARRAY_A );
-        
-        
-	if ( is_array( $user_role ) && count( $user_role ) ){
-		
-		return  $user_role;
-            
-	}else{
-            
+
+	$user_role = $wpdb->get_results( $user_role_prepare, ARRAY_A );
+
+	if ( is_array( $user_role ) && count( $user_role ) ) {
+
+		return $user_role;
+
+	} else {
+
 		return null;
 	}
-   
+
 }
-function ets_ultimatemember_discord_update_bot_name_option ( ){
- 
+function ets_ultimatemember_discord_update_bot_name_option() {
+
 	$guild_id          = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
 	$discord_bot_token = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
 	if ( $guild_id && $discord_bot_token ) {
-            
-                $discod_current_user_api = ETS_UM_DISCORD_API_URL . 'users/@me';
-                
-		$app_args              = array(
+
+				$discod_current_user_api = ETS_UM_DISCORD_API_URL . 'users/@me';
+
+		$app_args = array(
 			'method'  => 'GET',
 			'headers' => array(
 				'Content-Type'  => 'application/json',
 				'Authorization' => 'Bot ' . $discord_bot_token,
 			),
-		);                
-                
+		);
+
 		$app_response = wp_remote_post( $discod_current_user_api, $app_args );
 
-		$response_arr =  json_decode ( wp_remote_retrieve_body( $app_response ), true );
-                
-		if( is_array( $response_arr ) && array_key_exists( 'username', $response_arr ) ){
-                    
+		$response_arr = json_decode( wp_remote_retrieve_body( $app_response ), true );
+
+		if ( is_array( $response_arr ) && array_key_exists( 'username', $response_arr ) ) {
+
 			update_option( 'ets_ultimatemember_discord_connected_bot_name', $response_arr ['username'] );
-		}else{
+		} else {
 			delete_option( 'ets_ultimatemember_discord_connected_bot_name' );
-                }
-                        
-                
+		}
 	}
 
 }
-function ets_ultimatemember_discord_pages_list( $ets_ultimatemember_discord_redirect_page_id ){
-	$args = array(
-		'sort_order' => 'asc',
-		'sort_column' => 'post_title',
+function ets_ultimatemember_discord_pages_list( $ets_ultimatemember_discord_redirect_page_id ) {
+	$args    = array(
+		'sort_order'   => 'asc',
+		'sort_column'  => 'post_title',
 		'hierarchical' => 1,
-		'exclude' => '',
-		'include' => '',
-		'meta_key' => '',
-		'meta_value' => '',
+		'exclude'      => '',
+		'include'      => '',
+		'meta_key'     => '',
+		'meta_value'   => '',
 		'exclude_tree' => '',
-		'number' => '',
-		'offset' => 0,
-		'post_type' => 'page',
-		'post_status' => 'publish'
-		); 
-	$pages = get_pages( $args );
-	$options = '<option value="" disabled>-</option>';
+		'number'       => '',
+		'offset'       => 0,
+		'post_type'    => 'page',
+		'post_status'  => 'publish',
+	);
+	$pages   = get_pages( $args );
+	$options = '<option value="" >-</option>';
 	if ( is_array( $pages ) ) {
-		foreach( $pages as $page ){ 
-			$selected = ( esc_attr( $page->ID ) === $ets_ultimatemember_discord_redirect_page_id  ) ? ' selected="selected"' : '';
-			$options .= '<option data-page-url="' . ets_get_ultimatemember_discord_formated_discord_redirect_url ( $page->ID ) .'" value="' . esc_attr( $page->ID ) . '" '. $selected .'> ' . $page->post_title . ' </option>';
+		foreach ( $pages as $page ) {
+			$selected = ( esc_attr( $page->ID ) === $ets_ultimatemember_discord_redirect_page_id ) ? ' selected="selected"' : '';
+			$options .= '<option data-page-url="' . ets_get_ultimatemember_discord_formated_discord_redirect_url( $page->ID ) . '" value="' . esc_attr( $page->ID ) . '" ' . $selected . '> ' . $page->post_title . ' </option>';
 		}
 	}
 	return $options;
 }
 
-function ets_ultimatemember_discord_get_rich_embed_message ( $message ){
-    
-	$blog_logo_full = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] );
-	$blog_logo_thumbnail =  esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'thumbnail' )[0] );
-	
-	$SITE_URL  = get_bloginfo( 'url' );
-	$BLOG_NAME = get_bloginfo( 'name' );
+function ets_ultimatemember_discord_get_rich_embed_message( $message ) {
+
+	$blog_logo_full      = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] );
+	$blog_logo_thumbnail = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'thumbnail' )[0] );
+
+	$SITE_URL         = get_bloginfo( 'url' );
+	$BLOG_NAME        = get_bloginfo( 'name' );
 	$BLOG_DESCRIPTION = get_bloginfo( 'description' );
-    
-	$timestamp = date( "c", strtotime( "now" ) );
-	$convert_lines = preg_split( "/\[LINEBREAK\]/", $message );
-	$fields = [];
-	if ( is_array ( $convert_lines ) ){
-		for ( $i = 0; $i< count( $convert_lines ); $i++ ){
-			array_push( $fields, ["name" => ".", "value" => $convert_lines[$i], "inline" => false ] );
+
+	$timestamp     = date( 'c', strtotime( 'now' ) );
+	$convert_lines = preg_split( '/\[LINEBREAK\]/', $message );
+	$fields        = array();
+	if ( is_array( $convert_lines ) ) {
+		for ( $i = 0; $i < count( $convert_lines ); $i++ ) {
+			array_push(
+				$fields,
+				array(
+					'name'   => '.',
+					'value'  => $convert_lines[ $i ],
+					'inline' => false,
+				)
+			);
 		}
 	}
 
-	$rich_embed_message = json_encode( [
-		"content" => "",
-		"username" =>  $BLOG_NAME,
-		"avatar_url" => $blog_logo_thumbnail,
-		"tts" => false,
-		"embeds" => [
-			[
-				"title" => "",
-				"type" => "rich",
-				"description" => $BLOG_DESCRIPTION,
-				"url" => '',
-				"timestamp" => $timestamp,
-				"color" => hexdec( "3366ff" ),
-				"footer" => [
-					"text" => $BLOG_NAME,
-					"icon_url" => $blog_logo_thumbnail
-				],
-				"image" => [
-					"url" => $blog_logo_full
-				],
-				"thumbnail" => [
-					"url" => $blog_logo_thumbnail
-				],
-				"author" => [
-					"name" => $BLOG_NAME,
-					"url" => $SITE_URL
-				],
-				"fields" => $fields
-                            
-			]
-		]
+	$rich_embed_message = json_encode(
+		array(
+			'content'    => '',
+			'username'   => $BLOG_NAME,
+			'avatar_url' => $blog_logo_thumbnail,
+			'tts'        => false,
+			'embeds'     => array(
+				array(
+					'title'       => '',
+					'type'        => 'rich',
+					'description' => $BLOG_DESCRIPTION,
+					'url'         => '',
+					'timestamp'   => $timestamp,
+					'color'       => hexdec( '3366ff' ),
+					'footer'      => array(
+						'text'     => $BLOG_NAME,
+						'icon_url' => $blog_logo_thumbnail,
+					),
+					'image'       => array(
+						'url' => $blog_logo_full,
+					),
+					'thumbnail'   => array(
+						'url' => $blog_logo_thumbnail,
+					),
+					'author'      => array(
+						'name' => $BLOG_NAME,
+						'url'  => $SITE_URL,
+					),
+					'fields'      => $fields,
 
-	], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+				),
+			),
 
-	return $rich_embed_message ; 
+		),
+		JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+	);
+
+	return $rich_embed_message;
 }
-function ets_ultimatemember_discord_roles_assigned_message ( $mapped_role_name, $default_role_name, $restrictcontent_discord ) {
-    
+function ets_ultimatemember_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $restrictcontent_discord ) {
+
 	if ( $mapped_role_name ) {
 		$restrictcontent_discord .= '<p class="ets_assigned_role">';
-					
+
 		$restrictcontent_discord .= __( 'Following Roles will be assigned to you in Discord: ', 'ultimate-member-discord-add-on' );
-		$restrictcontent_discord .=  ets_ultimatemember_discord_allowed_html( $mapped_role_name ) ;
+		$restrictcontent_discord .= ets_ultimatemember_discord_allowed_html( $mapped_role_name );
 		if ( $default_role_name ) {
-			$restrictcontent_discord .=  ets_ultimatemember_discord_allowed_html( $default_role_name ) ; 
-                                                
+			$restrictcontent_discord .= ets_ultimatemember_discord_allowed_html( $default_role_name );
+
 		}
-					
+
 		$restrictcontent_discord .= '</p>';
-	} elseif( $default_role_name ) {
+	} elseif ( $default_role_name ) {
 		$restrictcontent_discord .= '<p class="ets_assigned_role">';
-					
+
 		$restrictcontent_discord .= esc_html__( 'Following Role will be assigned to you in Discord: ', 'ultimate-member-discord-add-on' );
-		$restrictcontent_discord .= ets_ultimatemember_discord_allowed_html( $default_role_name ) ; 
-					
+		$restrictcontent_discord .= ets_ultimatemember_discord_allowed_html( $default_role_name );
+
 		$restrictcontent_discord .= '</p>';
-                                         
+
 	}
 	return $restrictcontent_discord;
 }
 function ets_ultimatemember_discord_allowed_html( $html_message ) {
 	$allowed_html = array(
 		'span' => array(),
-		'i' => array(
-			'style' => array()
-		)
+		'i'    => array(
+			'style' => array(),
+		),
 	);
 
 	return wp_kses( $html_message, $allowed_html );
