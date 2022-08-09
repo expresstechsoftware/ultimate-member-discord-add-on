@@ -32,7 +32,7 @@ jQuery(document).ready(function ($) {
         if (etsUltimateMemberParams.is_admin) {
 		if(jQuery().select2) {
 			$('#ets_ultimatemember_discord_redirect_url').select2({ width: 'resolve' });
-                        $('#ets_ultimatemember_discord_redirect_url').on('change', function(){
+            $('#ets_ultimatemember_discord_redirect_url').on('change', function(){
 				$.ajax({
 					url: etsUltimateMemberParams.admin_ajax,
 					type: "POST",

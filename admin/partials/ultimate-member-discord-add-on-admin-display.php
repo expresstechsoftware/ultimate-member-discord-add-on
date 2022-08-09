@@ -19,33 +19,33 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 	<?php
 }
 ?>
-<h1><?php echo __( 'Ultimate member Discord Add On Settings', 'ultimate-member-discord-add-on' ); ?></h1>
-<div id="ultimate-discord-outer" class="skltbs-theme-light" data-skeletabs='{ "startIndex": 1 }'>
+<h1><?php esc_html_e( 'Ultimate member Discord Add On Settings', 'ultimate-member-discord-add-on' ); ?></h1>
+<div id="ultimate-discord-outer" class="skltbs-theme-light" data-skeletabs='{ "startIndex": 0 }'>
   <ul class="skltbs-tab-group">
   <li class="skltbs-tab-item">
-		<button class="skltbs-tab" data-identity="settings" ><?php echo __( 'Application details', 'ultimate-member-discord-add-on' ); ?><span class="initialtab spinner"></span></button>
+		<button class="skltbs-tab" data-identity="settings" ><?php esc_html_e( 'Application details', 'ultimate-member-discord-add-on' ); ?><span class="initialtab spinner"></span></button>
   </li>
   <li class="skltbs-tab-item">
 	  <?php if ( ultimatemember_discord_check_saved_settings_status() ) : ?>
-	  <button class="skltbs-tab" data-identity="level-mapping" ><?php echo __( 'Role Mappings', 'ultimate-member-discord-add-on' ); ?></button>
+	  <button class="skltbs-tab" data-identity="level-mapping" ><?php esc_html_e( 'Role Mappings', 'ultimate-member-discord-add-on' ); ?></button>
 	  <?php endif; ?>
   </li>
   <li class="skltbs-tab-item">
-	 <button class="skltbs-tab" data-identity="advanced" ><?php echo __( 'Advanced settings', 'ultimate-member-discord-add-on' ); ?></button> 
+	 <button class="skltbs-tab" data-identity="advanced" ><?php esc_html_e( 'Advanced settings', 'ultimate-member-discord-add-on' ); ?></button> 
   </li>
 <li class="skltbs-tab-item">
-	 <button class="skltbs-tab" data-identity="appearance" ><?php echo __( 'Appearance', 'ultimate-member-discord-add-on' ); ?>	
+	 <button class="skltbs-tab" data-identity="appearance" ><?php esc_html_e( 'Appearance', 'ultimate-member-discord-add-on' ); ?>	
 	 </button>
 </li>
   <li class="skltbs-tab-item">
-	 <button class="skltbs-tab" data-identity="logs" ><?php echo __( 'Logs', 'ultimate-member-discord-add-on' ); ?></button> 
+	 <button class="skltbs-tab" data-identity="logs" ><?php esc_html_e( 'Logs', 'ultimate-member-discord-add-on' ); ?></button> 
   </li>
 	<li class="skltbs-tab-item">
-	 <button class="skltbs-tab" data-identity="documentation" ><?php echo __( 'Documentation', 'ultimate-member-discord-add-on' ); ?></button> 
+	 <button class="skltbs-tab" data-identity="documentation" ><?php esc_html_e( 'Documentation', 'ultimate-member-discord-add-on' ); ?></button> 
   </li>
 	</li>
 	<li class="skltbs-tab-item">
-	 <button class="skltbs-tab" data-identity="support" ><?php echo __( 'Support', 'ultimate-member-discord-add-on' ); ?></button> 
+	 <button class="skltbs-tab" data-identity="support" ><?php esc_html_e( 'Support', 'ultimate-member-discord-add-on' ); ?></button> 
   </li>
   </ul>
   <div class="skltbs-panel-group">
