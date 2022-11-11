@@ -3,7 +3,11 @@
 Common functions
 */
 
-// function to get formated redirect url
+/**
+ * Get formatted redirect url.
+ *
+ * @param INT $page_id The page ID.
+ */
 function ets_get_ultimatemember_discord_formated_discord_redirect_url( $page_id ) {
 	$url    = esc_url( get_permalink( $page_id ) );
 	$parsed = parse_url( $url, PHP_URL_QUERY );
@@ -46,20 +50,19 @@ function ultimatemember_discord_check_saved_settings_status() {
 	if ( $ets_ultimatemember_discord_client_id && $ets_ultimatemember_discord_client_secret && $ets_ultimatemember_discord_bot_token && $ets_ultimatemember_discord_redirect_url && $ets_ultimatemember_discord_server_id ) {
 			$status = true;
 	} else {
-			 $status = false;
+		$status = false;
 	}
-
-		 return $status;
+	return $status;
 }
 
-  /**
-   * Log API call response
-   *
-   * @param INT          $user_id
-   * @param STRING       $api_url
-   * @param ARRAY        $api_args
-   * @param ARRAY|OBJECT $api_response
-   */
+ /**
+  * Log API call response.
+  *
+  * @param INT          $user_id
+  * @param STRING       $api_url
+  * @param ARRAY        $api_args
+  * @param ARRAY|OBJECT $api_response
+  */
 function ets_ultimatemember_discord_log_api_response( $user_id, $api_url = '', $api_args = array(), $api_response = '' ) {
 	$log_api_response = get_option( 'ets_ultimatemember_discord_log_api_response' );
 	if ( $log_api_response == true ) {
@@ -120,7 +123,7 @@ function ets_ultimatemember_discord_check_api_errors( $api_response ) {
 }
 
 /**
- * Get formatted message to send in DM
+ * Get formatted message to send in DM.
  *
  * @param INT $user_id
  * Merge fields: [MEMBER_USERNAME], [MEMBER_EMAIL], [MEMBER_ROLE], [SITE_URL], [BLOG_NAME]</small>
@@ -158,9 +161,8 @@ function ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $me
 }
 
 /**
- * Get the highest available last attempt schedule time
+ * Get the highest available last attempt schedule time.
  */
-
 function ets_ultimatemember_discord_get_highest_last_attempt_timestamp() {
 	global $wpdb;
 	$result = $wpdb->get_results( $wpdb->prepare( 'SELECT aa.last_attempt_gmt FROM ' . $wpdb->prefix . 'actionscheduler_actions as aa INNER JOIN ' . $wpdb->prefix . 'actionscheduler_groups as ag ON aa.group_id = ag.group_id WHERE ag.slug = %s ORDER BY aa.last_attempt_gmt DESC limit 1', ETS_UM_DISCORD_AS_GROUP_NAME ), ARRAY_A );
@@ -186,7 +188,7 @@ function ets_ultimatemember_discord_get_random_timestamp( $add_upon = '' ) {
 }
 
 /**
- * Get pending jobs for group ETS_UM_DISCORD_AS_GROUP_NAME
+ * Get pending jobs for group ETS_UM_DISCORD_AS_GROUP_NAME.
  */
 function ets_ultimatemember_discord_get_all_pending_actions() {
 	global $wpdb;
@@ -229,6 +231,12 @@ function ets_ultimatemember_discord_count_of_hooks_failures( $hook ) {
 		return false;
 	}
 }
+
+/**
+ * Delete user's meta data.
+ *
+ * @param INT $user_id The User's ID.
+ */
 function ets_ultimatemember_discord_remove_usermeta( $user_id ) {
 
 	global $wpdb;
@@ -240,7 +248,7 @@ function ets_ultimatemember_discord_remove_usermeta( $user_id ) {
 
 }
 /**
- * Get member' role id
+ * Get member' role id.
  *
  * @param INT $user_id
  * @return STRING $role
@@ -264,13 +272,17 @@ function ets_ultimatemember_discord_get_user_roles( $user_id ) {
 	}
 
 }
+
+/**
+ * Update the Bot name option.
+ */
 function ets_ultimatemember_discord_update_bot_name_option() {
 
 	$guild_id          = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) );
 	$discord_bot_token = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
 	if ( $guild_id && $discord_bot_token ) {
 
-				$discod_current_user_api = ETS_UM_DISCORD_API_URL . 'users/@me';
+		$discod_current_user_api = ETS_UM_DISCORD_API_URL . 'users/@me';
 
 		$app_args = array(
 			'method'  => 'GET',
@@ -293,6 +305,10 @@ function ets_ultimatemember_discord_update_bot_name_option() {
 	}
 
 }
+
+/**
+ * The list of pages to define as Discord redirect page.
+ */
 function ets_ultimatemember_discord_pages_list( $ets_ultimatemember_discord_redirect_page_id ) {
 	$args    = array(
 		'sort_order'   => 'asc',
@@ -309,16 +325,21 @@ function ets_ultimatemember_discord_pages_list( $ets_ultimatemember_discord_redi
 		'post_status'  => 'publish',
 	);
 	$pages   = get_pages( $args );
-	$options = '<option value="" >-</option>';
+	$options = '<option value="-" >-</option>';
 	if ( is_array( $pages ) ) {
 		foreach ( $pages as $page ) {
-			$selected = ( esc_attr( $page->ID ) === $ets_ultimatemember_discord_redirect_page_id ) ? ' selected="selected"' : '';
+			$selected = ( esc_attr( $page->ID ) == $ets_ultimatemember_discord_redirect_page_id ) ? ' selected="selected"' : '';
 			$options .= '<option data-page-url="' . ets_get_ultimatemember_discord_formated_discord_redirect_url( $page->ID ) . '" value="' . esc_attr( $page->ID ) . '" ' . $selected . '> ' . $page->post_title . ' </option>';
 		}
 	}
 	return $options;
 }
 
+/**
+ * Send a Discord Rich message.
+ *
+ * @param STRING $message The message to send.
+ */
 function ets_ultimatemember_discord_get_rich_embed_message( $message ) {
 
 	$blog_logo_full      = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] );
@@ -383,6 +404,14 @@ function ets_ultimatemember_discord_get_rich_embed_message( $message ) {
 
 	return $rich_embed_message;
 }
+
+/**
+ * Displays a message of assigned roles.
+ *
+ * @param STRING $mapped_role_name
+ * @param STRING $default_role_name
+ * @param STRING $restrictcontent_discord
+ */
 function ets_ultimatemember_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $restrictcontent_discord ) {
 
 	if ( $mapped_role_name ) {
@@ -407,6 +436,10 @@ function ets_ultimatemember_discord_roles_assigned_message( $mapped_role_name, $
 	}
 	return $restrictcontent_discord;
 }
+
+/**
+ * Allowed html.
+ */
 function ets_ultimatemember_discord_allowed_html( $html_message ) {
 	$allowed_html = array(
 		'span' => array(),
