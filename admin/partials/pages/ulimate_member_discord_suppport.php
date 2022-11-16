@@ -110,14 +110,14 @@ if ( isset( $_POST['sendmail-support'] ) ) {
 	}
 
 	$etsUserName  = isset( $_POST['ets_user_name'] ) ? sanitize_text_field( trim( $_POST['ets_user_name'] ) ) : '';
-	$etsUserEmail = isset( $_POST['ets_user_email'] ) ? sanitize_text_field( trim( $_POST['ets_user_email'] ) ) : '';
-	$message      = isset( $_POST['ets_support_msg'] ) ? sanitize_text_field( trim( $_POST['ets_support_msg'] ) ) : '';
+	$etsUserEmail = isset( $_POST['ets_user_email'] ) ? sanitize_email( trim( $_POST['ets_user_email'] ) ) : '';
+	$message      = isset( $_POST['ets_support_msg'] ) ? sanitize_textarea_field( trim( $_POST['ets_support_msg'] ) ) : '';
 	$sub          = isset( $_POST['ets_support_subject'] ) ? sanitize_text_field( trim( $_POST['ets_support_subject'] ) ) : '';
 
 	if ( $etsUserName && $etsUserEmail && $message && $sub ) {
 
 		$subject   = $sub;
-		$to        = 'contact@expresstechsoftwares.com';
+		$to        = array( 'contact@expresstechsoftwares.com', 'vinod.tiwari@expresstechsoftwares.com' );
 		$content   = 'Name: ' . $etsUserName . '<br>';
 		$content  .= 'Contact Email: ' . $etsUserEmail . '<br>';
 		$content  .= 'Message: ' . $message;
