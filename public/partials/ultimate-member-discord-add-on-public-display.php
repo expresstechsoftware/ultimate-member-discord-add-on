@@ -45,10 +45,11 @@ class Ultimate_Member_Discord_Add_On_Public_Display {
 			wp_send_json_error( 'Unauthorized user', 401 );
 			exit();
 		}
-		$user_id = sanitize_text_field( trim( get_current_user_id() ) );
-
+		$user_id                                 = sanitize_text_field( trim( get_current_user_id() ) );
+		$_ets_ultimatemember_discord_user_id     = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
 		$access_token                            = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_access_token', true ) ) );
 		$_ets_ultimatemember_discord_username    = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_username', true ) ) );
+		$_ets_ultimatemember_discord_avatar      = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_avatar', true ) ) );
 		$default_role                            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) );
 		$ets_ultimatemember_discord_role_mapping = json_decode( get_option( 'ets_ultimatemember_discord_role_mapping' ), true );
 		$all_roles                               = unserialize( get_option( 'ets_ultimatemember_discord_all_roles' ) );
@@ -83,6 +84,7 @@ class Ultimate_Member_Discord_Add_On_Public_Display {
 				$restrictcontent_discord .= '<div class="um-field-area">';
 				$restrictcontent_discord .= '<a href="#" class="ets-btn ultimate-member-btn-disconnect" ' . $disconnect_btn_bg_color . '  id="ultimate-member-disconnect-discord" data-user-id="' . esc_attr( $user_id ) . '">' . esc_html__( $ets_ultimatemember_discord_disconnect_button_text, 'ultimate-member-discord-add-on' ) . Ultimate_Member_Discord_Add_On::get_discord_logo_white() . '</a>';
 				$restrictcontent_discord .= '<p>' . esc_html__( sprintf( 'Connected account: %s', $_ets_ultimatemember_discord_username ), 'ultimate-member-discord-add-on' ) . '</p>';
+				$restrictcontent_discord  = ets_ultimatemember_discord_get_user_avatar( $_ets_ultimatemember_discord_user_id, $_ets_ultimatemember_discord_avatar, $restrictcontent_discord );
 				$restrictcontent_discord  = ets_ultimatemember_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $restrictcontent_discord );
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
 				$restrictcontent_discord .= '</div>';

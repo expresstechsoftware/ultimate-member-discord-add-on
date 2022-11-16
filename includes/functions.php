@@ -454,7 +454,26 @@ function ets_ultimatemember_discord_allowed_html( $html_message ) {
 		'i'    => array(
 			'style' => array(),
 		),
+		'img'  => array(
+			'src'   => array(),
+			'class' => array(),
+		),
 	);
 
 	return wp_kses( $html_message, $allowed_html );
+}
+
+/**
+ * Get the discord user avatar.
+ *
+ * @param INTI   $discord_user_id
+ * @param INT    $user_avatar
+ * @param STRING $restrictcontent_discord
+ */
+function ets_ultimatemember_discord_get_user_avatar( $discord_user_id, $user_avatar, $restrictcontent_discord ) {
+	if ( $user_avatar ) {
+		$avatar_url               = '<img class="ets_discord_user_avatar" src="https://cdn.discordapp.com/avatars/' . $discord_user_id . '/' . $user_avatar . '.png" />';
+		$restrictcontent_discord .= ets_ultimatemember_discord_allowed_html( $avatar_url );
+	}
+	return $restrictcontent_discord;
 }

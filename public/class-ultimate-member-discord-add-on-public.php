@@ -180,8 +180,10 @@ class Ultimate_Member_Discord_Add_On_Public {
 							if ( is_array( $user_body ) && array_key_exists( 'discriminator', $user_body ) ) {
 								$discord_user_number           = $user_body['discriminator'];
 								$discord_user_name             = $user_body['username'];
+								$discord_user_avatar           = $user_body['avatar'];
 								$discord_user_name_with_number = $discord_user_name . '#' . $discord_user_number;
 								update_user_meta( $user_id, '_ets_ultimatemember_discord_username', $discord_user_name_with_number );
+								update_user_meta( $user_id, '_ets_ultimatemember_discord_avatar', $discord_user_avatar );
 							}
 							if ( is_array( $user_body ) && array_key_exists( 'id', $user_body ) ) {
 								$_ets_ultimatemember_discord_user_id = sanitize_text_field( trim( $user_body['id'] ) );
