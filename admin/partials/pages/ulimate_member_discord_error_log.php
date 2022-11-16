@@ -18,9 +18,9 @@ while ( ! feof( $handle ) ) {
 		<input type="button" class="ets-submit ets-bg-green" value="Refresh" onClick="window.location.reload()">
 	</div>
 	<div class="form-group">
-		<a href="<?php echo esc_attr( content_url('/') . $filename ); ?>" class="ets-submit ets-ultimate-member-bg-download" download><?php echo __( 'Download', 'ultimate-member-discord-add-on'  ); ?></a>
+		<a href="<?php echo esc_url( content_url( '/' ) . $filename ); ?>" class="ets-submit ets-ultimate-member-bg-download" download><?php echo __( 'Download', 'ultimate-member-discord-add-on' ); ?></a>
 	</div>
 	<div class="form-group">
-            <a href="<?php echo get_admin_url('', 'tools.php') . '?page=action-scheduler&status=pending&s=ultimatemember'; ?>" class="ets-submit ets-ultimate-member-bg-scheduled-actions"><?php echo __( 'API Queue', 'ultimate-member-discord-add-on'  ); ?></a>
+			<a href="<?php echo esc_url( get_admin_url( '', 'tools.php' ) ) . '?page=action-scheduler&status=pending&s=ultimatemember'; ?>" class="ets-submit ets-ultimate-member-bg-scheduled-actions"><?php esc_html_e( 'API Queue', 'ultimate-member-discord-add-on' ); ?></a>
 	</div>    
 </div>

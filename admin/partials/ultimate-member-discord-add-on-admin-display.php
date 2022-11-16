@@ -86,7 +86,6 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 			require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/ulimate_member_discord_suppport.php';
 		?>
 		</div>
-  </div>  
-	
+  </div> 
 
 </div>

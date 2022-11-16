@@ -125,16 +125,16 @@ class Ultimate_Member_Discord_Add_On_Admin {
 
 	}
 
-	/*
-	Method to add discord setting sub-menu under top level menu of ultimate-member.
-	*/
+	/**
+	 * Method to add discord setting sub-menu under top level menu of ultimate-member.
+	 */
 	public function ets_ultimatemember_add_settings_menu() {
 		add_submenu_page( 'ultimatemember', __( 'Discord Settings', 'ultimate-member-discord-add-on' ), __( 'Discord Settings', 'ultimate-member-discord-add-on' ), 'manage_options', 'ultimatemember-discord', array( $this, 'ets_utlimatemember_discord_setting_page' ) );
 	}
 
-	/*
-	Callback to Display settings page
-	*/
+	/**
+	 * Callback to Display settings page.
+	 */
 	public function ets_utlimatemember_discord_setting_page() {
 		if ( ! current_user_can( 'administrator' ) ) {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
@@ -152,9 +152,9 @@ class Ultimate_Member_Discord_Add_On_Admin {
 		require_once ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/ultimate-member-discord-add-on-admin-display.php';
 	}
 
-	/*
-	Save application details
-	*/
+	/**
+	 * Save application details.
+	 */
 	public function ets_ultimatemember_discord_application_settings() {
 		if ( ! current_user_can( 'administrator' ) ) {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
