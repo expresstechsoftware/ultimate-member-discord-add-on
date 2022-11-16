@@ -341,9 +341,15 @@ function ets_ultimatemember_discord_pages_list( $ets_ultimatemember_discord_redi
  * @param STRING $message The message to send.
  */
 function ets_ultimatemember_discord_get_rich_embed_message( $message ) {
+	$blog_logo_full      = '';
+	$blog_logo_thumbnail = '';
+	if ( is_array( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' ) ) ) {
+		$blog_logo_full = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] );
+	}
 
-	$blog_logo_full      = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] );
-	$blog_logo_thumbnail = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'thumbnail' )[0] );
+	if ( is_array( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'thumbnail' ) ) ) {
+		$blog_logo_thumbnail = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'thumbnail' )[0] );
+	}
 
 	$SITE_URL         = get_bloginfo( 'url' );
 	$BLOG_NAME        = get_bloginfo( 'name' );
