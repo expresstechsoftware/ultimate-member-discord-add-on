@@ -43,9 +43,9 @@ class Ultimate_Member_Discord_Add_On_Public {
 	/**
 	 * The single object Ultimate_Member_Discord_Add_On_Public
 	 *
-	 * @since    1.0.0 
-	 * @access   private 
-	 * @var Ultimate_Member_Discord_Add_On_Public 
+	 * @since    1.0.0
+	 * @access   private
+	 * @var Ultimate_Member_Discord_Add_On_Public
 	 */
 	private static $instance;
 
@@ -232,9 +232,9 @@ class Ultimate_Member_Discord_Add_On_Public {
 	 * @param STRING $type (warning|expired)
 	 */
 	public function ets_ultimatemember_discord_handler_send_dm( $user_id, $um_role_id, $type = 'warning' ) {
-		$discord_user_id   = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
-		$discord_bot_token = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
-		$embed_messaging_feature = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_embed_messaging_feature' ) ) );
+		$discord_user_id                            = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
+		$discord_bot_token                          = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
+		$embed_messaging_feature                    = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_embed_messaging_feature' ) ) );
 		$ets_ultimatemember_discord_welcome_message = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_welcome_message' ) ) );
 		// Check if DM channel is already created for the user.
 		$user_dm = get_user_meta( $user_id, '_ets_ultimatemember_discord_dm_channel', true );
@@ -255,18 +255,18 @@ class Ultimate_Member_Discord_Add_On_Public {
 		}
 
 		$creat_dm_url = ETS_UM_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
-		if( $embed_messaging_feature ) {
-			$dm_args      = array(
+		if ( $embed_messaging_feature ) {
+			$dm_args = array(
 				'method'  => 'POST',
 				'headers' => array(
 					'Content-Type'  => 'application/json',
 					'Authorization' => 'Bot ' . $discord_bot_token,
 				),
-				'body'    => ets_ultimatemember_discord_get_rich_embed_message( trim ( $message ) ),
+				'body'    => ets_ultimatemember_discord_get_rich_embed_message( trim( $message ) ),
 
-			); 
+			);
 		} else {
-			$dm_args      = array(
+			$dm_args = array(
 				'method'  => 'POST',
 				'headers' => array(
 					'Content-Type'  => 'application/json',
@@ -279,7 +279,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 				),
 			);
 		}
-		$dm_response  = wp_remote_post( $creat_dm_url, $dm_args );
+		$dm_response = wp_remote_post( $creat_dm_url, $dm_args );
 		ets_ultimatemember_discord_log_api_response( $user_id, $creat_dm_url, $dm_args, $dm_response );
 		$dm_response_body = json_decode( wp_remote_retrieve_body( $dm_response ), true );
 		if ( ets_ultimatemember_discord_check_api_errors( $dm_response ) ) {
@@ -368,7 +368,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 				)
 			),
 		);
-		$guild_response         = wp_remote_post( $guilds_memeber_api_url, $guild_args );
+		$guild_response = wp_remote_post( $guilds_memeber_api_url, $guild_args );
 
 		ets_ultimatemember_discord_log_api_response( $user_id, $guilds_memeber_api_url, $guild_args, $guild_response );
 		if ( ets_ultimatemember_discord_check_api_errors( $guild_response ) ) {
@@ -527,15 +527,15 @@ class Ultimate_Member_Discord_Add_On_Public {
 				wp_send_json_error( 'You do not have sufficient rights', 403 );
 				exit();
 		}
-		$user_id = sanitize_text_field( trim( $_POST['user_id'] ) );
+		$user_id              = sanitize_text_field( trim( $_POST['user_id'] ) );
 		$kick_upon_disconnect = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_kick_upon_disconnect' ) ) );
 
 		if ( $user_id ) {
-			if( $kick_upon_disconnect ){
+			if ( $kick_upon_disconnect ) {
 				delete_user_meta( $user_id, '_ets_ultimatemember_discord_access_token' );
 				delete_user_meta( $user_id, '_ets_ultimatemember_discord_refresh_token' );
-				$member_discord_roles = ets_ultimatemember_discord_get_user_roles( $user_id ); 
-				if( is_array( $member_discord_roles ) ) {
+				$member_discord_roles = ets_ultimatemember_discord_get_user_roles( $user_id );
+				if ( is_array( $member_discord_roles ) ) {
 					foreach ( $member_discord_roles as $key => $member_discord_role ) {
 						$this->delete_discord_role( $user_id, $member_discord_roles[ $key ]['meta_value'] );
 					}
