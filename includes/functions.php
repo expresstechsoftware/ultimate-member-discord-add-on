@@ -445,6 +445,8 @@ function ets_ultimatemember_discord_roles_assigned_message( $mapped_role_name, $
 
 /**
  * Allowed html.
+ *
+ * @param STRING $html_message The html message.
  */
 function ets_ultimatemember_discord_allowed_html( $html_message ) {
 	$allowed_html = array(
