@@ -164,7 +164,7 @@ class Ultimate_Member_Discord_Add_On {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Ultimate_Member_Discord_Add_On_Admin( $this->get_plugin_name(), $this->get_version(), Ultimate_Member_Discord_Add_On_Public::get_ultimatemember_discord_public_instance( $this->get_plugin_name(), $this->get_version() ) );                
+		$plugin_admin = new Ultimate_Member_Discord_Add_On_Admin( $this->get_plugin_name(), $this->get_version(), Ultimate_Member_Discord_Add_On_Public::get_ultimatemember_discord_public_instance( $this->get_plugin_name(), $this->get_version() ) );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -173,13 +173,13 @@ class Ultimate_Member_Discord_Add_On {
 		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_role_mapping', $plugin_admin, 'ets_ultimatemember_discord_save_role_mapping' );
 		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_advance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_advance_settings' );
 		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_load_discord_roles', $plugin_admin, 'ets_ultimatemember_discord_load_discord_roles' );
-		$this->loader->add_action( 'profile_update', $plugin_admin, 'ets_ultimatemember_discord_update_user_profil' , 99, 3 );
-		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_ultimatemember_discord_add_disconnect_discord_column' );                                                                                
-		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_ultimatemember_discord_disconnect_discord_button', 99, 3 );                 
-		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_disconnect_user', $plugin_admin, 'ets_ultimatemember_disconnect_user' );                                                                
-		$this->loader->add_action( 'admin_init', $plugin_admin, 'ets_ultimatemember_disconnect_bot_auth' );                                                                
-		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_update_redirect_url', $plugin_admin, 'ets_ultimatemember_discord_update_redirect_url' );                                                                                
-		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_appearance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_appearance_settings' );                                                                
+		$this->loader->add_action( 'profile_update', $plugin_admin, 'ets_ultimatemember_discord_update_user_profil', 99, 3 );
+		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_ultimatemember_discord_add_disconnect_discord_column' );
+		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_ultimatemember_discord_disconnect_discord_button', 99, 3 );
+		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_disconnect_user', $plugin_admin, 'ets_ultimatemember_disconnect_user' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'ets_ultimatemember_disconnect_bot_auth' );
+		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_update_redirect_url', $plugin_admin, 'ets_ultimatemember_discord_update_redirect_url' );
+		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_appearance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_appearance_settings' );
 	}
 
 	/**
@@ -273,12 +273,15 @@ class Ultimate_Member_Discord_Add_On {
 		}
 	}
 
-	public static function get_discord_logo_white(){
-		$img = file_get_contents( plugin_dir_path( dirname( __FILE__ ) ) . 'public/images/discord-logo-white.svg' );
+	/**
+	 * Retuen the Discord Logo.
+	 */
+	public static function get_discord_logo_white() {
+		$img  = file_get_contents( plugin_dir_path( dirname( __FILE__ ) ) . 'public/images/discord-logo-white.svg' );
 		$data = base64_encode( $img );
-                
+
 		return '<img style="width: 20px;display: inline-block; margin-left: 5px;" class="discord-logo-white" src="data:image/svg+xml;base64,' . $data . '" />';
-        }
+	}
 
 
 
