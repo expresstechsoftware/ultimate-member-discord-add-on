@@ -24,17 +24,22 @@ class Ultimate_Member_Discord_Add_On_Public_Display {
 	 */
 	private $plugin_name;
 
+	/**
+	 * Construct.
+	 *
+	 * @param string $plugin_name The plugin name.
+	 */
 	public function __construct( $plugin_name ) {
 
 		$this->plugin_name = $plugin_name;
 
 	}
-		/**
-		 * Add button to make connection in between user and discord
-		 *
-		 * @param NONE
-		 * @return NONE
-		 */
+	/**
+	 * Add button to make connection in between user and discord
+	 *
+	 * @param NONE
+	 * @return NONE
+	 */
 	public function ets_ultimatemember_discord_add_connect_discord_button() {
 		if ( ! is_user_logged_in() ) {
 			wp_send_json_error( 'Unauthorized user', 401 );
