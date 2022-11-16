@@ -72,6 +72,7 @@ class Ultimate_Member_Discord_Add_On_Activator {
 		$um_account_page_id = sanitize_text_field( get_option( 'um_options' )['core_account'] );
 		$url                = esc_url( get_permalink( $um_account_page_id ) );
 		update_option( 'ets_ultimatemember_discord_redirect_url', $url .= '?via=ultimate-discord' );
+		update_option( 'ets_ultimatemember_discord_redirect_page_id', $um_account_page_id );
 
 	}
 
