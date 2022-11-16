@@ -74,40 +74,22 @@ $embed_messaging_feature                    = sanitize_text_field( trim( get_opt
 	<tr>
 		<th scope="row"><?php esc_html_e( 'How many times a failed API call should get re-try', 'ultimate-member-discord-add-on' ); ?></th>
 		<td> <fieldset>
-		<input name="ets_ultimatemember_retry_api_count" type="number" min="1" id="ets_ultimatemember_retry_api_count" value="
-		<?php
-		if ( isset( $retry_api_count ) ) {
-			echo intval( $retry_api_count );
-		} else {
-			echo 1; }
-		?>
-		">
+		<?php $retry_api_count_value = isset( $retry_api_count ) ? $retry_api_count : 1; ?>	
+		<input name="ets_ultimatemember_retry_api_count" type="number" min="1" id="ets_ultimatemember_retry_api_count" value="<?php echo intval( $retry_api_count_value ); ?>">
 		</fieldset></td>
 	  </tr> 
 	  <tr>
 		<th scope="row"><?php esc_html_e( 'Set job queue concurrency', 'ultimate-member-discord-add-on' ); ?></th>
 		<td> <fieldset>
-		<input name="set_job_cnrc" type="number" min="1" id="set_job_cnrc" value="
-		<?php
-		if ( isset( $set_job_cnrc ) ) {
-			echo intval( $set_job_cnrc );
-		} else {
-			echo 1; }
-		?>
-		">
+			<?php $set_job_cnrc_value = isset( $set_job_cnrc ) ? $set_job_cnrc : 1; ?>
+		<input name="set_job_cnrc" type="number" min="1" id="set_job_cnrc" value="<?php echo intval( $set_job_cnrc_value ); ?>">
 		</fieldset></td>
 	  </tr>
 	  <tr>
 		<th scope="row"><?php esc_html_e( 'Set job queue batch size', 'ultimate-member-discord-add-on' ); ?></th>
 		<td> <fieldset>
-		<input name="set_job_q_batch_size" type="number" min="1" id="set_job_q_batch_size" value="
-		<?php
-		if ( isset( $set_job_q_batch_size ) ) {
-			echo intval( $set_job_q_batch_size );
-		} else {
-			echo 10; }
-		?>
-		">
+		<?php $set_job_q_batch_size_value = isset( $set_job_q_batch_size ) ? $set_job_q_batch_size : 10; ?>
+		<input name="set_job_q_batch_size" type="number" min="1" id="set_job_q_batch_size" value="<?php echo intval( $set_job_q_batch_size_value ); ?>">
 		</fieldset></td>
 	  </tr>
 	<tr>
