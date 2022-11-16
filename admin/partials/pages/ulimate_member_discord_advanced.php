@@ -7,7 +7,7 @@ $set_job_cnrc                                 = sanitize_text_field( trim( get_o
 $set_job_q_batch_size                         = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_job_queue_batch_size' ) ) );
 $log_api_res                                  = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_log_api_response' ) ) );
 $kick_upon_disconnect                          = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_kick_upon_disconnect' ) ) );
-
+$embed_messaging_feature                       = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_embed_messaging_feature' ) ) );
 ?>
 <form method="post" action="<?php echo get_site_url().'/wp-admin/admin-post.php' ?>">
  <input type="hidden" name="action" value="ultimatemember_discord_save_advance_settings">
@@ -15,6 +15,19 @@ $kick_upon_disconnect                          = sanitize_text_field( trim( get_
 <?php wp_nonce_field( 'ultimatemember_discord_advance_settings_nonce', 'ets_ultimatemember_discord_advance_settings_nonce' ); ?>
   <table class="form-table" role="presentation">
 	<tbody>
+	<tr>
+		<th scope="row"><?php echo __( 'Use rich embed messaging feature?', 'ultimate-member-discord-add-on' ); ?></th>
+		<td> <fieldset>
+		<input name="embed_messaging_feature" type="checkbox" id="embed_messaging_feature" 
+		<?php
+		if ( $embed_messaging_feature == true ) {
+			echo 'checked="checked"'; }
+		?>
+		 value="1">
+                <br/>
+                <small>Use [LINEBREAK] to split lines.</small>                
+		</fieldset></td>
+	  </tr>            
   <tr>
 		<th scope="row"><?php echo __( 'Send welcome message', 'ultimate-member-discord-add-on' ); ?></th>
 		<td> <fieldset>

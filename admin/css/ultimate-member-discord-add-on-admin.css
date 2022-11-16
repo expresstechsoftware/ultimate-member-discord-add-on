@@ -21,16 +21,22 @@
   height: 40px;
   border-radius: 0px !important;
 }
+.ets-discord-input-group p.description span.spinner{
+    float: none;
+}
 .ets-input:hover{
   border-bottom: 2px solid #77a02e;
 }
 .ets-btn-submit {
-  background-color: #77A02E;
-  color: #ffffff;
-  padding: 10px 20px;
-  font-size: 14px;
-  box-shadow: 0px 0px 0px 0px;
-  border: 0px
+    padding: 10px 20px;
+    background: #444;
+    color: #fff;
+    font-size: 14px;
+    box-shadow: 0px 0px 0px 0px;
+    border: 0px;
+}
+.ultimatemember-btn-connect-to-bot{
+ background-color: #FF0000;
 }
 
 /*support form css*/
@@ -315,6 +321,12 @@ box-sizing: border-box;
   background-color:#77A02E;
   color: #ffffff;
 }
+.ets-btn-submit.error-bk {
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  background-color:#FF0000;
+}
 
 /*error log tab css*/
 
@@ -387,4 +399,31 @@ span.discord-bot b{
     position: absolute;
     top: 2px;
     left: 5px;
+}
+.select2-container {
+width: 100% !important;
+}
+p.redirect-url{
+    border: 1px solid;
+    padding: 10px 10px;
+    background-color: #f0f0f1;
+    height: 25px;
+    min-height: 25px;   
+}
+p.redirect-url > span.spinner{
+    float: left;
+    display: none;
+}
+.select2-selection__rendered {
+    line-height: 34px !important;
+    font-size: 14px;
+}
+.select2-container .select2-selection--single {
+    height: 40px !important;
+}
+.select2-selection__arrow {
+    height: 40px !important;
+}
+p.ets-discord-update-message{
+    display: none;
 }

@@ -177,7 +177,9 @@ class Ultimate_Member_Discord_Add_On {
 		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_ultimatemember_discord_add_disconnect_discord_column' );                                                                                
 		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_ultimatemember_discord_disconnect_discord_button', 99, 3 );                 
 		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_disconnect_user', $plugin_admin, 'ets_ultimatemember_disconnect_user' );                                                                
-
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'ets_ultimatemember_disconnect_bot_auth' );                                                                
+		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_update_redirect_url', $plugin_admin, 'ets_ultimatemember_discord_update_redirect_url' );                                                                                
+		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_appearance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_appearance_settings' );                                                                
 	}
 
 	/**
@@ -198,7 +200,7 @@ class Ultimate_Member_Discord_Add_On {
 		$this->loader->add_shortcode( 'restrictcontent_discord', $plugin_public_display, 'ets_ultimatemember_discord_add_connect_discord_button' );
 		$this->loader->add_action( 'um_after_account_general', $plugin_public_display, 'ets_ultimatemember_show_discord_button' );
 		$this->loader->add_action( 'init', $plugin_public, 'ets_ultimatemember_discord_api_callback' );
-		$this->loader->add_action( 'wp_ajax_disconnect_from_discord', $plugin_public, 'ets_ultimatemember_discord_disconnect_from_discord' );
+		$this->loader->add_action( 'wp_ajax_ultimate_disconnect_from_discord', $plugin_public, 'ets_ultimatemember_discord_disconnect_from_discord' );
 		$this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_delete_member', $plugin_public, 'ets_ultimatemember_discord_as_handler_delete_member_from_guild', 10, 3 );
 		$this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_delete_role', $plugin_public, 'ets_ultimatemember_discord_as_handler_delete_memberrole', 10, 3 );
 		$this->loader->add_action( 'ets_ultimatemember_discord_as_handle_add_member_to_guild', $plugin_public, 'ets_ultimatemember_discord_as_handler_add_member_to_guild', 10, 3 );

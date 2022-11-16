@@ -30,7 +30,34 @@ jQuery(document).ready(function ($) {
 	 */
        
         if (etsUltimateMemberParams.is_admin) {
-            
+		if(jQuery().select2) {
+			$('#ets_ultimatemember_discord_redirect_url').select2({ width: 'resolve' });
+            $('#ets_ultimatemember_discord_redirect_url').on('change', function(){
+				$.ajax({
+					url: etsUltimateMemberParams.admin_ajax,
+					type: "POST",
+					context: this,
+					data: { 'action': 'ets_ultimatemember_discord_update_redirect_url', 'ets_ultimatemember_page_id': $(this).val() , 'ets_ultimatemember_discord_nonce': etsUltimateMemberParams.ets_ultimatemember_discord_nonce },
+					beforeSend: function () {
+						$('p.redirect-url').find('b').html("");
+                                                $('p.ets-discord-update-message').css('display','none');                                               
+						$(this).siblings('p.description').find('span').addClass("is-active").show();
+					},
+					success: function (data) { 
+						$('p.redirect-url').find('b').html(data.formated_discord_redirect_url);
+						$('p.ets-discord-update-message').css('display','block');                                               
+					},
+					error: function (response, textStatus, errorThrown ) {
+						console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+					},
+					complete: function () {
+						$(this).siblings('p.description').find('span').removeClass("is-active").hide();
+					}
+				});
+
+			});
+ 		}
+
 		$.ajax({
 			type: "POST",
 			dataType: "JSON",
@@ -51,7 +78,11 @@ jQuery(document).ready(function ($) {
 					if ($('.ets-tabs button[data-identity="level-mapping"]').length) {
 						$('.ets-tabs button[data-identity="level-mapping"]').show();
 					}
-					$("#ultimatemember-connect-discord-bot").show().html("Bot Connected <i class='fab fa-discord'></i>").addClass('not-active');
+					if (response.bot_connected === 'yes') {
+						$("#ultimatemember-connect-discord-bot").show().html("Bot Connected <i class='fab fa-discord'></i>").addClass('not-active');                                            
+					}else{
+						$("#ultimatemember-connect-discord-bot").show().html("Error: Please check the Client ID is correct").addClass('error-bk');
+                                        }                                        
 
 					var activeTab = localStorage.getItem('activeTab');
 					if ($('.ets-tabs button[data-identity="level-mapping"]').length == 0 && activeTab == 'level-mapping') {
@@ -67,7 +98,7 @@ jQuery(document).ready(function ($) {
 						}
                                                 
 
-						if (key != 'previous_mapping' && isbot == false && val.name != '@everyone') {
+						if (key != 'bot_connected' && key != 'previous_mapping' && isbot == false && val.name != '@everyone') {
 							$('.ultimate-member-discord-roles').append('<div class="makeMeDraggable" style="background-color:#'+val.color.toString(16)+'" data-ultimate-member_role_id="' + val.id + '" >' + val.name + '</div>');
 							$('#ultimate-member-defaultRole').append('<option value="' + val.id + '" >' + val.name + '</option>');
 							makeDrag($('.makeMeDraggable'));
@@ -304,7 +335,9 @@ jQuery(document).ready(function ($) {
 						$(this).find('span').removeClass("is-active").hide();
 					}
 				});
-			});                         
+			});
+		$('#ets_ultimatemember_discord_connect_button_bg_color').wpColorPicker();
+		$('#ets_ultimatemember_discord_disconnect_button_bg_color').wpColorPicker();                         
         }
 
 
