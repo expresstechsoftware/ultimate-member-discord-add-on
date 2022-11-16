@@ -202,10 +202,10 @@ class Ultimate_Member_Discord_Add_On_Admin {
 					update_option( 'ets_ultimatemember_discord_admin_redirect_url', $ets_ultimatemember_discord_admin_redirect_url );
 				}
 				/**
-								 * Call function to save bot name option
+				 * Call function to save bot name option
 				 */
 				ets_ultimatemember_discord_update_bot_name_option();
-				$message = 'Your settings are saved successfully.';
+				$message = esc_html__( 'Your settings are saved successfully.', 'ultimate-member-discord-add-on' );
 
 				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_ultimatemember_application_details';
 
@@ -239,13 +239,13 @@ class Ultimate_Member_Discord_Add_On_Admin {
 					update_option( 'ets_ultimatemember_discord_default_role_id', $ets_ultimatemember_discord_default_role_id );
 				}
 
-				$message = 'Your mappings are saved successfully.';
+				$message = esc_html__( 'Your mappings are saved successfully.', 'ultimate-member-discord-add-on' );
 			}
 			if ( isset( $_POST['flush'] ) ) {
 				delete_option( 'ets_ultimatemember_discord_role_mapping' );
 				delete_option( 'ets_ultimatemember_discord_default_role_id' );
 
-				$message = 'Your settings flushed successfully.';
+				$message = esc_html__( 'Your settings flushed successfully.', 'ultimate-member-discord-add-on' );
 			}
 						$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_role_mapping';
 			wp_safe_redirect( $pre_location );
@@ -330,7 +330,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 					update_option( 'ets_ultimatemember_discord_embed_messaging_feature', false );
 				}
 
-				$message      = 'Your settings are saved successfully.';
+				$message      = esc_html__( 'Your settings are saved successfully.', 'ultimate-member-discord-add-on' );
 				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_advanced';
 
 				wp_safe_redirect( $pre_location );
@@ -645,7 +645,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 					update_option( 'ets_ultimatemember_discord_disconnect_button_text', '' );
 				}
 
-				$message = 'Your settings are saved successfully.';
+				$message = esc_html__( 'Your settings are saved successfully.', 'ultimate-member-discord-add-on' );
 
 				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_appearance';
 				wp_safe_redirect( $pre_location );
