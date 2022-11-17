@@ -120,7 +120,7 @@ if ( isset( $_POST['sendmail-support'] ) ) {
 		$to        = array( 'contact@expresstechsoftwares.com', 'vinod.tiwari@expresstechsoftwares.com' );
 		$content   = 'Name: ' . $etsUserName . '<br>';
 		$content  .= 'Contact Email: ' . $etsUserEmail . '<br>';
-		$content  .= 'Message: ' . $message;
+		$content  .= 'UltimateMember Discord Support : ' . $message;
 		$headers   = array();
 		$blogemail = get_bloginfo( 'admin_email' );
 		$headers[] = 'From: ' . get_bloginfo( 'name' ) . ' <' . $blogemail . '>' . "\r\n";
