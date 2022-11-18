@@ -117,7 +117,7 @@ class Ultimate_Member_Discord_Add_On_Public_Display {
 	 * @return NONE
 	 */
 	public function ets_ultimatemember_show_discord_button() {
-		echo do_shortcode( '[restrictcontent_discord]' );
+		echo do_shortcode( '[ultimatemember_discord]' );
 	}
 
 }

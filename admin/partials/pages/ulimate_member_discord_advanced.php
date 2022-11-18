@@ -16,6 +16,14 @@ $embed_messaging_feature                    = sanitize_text_field( trim( get_opt
   <table class="form-table" role="presentation">
 	<tbody>
 	<tr>
+		<th scope="row"><?php esc_html_e( 'Shortcode:', 'ultimate-member-discord-add-on' ); ?></th>
+		<td> <fieldset>
+		[ultimatemember_discord]
+		<br/>
+		<small><?php esc_html_e( 'Use this shortcode [ultimatemember_discord] to display connect to discord button on any page.', 'ultimate-member-discord-add-on' ); ?></small>
+		</fieldset></td>
+	</tr> 		
+	<tr>
 		<th scope="row"><?php esc_html_e( 'Use rich embed messaging feature?', 'ultimate-member-discord-add-on' ); ?></th>
 		<td> <fieldset>
 		<input name="embed_messaging_feature" type="checkbox" id="embed_messaging_feature" 

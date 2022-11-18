@@ -197,7 +197,7 @@ class Ultimate_Member_Discord_Add_On {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_shortcode( 'restrictcontent_discord', $plugin_public_display, 'ets_ultimatemember_discord_add_connect_discord_button' );
+		$this->loader->add_shortcode( 'ultimatemember_discord', $plugin_public_display, 'ets_ultimatemember_discord_add_connect_discord_button' );
 		$this->loader->add_action( 'um_after_account_general', $plugin_public_display, 'ets_ultimatemember_show_discord_button' );
 		$this->loader->add_action( 'init', $plugin_public, 'ets_ultimatemember_discord_api_callback' );
 		$this->loader->add_action( 'wp_ajax_ultimate_disconnect_from_discord', $plugin_public, 'ets_ultimatemember_discord_disconnect_from_discord' );
