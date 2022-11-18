@@ -35,7 +35,7 @@ class Ultimate_Member_Discord_Add_On_Public_Display {
 
 	}
 	/**
-	 * Add button to make connection in between user and discord
+	 * Add button to make connection in between user and discord.
 	 *
 	 * @param NONE
 	 * @return NONE

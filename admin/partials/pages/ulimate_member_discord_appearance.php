@@ -17,9 +17,9 @@ $ets_ultimatemember_discord_disconnect_button_text     = sanitize_text_field( tr
 			<input name="ets_ultimatemember_discord_connect_button_bg_color" type="text" id="ets_ultimatemember_discord_connect_button_bg_color"  class="wp-color-picker-field" value="
 			<?php
 			if ( isset( $ets_ultimatemember_discord_connect_button_bg_color ) ) {
-				echo $ets_ultimatemember_discord_connect_button_bg_color;
+				echo esc_attr( $ets_ultimatemember_discord_connect_button_bg_color );
 			} else {
-				echo '#7bbc36'; }
+				echo esc_attr( '#7bbc36' ); }
 			?>
 			" data-default-color="#7bbc36">
 		</fieldset></td> 
@@ -30,7 +30,10 @@ $ets_ultimatemember_discord_disconnect_button_text     = sanitize_text_field( tr
 		<input name="ets_ultimatemember_discord_disconnect_button_bg_color" type="text" id="ets_ultimatemember_discord_disconnect_button_bg_color" value="
 		<?php
 		if ( isset( $ets_ultimatemember_discord_disconnect_button_bg_color ) ) {
-			echo $ets_ultimatemember_discord_disconnect_button_bg_color; }
+			echo esc_attr( $ets_ultimatemember_discord_disconnect_button_bg_color );
+		} else {
+			echo esc_attr( '#ff0000' );
+		}
 		?>
 		" data-default-color="#ff0000">
 		</fieldset></td> 

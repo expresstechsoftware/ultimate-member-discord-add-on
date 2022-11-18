@@ -100,12 +100,20 @@ class Ultimate_Member_Discord_Add_On {
 	 */
 	private function load_dependencies() {
 
+		/**
+		 * The class responsible for defining all methods that help to schedule actions.
+		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'libraries/action-scheduler/action-scheduler.php';
+
+		/**
+		 * The class responsible for Logs
+		 * core plugin.
+		 */
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-add-on-logs.php';
 
 		/**
-		 *
+		 * Common functions of the plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions.php';
 
@@ -253,9 +261,9 @@ class Ultimate_Member_Discord_Add_On {
 	/**
 	 * This method catch the failed action from action scheduler and re-queue that.
 	 *
-	 * @param INT            $action_id
-	 * @param OBJECT         $e
-	 * @param OBJECT context
+	 * @param INT    $action_id
+	 * @param OBJECT $e
+	 * @param OBJECT $context
 	 * @return NONE
 	 */
 	public function ets_ultimatemember_discord_reschedule_failed_action( $action_id, $e, $context ) {
@@ -274,7 +282,7 @@ class Ultimate_Member_Discord_Add_On {
 	}
 
 	/**
-	 * Retuen the Discord Logo.
+	 * Return the Discord Logo.
 	 */
 	public static function get_discord_logo_white() {
 		$img  = file_get_contents( plugin_dir_path( dirname( __FILE__ ) ) . 'public/images/discord-logo-white.svg' );

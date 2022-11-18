@@ -1,7 +1,7 @@
 <?php
-/*
-Common functions
-*/
+/**
+ * Common functions.
+ */
 
 /**
  * Get formatted redirect url.
@@ -308,6 +308,8 @@ function ets_ultimatemember_discord_update_bot_name_option() {
 
 /**
  * The list of pages to define as Discord redirect page.
+ *
+ * @param INT $ets_ultimatemember_discord_redirect_page_id The page ID.
  */
 function ets_ultimatemember_discord_pages_list( $ets_ultimatemember_discord_redirect_page_id ) {
 	$args    = array(

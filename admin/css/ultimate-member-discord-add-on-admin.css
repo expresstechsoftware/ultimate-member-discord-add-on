@@ -238,7 +238,7 @@ margin-right: 5px;
   width: 20px;
   height: 20px;
   margin: 4px 10px 0;
-
+  display: none;
 }
 .is-active{
   visibility: visible;

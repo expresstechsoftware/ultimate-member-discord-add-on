@@ -29,7 +29,7 @@ $embed_messaging_feature                    = sanitize_text_field( trim( get_opt
 		<input name="embed_messaging_feature" type="checkbox" id="embed_messaging_feature" 
 		<?php
 		if ( $embed_messaging_feature == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 				<br/>
@@ -42,7 +42,7 @@ $embed_messaging_feature                    = sanitize_text_field( trim( get_opt
 		<input name="ets_ultimatemember_discord_send_welcome_dm" type="checkbox" id="ets_ultimatemember_discord_send_welcome_dm" 
 		<?php
 		if ( $ets_ultimatemember_discord_send_welcome_dm == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
@@ -63,7 +63,7 @@ $embed_messaging_feature                    = sanitize_text_field( trim( get_opt
 		<input name="retry_failed_api" type="checkbox" id="retry_failed_api" 
 		<?php
 		if ( $retry_failed_api == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
@@ -74,7 +74,7 @@ $embed_messaging_feature                    = sanitize_text_field( trim( get_opt
 		<input name="kick_upon_disconnect" type="checkbox" id="kick_upon_disconnect" 
 		<?php
 		if ( $kick_upon_disconnect == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
@@ -106,7 +106,7 @@ $embed_messaging_feature                    = sanitize_text_field( trim( get_opt
 		<input name="log_api_res" type="checkbox" id="log_api_res" 
 		<?php
 		if ( $log_api_res == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
