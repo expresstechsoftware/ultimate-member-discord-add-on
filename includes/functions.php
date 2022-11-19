@@ -425,7 +425,7 @@ function ets_ultimatemember_discord_roles_assigned_message( $mapped_role_name, $
 	if ( $mapped_role_name ) {
 		$restrictcontent_discord .= '<p class="ets_assigned_role">';
 
-		$restrictcontent_discord .= __( 'Following Roles will be assigned to you in Discord: ', 'ultimate-member-discord-add-on' );
+		$restrictcontent_discord .= esc_html__( 'Following Roles will be assigned to you in Discord: ', 'ultimate-member-discord-add-on' );
 		$restrictcontent_discord .= ets_ultimatemember_discord_allowed_html( $mapped_role_name );
 		if ( $default_role_name ) {
 			$restrictcontent_discord .= ets_ultimatemember_discord_allowed_html( $default_role_name );
