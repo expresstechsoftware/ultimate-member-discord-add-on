@@ -14,7 +14,7 @@
  * @wordpress-plugin
  * Plugin Name:       Ultimate member discord add on
  * Plugin URI:        https://www.expresstechsoftwares.com/ultimate-member-discord-addon
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Create an engaging community/forum of your Ultimate Member online communities.
  * Version:           1.0.0
  * Author:            ExpressTech Softwares Solutions Pvt Ltd
  * Author URI:        https://www.expresstechsoftwares.com
