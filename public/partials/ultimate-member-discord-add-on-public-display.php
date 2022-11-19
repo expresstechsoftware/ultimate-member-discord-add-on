@@ -41,10 +41,7 @@ class Ultimate_Member_Discord_Add_On_Public_Display {
 	 * @return NONE
 	 */
 	public function ets_ultimatemember_discord_add_connect_discord_button() {
-		if ( ! is_user_logged_in() ) {
-			wp_send_json_error( 'Unauthorized user', 401 );
-			exit();
-		}
+
 		$user_id                                 = sanitize_text_field( trim( get_current_user_id() ) );
 		$_ets_ultimatemember_discord_user_id     = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
 		$access_token                            = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_access_token', true ) ) );
