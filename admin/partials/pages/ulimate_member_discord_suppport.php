@@ -122,7 +122,7 @@ if ( isset( $_POST['sendmail-support'] ) ) {
 		$content  .= 'Contact Email: ' . $etsUserEmail . '<br>';
 		$content  .= 'UltimateMember Discord Support : ' . $message;
 		$headers   = array();
-		$blogemail = get_bloginfo( 'admin_email' );
+		$blogemail = sanitize_email( get_bloginfo( 'admin_email' ) );
 		$headers[] = 'From: ' . get_bloginfo( 'name' ) . ' <' . $blogemail . '>' . "\r\n";
 		$mail      = wp_mail( $to, $subject, $content, $headers );
 
