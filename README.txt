@@ -42,13 +42,14 @@ Connect Ultimate Member to Discord Plugin Features:
 
 == Checkout Our Other Plugins ==
 1. [Connect MemberPress and Discord](https://wordpress.org/plugins/expresstechsoftwares-memberpress-discord-add-on/)
-2. [Connect PaidmembershipPro and Discord](https://wordpress.org/plugins/pmpro-discord-add-on/)
+2. [connect Learnpress and Discord](https://wordpress.org/plugins/connect-learnpress-discord-add-on/)
 3. [Connect LearnDash and Discord](https://wordpress.org/plugins/connect-learndash-and-discord/)
-4. [Connect LearnPress and Discord](https://wordpress.org/plugins/connect-learnpress-discord-add-on/)
-5. [Inspect HTTP Requests](https://wordpress.org/plugins/inspect-http-requests/)
-6. [Product Questions & Answers for WooCommerce](https://wordpress.org/plugins/product-questions-answers-for-woocommerce/)
-7. [Webhook For WCFM Vendors](https://wordpress.org/plugins/webhook-for-wcfm-vendors/)
-8. [Connect Gamipress and Discord](https://wordpress.org/plugins/connect-gamipress-and-discord/)
+4. [Connect GamiPress and Discord](https://wordpress.org/plugins/connect-gamipress-and-discord/)
+5. [Connect LifterLMS and Discord](https://wordpress.org/plugins/connect-lifterlms-to-discord/)
+6. [Webhook For WCFM Vendors](https://wordpress.org/plugins/webhook-for-wcfm-vendors/)
+7. [Inspect HTTP Requests](https://wordpress.org/plugins/inspect-http-requests/)
+8. [Product Questions & Answers for WooCommerce](https://wordpress.org/plugins/product-questions-answers-for-woocommerce/)
+9. [Connect PaidmembershipPro and Discord](https://wordpress.org/plugins/pmpro-discord-add-on/)
 
 == Frequently Asked Questions ==
 = I'm getting an error in error Log 'Missing Access'
