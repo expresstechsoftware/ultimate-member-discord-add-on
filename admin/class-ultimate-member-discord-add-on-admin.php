@@ -422,7 +422,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	 */
 	public function ets_ultimatemember_discord_update_user_profil( $user_id, $old_user_data, $userdata ) {
 
-		if ( ! current_user_can( 'administrator' ) ) {
+		if ( ! current_user_can( 'administrator' ) && ! is_user_logged_in() ) {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
 			exit();
 		}
