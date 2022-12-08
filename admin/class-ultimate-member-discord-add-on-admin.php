@@ -137,7 +137,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	 */
 	public function ets_utlimatemember_discord_setting_page() {
 		if ( ! current_user_can( 'administrator' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights - 1', 403 );
 			exit();
 		}
 		wp_enqueue_style( $this->plugin_name . '-select2' );
@@ -157,7 +157,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	 */
 	public function ets_ultimatemember_discord_application_settings() {
 		if ( ! current_user_can( 'administrator' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights - 2', 403 );
 			exit();
 		}
 		$ets_ultimatemember_discord_client_id = isset( $_POST['ets_ultimatemember_discord_client_id'] ) ? sanitize_text_field( trim( $_POST['ets_ultimatemember_discord_client_id'] ) ) : '';
@@ -223,7 +223,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	 */
 	public function ets_ultimatemember_discord_save_role_mapping() {
 		if ( ! current_user_can( 'administrator' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights - 3', 403 );
 			exit();
 		}
 		$ets_discord_roles = isset( $_POST['ets_ultimatemember_discord_role_mapping'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_role_mapping'] ) ) : '';
@@ -261,7 +261,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	public function ets_ultimatemember_discord_save_advance_settings() {
 
 		if ( ! current_user_can( 'administrator' ) || ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_advance_settings_nonce'], 'ultimatemember_discord_advance_settings_nonce' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights -4 ', 403 );
 			exit();
 		}
 
@@ -348,12 +348,12 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	public function ets_ultimatemember_discord_load_discord_roles() {
 
 		if ( ! current_user_can( 'administrator' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights - 5', 403 );
 			exit();
 		}
 		// Check for nonce security
 		if ( ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_nonce'], 'ets-ultimatemember-ajax-nonce' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights -6', 403 );
 			exit();
 		}
 		$user_id = get_current_user_id();
@@ -423,7 +423,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	public function ets_ultimatemember_discord_update_user_profil( $user_id, $old_user_data, $userdata ) {
 
 		if ( ! current_user_can( 'administrator' ) && ! is_user_logged_in() ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights - 7', 403 );
 			exit();
 		}
 
@@ -513,12 +513,12 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	public function ets_ultimatemember_disconnect_user() {
 
 		if ( ! current_user_can( 'administrator' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights -8', 403 );
 			exit();
 		}
 		// Check for nonce security
 		if ( ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_nonce'], 'ets-ultimatemember-ajax-nonce' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights 9 ', 403 );
 			exit();
 		}
 
@@ -549,7 +549,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 
 		if ( isset( $_GET['action'] ) && $_GET['action'] == 'discord-connect-to-bot' ) {
 			if ( ! current_user_can( 'administrator' ) ) {
-				wp_send_json_error( 'You do not have sufficient rights', 403 );
+				wp_send_json_error( 'You do not have sufficient rights - 10', 403 );
 				exit();
 			}
 			$params                    = array(
@@ -574,12 +574,12 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	public function ets_ultimatemember_discord_update_redirect_url() {
 
 		if ( ! current_user_can( 'administrator' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights - 11', 403 );
 			exit();
 		}
 		// Check for nonce security
 		if ( ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_nonce'], 'ets-ultimatemember-ajax-nonce' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights -12', 403 );
 			exit();
 		}
 
@@ -606,7 +606,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	public function ets_ultimatemember_discord_save_appearance_settings() {
 
 		if ( ! current_user_can( 'administrator' ) || ! wp_verify_nonce( $_POST['ultimatemember_discord_appearance_settings_nonce'], 'ultimatemember_discord_appearance_settings_nonce' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights - 13', 403 );
 			exit();
 		}
 		$ets_ultimatemember_discord_connect_button_bg_color    = isset( $_POST['ets_ultimatemember_discord_connect_button_bg_color'] ) ? sanitize_textarea_field( trim( $_POST['ets_ultimatemember_discord_connect_button_bg_color'] ) ) : '';

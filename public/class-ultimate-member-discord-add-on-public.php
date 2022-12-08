@@ -526,7 +526,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 
 		// Check for nonce security
 		if ( ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_nonce'], 'ets-ultimatemember-ajax-nonce' ) ) {
-				wp_send_json_error( 'You do not have sufficient rights', 403 );
+				wp_send_json_error( 'You do not have sufficient rights -18', 403 );
 				exit();
 		}
 		$user_id              = sanitize_text_field( trim( $_POST['user_id'] ) );

@@ -96,7 +96,7 @@ if ( $currentUser ) {
 	 */
 
 if ( ! current_user_can( 'administrator' ) ) {
-	wp_send_json_error( 'You do not have sufficient rights', 403 );
+	wp_send_json_error( 'You do not have sufficient rights -14', 403 );
 	exit();
 }
 
@@ -105,7 +105,7 @@ if ( isset( $_POST['sendmail-support'] ) ) {
 
 	// Check for nonce security
 	if ( ! wp_verify_nonce( $_POST['ets_um_discord_get_support_nonce'], 'ets_um_discord_get_support' ) ) {
-		wp_send_json_error( 'You do not have sufficient rights', 403 );
+		wp_send_json_error( 'You do not have sufficient rights - 15', 403 );
 		exit();
 	}
 
