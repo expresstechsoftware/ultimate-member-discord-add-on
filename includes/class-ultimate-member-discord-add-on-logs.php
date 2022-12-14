@@ -15,7 +15,7 @@ class Ultimate_Member_Discord_Add_On_Logs {
 	 * @return string $log_file_name
 	 */
 	public static $log_file_name = 'ultimatemember_discord_api_logs.txt';
-        
+
 	/**
 	 * Clear previous logs history
 	 *
@@ -23,14 +23,14 @@ class Ultimate_Member_Discord_Add_On_Logs {
 	 * @return None
 	 */
 	public function ets_ultimatemember_discord_clear_logs() {
-            
+
 		if ( ! is_user_logged_in() && ! current_user_can( 'administrator' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights - 16', 403 );
 			exit();
 		}
 		// Check for nonce security
 		if ( ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_nonce'], 'ets-ultimatemember-ajax-nonce' ) ) {
-			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			wp_send_json_error( 'You do not have sufficient rights -17', 403 );
 			exit();
 		}
 		try {
@@ -54,7 +54,7 @@ class Ultimate_Member_Discord_Add_On_Logs {
 				)
 			);
 		}
-                exit();
+				exit();
 	}
 
 	/**

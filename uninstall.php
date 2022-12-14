@@ -26,6 +26,12 @@
  */
 
 // If uninstall not called from WordPress, then exit.
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-	exit;
+if ( defined( 'WP_UNINSTALL_PLUGIN' )
+		&& $_REQUEST['plugin'] == 'ultimate-member-discord-add-on/ultimate-member-discord-add-on.php'
+		&& $_REQUEST['slug'] == 'ultimate-member-discord-add-on'
+	&& wp_verify_nonce( $_REQUEST['_ajax_nonce'], 'updates' )
+  ) {
+	global $wpdb;
+	  $wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "usermeta WHERE `meta_key` LIKE '_ets_ultimatemember_discord%'" );
+	  $wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "options WHERE `option_name` LIKE 'ets_ultimatemember_discord_%'" );
 }
