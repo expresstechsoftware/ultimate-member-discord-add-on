@@ -7,7 +7,7 @@ Author: ExpressTech Software Solutions Pvt. Ltd.
 Requires at least: 4.7
 Tested up to: 6.1
 Requires PHP: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,3 +74,9 @@ Please make sure your bot role has the high priority among all other roles your 
 3. Advanced settings.
 4. Connect Button Appearance.
 5. Spot the "Connect to Discord" on Ultimate Member Account page.
+
+== Changelog ==
+
+* Bugfixes:
+
+  - Fixed: Get the right role from the Ultimate Member section if defined.

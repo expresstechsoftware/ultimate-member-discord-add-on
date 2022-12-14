@@ -82,8 +82,8 @@ function ets_ultimatemember_discord_log_api_response( $user_id, $api_url = '', $
  * @return INT|NULL $curr_level_id
  */
 function ets_ultimatemember_discord_get_current_level_id( $user_id ) {
-	um_fetch_user( $user_id );
-	$curr_level_id = substr( UM()->user()->get_role(), 3 );
+	// um_fetch_user( $user_id );
+	$curr_level_id = substr( UM()->roles()->get_um_user_role( $user_id ), 3 );
 	if ( $curr_level_id ) {
 		$curr_level_id = sanitize_text_field( trim( $curr_level_id ) );
 		return $curr_level_id;
