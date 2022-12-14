@@ -50,3 +50,31 @@ a.ultimate-member-btn-connect img{
     margin-left: 5px;
     
 }
+ .ets_assigned_role > span{
+    padding: 0px 7px;
+    border-radius: 12px;
+    color: #fff;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center; 
+    background-color: #28303d;
+    margin-right: 5px;
+ }
+ .ets_assigned_role > span > i{
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 6px;     
+ }
+ img.ets_discord_user_avatar{
+  border-radius: 50% !important;
+  width: 45px;
+  height: auto;
+  display: inline-block;
+  margin-left: 10px;
+}
+div.um-field-area > p{
+  font-size: 1rem;
+
+}

@@ -39,7 +39,7 @@ jQuery(document).ready(function ($) {
 			type: "POST",
 			dataType: "JSON",
 			url: etsUltimateMemberParams.admin_ajax,
-			data: { 'action': 'disconnect_from_discord', 'user_id': userId, 'ets_ultimatemember_discord_nonce': etsUltimateMemberParams.ets_ultimatemember_discord_nonce },
+			data: { 'action': 'ultimate_disconnect_from_discord', 'user_id': userId, 'ets_ultimatemember_discord_nonce': etsUltimateMemberParams.ets_ultimatemember_discord_nonce },
 			beforeSend: function () {
 				$(".ets-spinner").addClass("ets-is-active");
 			},

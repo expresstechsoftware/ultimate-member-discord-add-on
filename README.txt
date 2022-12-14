@@ -1,114 +1,82 @@
-=== Plugin Name ===
-Contributors: (this should be a list of wordpress.org userid's)
-Donate link: https://www.expresstechsoftwares.com
-Tags: comments, spam
-Requires at least: 3.0.1
-Tested up to: 3.4
-Stable tag: 4.3
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+=== Connect Ultimate Member to Discord ===
+Contributors: expresstechsoftware, webbdeveloper, sunnysoni 
+Tags: Discord, ultimatemember, community, member, membership, Talk, Video Chat, Hang Out, Friends, discord role management.
+Donate link: https://paypal.me/supportets
+Author URI: https://www.expresstechsoftwares.com
+Author: ExpressTech Software Solutions Pvt. Ltd.
+Requires at least: 4.7
+Tested up to: 6.1
+Requires PHP: 7.0
+Stable tag: 1.0.1
+License: GPLv2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
+Create a community of your members by connecting your Ultimate Member Website to your Discord server.
 
 == Description ==
+This add-on enables connecting your Ultimate Member-enabled website to your discord server. With this plugin, you can create a discord community of your members and assign them discord roles in the server depending on the Ultimate Member user role that have.
+private access to content plus discord's ability to add fun and creativity in community engagement will help create a thriving community, discord is safe and designed to help fight spam and promote healthy community discussions.
+This plugin promotes Engagement, Upsell and cross-sell opportunities, Advocacy, and referrals that ultimately help increase revenues.
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+Very simple setup and intutive User interface to Manage Member Role inside Discord.
+- Please always contact support if you are facing issues in setup or see any bug.
+- If you did like the plugin, kindly support us in doing free excellent work our PayPal email is: business@expresstechsoftwares.com
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+Connect Ultimate Member to Discord Plugin Features:
+1) Allow any member to connect their discord account with their ultimatemember website account.
 
-A few notes about the sections above:
+2) Shortcode [ultimatemember_discord] to display connect/disconnect button.
 
-*   "Contributors" is a comma separated list of wp.org/wp-plugins.org usernames
-*   "Tags" is a comma separated list of tags that apply to the plugin
-*   "Requires at least" is the lowest version that the plugin will work on
-*   "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
-higher versions... this is just the highest one you've verified.
-*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
+3) Mapping of Ultimate Member user roles and discord roles.
 
-    Note that the `readme.txt` of the stable tag is the one that is considered the defining one for the plugin, so
-if the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used
-for displaying information about the plugin.  In this situation, the only thing considered from the trunk `readme.txt`
-is the stable tag pointer.  Thus, if you develop in trunk, you can update the trunk `readme.txt` to reflect changes in
-your in-development version, without having that information incorrectly disclosed about the current stable version
-that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
+4) Send custom welcome message when member joins the server.
 
-    If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
-you put the stable version, in order to eliminate any doubt.
+5) Keep or not a member in the server after his disconnection.
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
+= Download, Install and Activate! =
+1. Go to Plugins > Add New to find and install connect ultimatemember discord Addon.
+2. Or, download the latest version of the plugin, then go to Plugins > Add New and click the "Upload Plugin" button to upload your .zip file.
+3. Activate the plugin.
 
-e.g.
-
-1. Upload `ultimate-member-discord-add-on.php` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place `<?php do_action('plugin_name_hook'); ?>` in your templates
+== Checkout Our Other Plugins ==
+1. [Connect MemberPress and Discord](https://wordpress.org/plugins/expresstechsoftwares-memberpress-discord-add-on/)
+2. [connect Learnpress and Discord](https://wordpress.org/plugins/connect-learnpress-discord-add-on/)
+3. [Connect LearnDash and Discord](https://wordpress.org/plugins/connect-learndash-and-discord/)
+4. [Connect GamiPress and Discord](https://wordpress.org/plugins/connect-gamipress-and-discord/)
+5. [Connect LifterLMS and Discord](https://wordpress.org/plugins/connect-lifterlms-to-discord/)
+6. [Webhook For WCFM Vendors](https://wordpress.org/plugins/webhook-for-wcfm-vendors/)
+7. [Inspect HTTP Requests](https://wordpress.org/plugins/inspect-http-requests/)
+8. [Product Questions & Answers for WooCommerce](https://wordpress.org/plugins/product-questions-answers-for-woocommerce/)
+9. [Connect PaidmembershipPro and Discord](https://wordpress.org/plugins/pmpro-discord-add-on/)
 
 == Frequently Asked Questions ==
+= I'm getting an error in error Log 'Missing Access'
+Please make sure your bot role has the highest priority among all other roles in your discord server roles settings.
+= I'm getting an error in error Log 'Missing Access'
+Please make sure your bot role has the high priority among all other roles your bot has to manager in your discord server roles settings.
+= Role Settings is not appearing.
+1. Clear browser cache, to uninstall and install again.
+2. Try the disabling cache
+3. Try Disabling other plugins, there may be any conflict with another plugin.
+= Members are not being added spontaneously.
+1. Due to the nature of Discord API, we have to use schedules to precisely control API calls, This is the reason actions are delayed. 
+= Member roles are not being assigned spontaneously.
+1. Due to the nature of Discord API, we have to use schedules to precisely control API calls, This is the reason actions are delayed. 
+= Some Members are not getting their role and there is no error in the log.
+1. Sometimes discord API behaves weirdly, It is suggested to TRY again OR use another discord account.
 
-= A question that someone might have =
-
-An answer to that question.
-
-= What about foo bar? =
-
-Answer to foo bar dilemma.
 
 == Screenshots ==
-
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. Install and activate the plugin and view the "Discord Settings" menu inside Ultimate Member menu.
+2. Map Discord roles and Ultimate Member User Roles .
+3. Advanced settings.
+4. Connect Button Appearance.
+5. Spot the "Connect to Discord" on Ultimate Member Account page.
 
 == Changelog ==
 
-= 1.0 =
-* A change since the previous version.
-* Another change.
+* Bugfixes:
 
-= 0.5 =
-* List versions from most recent at top to oldest at bottom.
-
-== Upgrade Notice ==
-
-= 1.0 =
-Upgrade notices describe the reason a user should upgrade.  No more than 300 characters.
-
-= 0.5 =
-This version fixes a security related bug.  Upgrade immediately.
-
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above.  This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation."  Arbitrary sections will be shown below the built-in sections outlined above.
-
-== A brief Markdown Example ==
-
-Ordered list:
-
-1. Some feature
-1. Another feature
-1. Something else about the plugin
-
-Unordered list:
-
-* something
-* something else
-* third thing
-
-Here's a link to [WordPress](http://wordpress.org/ "Your favorite software") and one to [Markdown's Syntax Documentation][markdown syntax].
-Titles are optional, naturally.
-
-[markdown syntax]: http://daringfireball.net/projects/markdown/syntax
-            "Markdown is what the parser uses to process much of the readme file"
-
-Markdown uses email style notation for blockquotes and I've been told:
-> Asterisks for *emphasis*. Double it up  for **strong**.
-
-`<?php code(); // goes in backticks ?>`
+  - Fixed: Get the right role from the Ultimate Member section if defined.

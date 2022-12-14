@@ -42,12 +42,12 @@ class Ultimate_Member_Discord_Add_On_Public {
 
 	/**
 	 * The single object Ultimate_Member_Discord_Add_On_Public
-	 * 
-	 * @since    1.0.0 
-	 * @access   private 
-	 * @var Ultimate_Member_Discord_Add_On_Public 
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var Ultimate_Member_Discord_Add_On_Public
 	 */
-	private static $instance;        
+	private static $instance;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -63,6 +63,12 @@ class Ultimate_Member_Discord_Add_On_Public {
 
 	}
 
+	/**
+	 *  Create an instance of Ultimate_Member_Discord_Add_On_Public class.
+	 *
+	 * @param string $plugin_name The Plugin version.
+	 * @param string $version The plugin name.
+	 */
 	public static function get_ultimatemember_discord_public_instance( $plugin_name, $version ) {
 
 		if ( ! self::$instance ) {
@@ -70,7 +76,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 
 		}
 		return self::$instance;
-	}        
+	}
 
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
@@ -90,8 +96,8 @@ class Ultimate_Member_Discord_Add_On_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-public.css', array(), $this->version, 'all' );
+		$min_css = ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) ? '' : '.min';
+		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ultimate-member-discord-add-on-public' . $min_css . '.css', array(), $this->version, 'all' );
 
 	}
 
@@ -113,8 +119,8 @@ class Ultimate_Member_Discord_Add_On_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-public.js', array( 'jquery' ), $this->version, false );
+		$min_js = ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) ? '' : '.min';
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ultimate-member-discord-add-on-public' . $min_js . '.js', array( 'jquery' ), $this->version, false );
 
 				$script_params = array(
 					'admin_ajax'                       => admin_url( 'admin-ajax.php' ),
@@ -127,18 +133,17 @@ class Ultimate_Member_Discord_Add_On_Public {
 	/**
 	 * For authorization process call discord API
 	 *
-	 * @param NONE
-	 * @return OBJECT REST API response
+	 * @return OBJECT REST API response.
 	 */
 	public function ets_ultimatemember_discord_api_callback() {
 		if ( is_user_logged_in() ) {
 			$user_id = get_current_user_id();
-			if ( isset( $_GET['action'] ) && $_GET['action'] == 'discord-login' ) {
+			if ( isset( $_GET['action'] ) && $_GET['action'] == 'ultimate-discord' ) {
 				$params                    = array(
 					'client_id'     => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_client_id' ) ) ),
 					'redirect_uri'  => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_redirect_url' ) ) ),
 					'response_type' => 'code',
-					'scope'         => 'identify email connections guilds guilds.join messages.read',
+					'scope'         => 'identify email connections guilds guilds.join',
 				);
 				$discord_authorise_api_url = ETS_UM_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
 
@@ -146,18 +151,6 @@ class Ultimate_Member_Discord_Add_On_Public {
 				exit;
 			}
 
-			if ( isset( $_GET['action'] ) && $_GET['action'] == 'discord-connect-to-bot' ) {
-				$params                    = array(
-					'client_id'   => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_client_id' ) ) ),
-					'permissions' => ULTIMATE_MEMBER_DISCORD_BOT_PERMISSIONS,
-					'scope'       => 'bot',
-					'guild_id'    => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_server_id' ) ) ),
-				);
-				$discord_authorise_api_url = ETS_UM_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
-
-				wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
-				exit;
-			}
 			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'ultimate-discord' ) {
 				$code     = sanitize_text_field( trim( $_GET['code'] ) );
 				$response = $this->create_discord_auth_token( $code, $user_id );
@@ -187,8 +180,10 @@ class Ultimate_Member_Discord_Add_On_Public {
 							if ( is_array( $user_body ) && array_key_exists( 'discriminator', $user_body ) ) {
 								$discord_user_number           = $user_body['discriminator'];
 								$discord_user_name             = $user_body['username'];
+								$discord_user_avatar           = $user_body['avatar'];
 								$discord_user_name_with_number = $discord_user_name . '#' . $discord_user_number;
 								update_user_meta( $user_id, '_ets_ultimatemember_discord_username', $discord_user_name_with_number );
+								update_user_meta( $user_id, '_ets_ultimatemember_discord_avatar', $discord_user_avatar );
 							}
 							if ( is_array( $user_body ) && array_key_exists( 'id', $user_body ) ) {
 								$_ets_ultimatemember_discord_user_id = sanitize_text_field( trim( $user_body['id'] ) );
@@ -239,12 +234,10 @@ class Ultimate_Member_Discord_Add_On_Public {
 	 * @param STRING $type (warning|expired)
 	 */
 	public function ets_ultimatemember_discord_handler_send_dm( $user_id, $um_role_id, $type = 'warning' ) {
-		$discord_user_id   = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
-		$discord_bot_token = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
-		// $ets_ultimatemember_discord_expiration_warning_message = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_expiration_warning_message' ) ) );
-		// $ets_ultimatemember_discord_expiration_expired_message = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_expiration_expired_message' ) ) );
+		$discord_user_id                            = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_ultimatemember_discord_user_id', true ) ) );
+		$discord_bot_token                          = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_bot_token' ) ) );
+		$embed_messaging_feature                    = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_embed_messaging_feature' ) ) );
 		$ets_ultimatemember_discord_welcome_message = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_welcome_message' ) ) );
-		// $ets_ultimatemember_discord_cancel_message             = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_cancel_message' ) ) );
 		// Check if DM channel is already created for the user.
 		$user_dm = get_user_meta( $user_id, '_ets_ultimatemember_discord_dm_channel', true );
 
@@ -258,38 +251,37 @@ class Ultimate_Member_Discord_Add_On_Public {
 
 		}
 
-		// if ( $type == 'warning' ) {
-		// update_user_meta( $user_id, '_ets_ultimatemember_discord_expitration_warning_dm_for_' . $um_role_id, true );
-		// $message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_expiration_warning_message );
-		// }
-		// if ( $type == 'expired' ) {
-		// update_user_meta( $user_id, '_ets_ultimatemember_discord_expired_dm_for_' . $um_role_id, true );
-		// $message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_expiration_expired_message );
-		// }
 		if ( $type == 'welcome' ) {
 			update_user_meta( $user_id, '_ets_ultimatemember_discord_welcome_dm_for_' . $um_role_id, true );
 			$message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_welcome_message );
 		}
 
-		// if ( $type == 'cancel' ) {
-		// update_user_meta( $user_id, '_ets_ultimatemember_discord_cancel_dm_for_' . $um_role_id, true );
-		// $message = ets_ultimatemember_discord_get_formatted_dm( $user_id, $um_role_id, $ets_ultimatemember_discord_cancel_message );
-		// }
-
 		$creat_dm_url = ETS_UM_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
-		$dm_args      = array(
-			'method'  => 'POST',
-			'headers' => array(
-				'Content-Type'  => 'application/json',
-				'Authorization' => 'Bot ' . $discord_bot_token,
-			),
-			'body'    => json_encode(
-				array(
-					'content' => sanitize_text_field( trim( wp_unslash( $message ) ) ),
-				)
-			),
-		);
-		$dm_response  = wp_remote_post( $creat_dm_url, $dm_args );
+		if ( $embed_messaging_feature ) {
+			$dm_args = array(
+				'method'  => 'POST',
+				'headers' => array(
+					'Content-Type'  => 'application/json',
+					'Authorization' => 'Bot ' . $discord_bot_token,
+				),
+				'body'    => ets_ultimatemember_discord_get_rich_embed_message( trim( $message ) ),
+
+			);
+		} else {
+			$dm_args = array(
+				'method'  => 'POST',
+				'headers' => array(
+					'Content-Type'  => 'application/json',
+					'Authorization' => 'Bot ' . $discord_bot_token,
+				),
+				'body'    => json_encode(
+					array(
+						'content' => sanitize_text_field( trim( wp_unslash( $message ) ) ),
+					)
+				),
+			);
+		}
+		$dm_response = wp_remote_post( $creat_dm_url, $dm_args );
 		ets_ultimatemember_discord_log_api_response( $user_id, $creat_dm_url, $dm_args, $dm_response );
 		$dm_response_body = json_decode( wp_remote_retrieve_body( $dm_response ), true );
 		if ( ets_ultimatemember_discord_check_api_errors( $dm_response ) ) {
@@ -364,7 +356,6 @@ class Ultimate_Member_Discord_Add_On_Public {
 		$curr_level_id                              = sanitize_text_field( trim( ets_ultimatemember_discord_get_current_level_id( $user_id ) ) );
 		$ets_ultimatemember_discord_send_welcome_dm = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_send_welcome_dm' ) ) );
 
-
 		$guilds_memeber_api_url = ETS_UM_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_ultimatemember_discord_user_id;
 		$guild_args             = array(
 			'method'  => 'PUT',
@@ -379,7 +370,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 				)
 			),
 		);
-		$guild_response         = wp_remote_post( $guilds_memeber_api_url, $guild_args );
+		$guild_response = wp_remote_post( $guilds_memeber_api_url, $guild_args );
 
 		ets_ultimatemember_discord_log_api_response( $user_id, $guilds_memeber_api_url, $guild_args, $guild_response );
 		if ( ets_ultimatemember_discord_check_api_errors( $guild_response ) ) {
@@ -392,14 +383,13 @@ class Ultimate_Member_Discord_Add_On_Public {
 
 		if ( is_array( $ets_ultimatemember_discord_role_mapping ) && array_key_exists( 'ultimate-member_level_id_' . $curr_level_id, $ets_ultimatemember_discord_role_mapping ) ) {
 			$discord_role = sanitize_text_field( trim( $ets_ultimatemember_discord_role_mapping[ 'ultimate-member_level_id_' . $curr_level_id ] ) );
-			update_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $discord_role );                        
-			$this->put_discord_role_api( $user_id, $discord_role );                        
-		} 
-                if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
-			update_user_meta( $user_id, '_ets_ultimatemember_discord_default_role', $default_role );                        
-			$this->put_discord_role_api( $user_id, $default_role );                        
+			update_user_meta( $user_id, '_ets_ultimatemember_discord_role_id', $discord_role );
+			$this->put_discord_role_api( $user_id, $discord_role );
 		}
-                
+		if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
+			update_user_meta( $user_id, '_ets_ultimatemember_discord_default_role', $default_role );
+			$this->put_discord_role_api( $user_id, $default_role );
+		}
 		if ( empty( get_user_meta( $user_id, '_ets_ultimatemember_discord_join_date', true ) ) ) {
 			update_user_meta( $user_id, '_ets_ultimatemember_discord_join_date', current_time( 'Y-m-d H:i:s' ) );
 		}
@@ -536,25 +526,24 @@ class Ultimate_Member_Discord_Add_On_Public {
 
 		// Check for nonce security
 		if ( ! wp_verify_nonce( $_POST['ets_ultimatemember_discord_nonce'], 'ets-ultimatemember-ajax-nonce' ) ) {
-				wp_send_json_error( 'You do not have sufficient rights', 403 );
+				wp_send_json_error( 'You do not have sufficient rights -18', 403 );
 				exit();
 		}
-		$user_id = sanitize_text_field( trim( $_POST['user_id'] ) );
-		$kick_upon_disconnect = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_kick_upon_disconnect' ) ) ); 
-                
+		$user_id              = sanitize_text_field( trim( $_POST['user_id'] ) );
+		$kick_upon_disconnect = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_kick_upon_disconnect' ) ) );
+
 		if ( $user_id ) {
-			if( $kick_upon_disconnect ){
+			if ( $kick_upon_disconnect ) {
 				delete_user_meta( $user_id, '_ets_ultimatemember_discord_access_token' );
 				delete_user_meta( $user_id, '_ets_ultimatemember_discord_refresh_token' );
-				$member_discord_roles = ets_ultimatemember_discord_get_user_roles( $user_id ); 
-				if( is_array( $member_discord_roles ) ) {
+				$member_discord_roles = ets_ultimatemember_discord_get_user_roles( $user_id );
+				if ( is_array( $member_discord_roles ) ) {
 					foreach ( $member_discord_roles as $key => $member_discord_role ) {
-						
-						$this->delete_discord_role( $user_id, $member_discord_roles[$key]['meta_value'] );
+						$this->delete_discord_role( $user_id, $member_discord_roles[ $key ]['meta_value'] );
 					}
 				}
 			} else {
-				$this->delete_member_from_guild( $user_id, false );                            
+				$this->delete_member_from_guild( $user_id, false );
 			}
 		}
 		$event_res = array(
@@ -614,7 +603,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 		}
 
 		/*Delete all usermeta related to discord connection*/
-                ets_ultimatemember_discord_remove_usermeta( $user_id );
+		ets_ultimatemember_discord_remove_usermeta( $user_id );
 
 	}
 

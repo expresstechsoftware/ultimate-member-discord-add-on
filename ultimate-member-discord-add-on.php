@@ -14,8 +14,8 @@
  * @wordpress-plugin
  * Plugin Name:       Ultimate member discord add on
  * Plugin URI:        https://www.expresstechsoftwares.com/ultimate-member-discord-addon
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.0
+ * Description:       Connect Ultimate Memeber with Discord and create an engaging community/forum of your Ultimate Member online communities.
+ * Version:           1.0.1
  * Author:            ExpressTech Softwares Solutions Pvt Ltd
  * Author URI:        https://www.expresstechsoftwares.com
  * License:           GPL-2.0+
@@ -34,7 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION', '1.0.0' );
+define( 'ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION', '1.0.1' );
 
 /**
  * Define plugin directory path
@@ -42,13 +42,13 @@ define( 'ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION', '1.0.0' );
 define( 'ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
 // discord API url.
-define( 'ETS_UM_DISCORD_API_URL', 'https://discord.com/api/v6/' );
+define( 'ETS_UM_DISCORD_API_URL', 'https://discord.com/api/v10/' );
 
 // discord Bot Permissions.
 define( 'ULTIMATE_MEMBER_DISCORD_BOT_PERMISSIONS', 8 );
 
 // discord api call scopes.
-define( 'ETS_UM_DISCORD_OAUTH_SCOPES', 'identify email connections guilds guilds.join gdm.join rpc rpc.notifications.read rpc.voice.read rpc.voice.write rpc.activities.write bot webhook.incoming messages.read applications.builds.upload applications.builds.read applications.commands applications.store.update applications.entitlements activities.read activities.write relationships.read' );
+define( 'ETS_UM_DISCORD_OAUTH_SCOPES', 'identify email connections guilds guilds.join gdm.join rpc rpc.notifications.read rpc.voice.read rpc.voice.write rpc.activities.write bot webhook.incoming applications.builds.upload applications.builds.read applications.commands applications.store.update applications.entitlements activities.read activities.write relationships.read' );
 
 // Follwing response codes not cosider for re-try API calls.
 define( 'ETS_ULTIMATE_MEMBER_DISCORD_DONOT_RETRY_THESE_API_CODES', array( 0, 10003, 50033, 10004, 50025, 10013, 10011 ) );

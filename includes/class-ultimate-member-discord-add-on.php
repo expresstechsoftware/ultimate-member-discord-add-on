@@ -70,7 +70,7 @@ class Ultimate_Member_Discord_Add_On {
 		if ( defined( 'ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION' ) ) {
 			$this->version = ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '1.0.1';
 		}
 		$this->plugin_name = 'ultimate-member-discord-add-on';
 
@@ -100,12 +100,20 @@ class Ultimate_Member_Discord_Add_On {
 	 */
 	private function load_dependencies() {
 
+		/**
+		 * The class responsible for defining all methods that help to schedule actions.
+		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'libraries/action-scheduler/action-scheduler.php';
+
+		/**
+		 * The class responsible for Logs
+		 * core plugin.
+		 */
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-add-on-logs.php';
 
 		/**
-		 *
+		 * Common functions of the plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions.php';
 
@@ -164,7 +172,7 @@ class Ultimate_Member_Discord_Add_On {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Ultimate_Member_Discord_Add_On_Admin( $this->get_plugin_name(), $this->get_version(), Ultimate_Member_Discord_Add_On_Public::get_ultimatemember_discord_public_instance( $this->get_plugin_name(), $this->get_version() ) );                
+		$plugin_admin = new Ultimate_Member_Discord_Add_On_Admin( $this->get_plugin_name(), $this->get_version(), Ultimate_Member_Discord_Add_On_Public::get_ultimatemember_discord_public_instance( $this->get_plugin_name(), $this->get_version() ) );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -173,11 +181,13 @@ class Ultimate_Member_Discord_Add_On {
 		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_role_mapping', $plugin_admin, 'ets_ultimatemember_discord_save_role_mapping' );
 		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_advance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_advance_settings' );
 		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_load_discord_roles', $plugin_admin, 'ets_ultimatemember_discord_load_discord_roles' );
-		$this->loader->add_action( 'profile_update', $plugin_admin, 'ets_ultimatemember_discord_update_user_profil' , 99, 3 );
-		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_ultimatemember_discord_add_disconnect_discord_column' );                                                                                
-		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_ultimatemember_discord_disconnect_discord_button', 99, 3 );                 
-		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_disconnect_user', $plugin_admin, 'ets_ultimatemember_disconnect_user' );                                                                
-
+		$this->loader->add_action( 'profile_update', $plugin_admin, 'ets_ultimatemember_discord_update_user_profil', 99, 3 );
+		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_ultimatemember_discord_add_disconnect_discord_column' );
+		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_ultimatemember_discord_disconnect_discord_button', 99, 3 );
+		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_disconnect_user', $plugin_admin, 'ets_ultimatemember_disconnect_user' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'ets_ultimatemember_disconnect_bot_auth' );
+		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_update_redirect_url', $plugin_admin, 'ets_ultimatemember_discord_update_redirect_url' );
+		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_appearance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_appearance_settings' );
 	}
 
 	/**
@@ -195,10 +205,10 @@ class Ultimate_Member_Discord_Add_On {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_shortcode( 'restrictcontent_discord', $plugin_public_display, 'ets_ultimatemember_discord_add_connect_discord_button' );
+		$this->loader->add_shortcode( 'ultimatemember_discord', $plugin_public_display, 'ets_ultimatemember_discord_add_connect_discord_button' );
 		$this->loader->add_action( 'um_after_account_general', $plugin_public_display, 'ets_ultimatemember_show_discord_button' );
 		$this->loader->add_action( 'init', $plugin_public, 'ets_ultimatemember_discord_api_callback' );
-		$this->loader->add_action( 'wp_ajax_disconnect_from_discord', $plugin_public, 'ets_ultimatemember_discord_disconnect_from_discord' );
+		$this->loader->add_action( 'wp_ajax_ultimate_disconnect_from_discord', $plugin_public, 'ets_ultimatemember_discord_disconnect_from_discord' );
 		$this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_delete_member', $plugin_public, 'ets_ultimatemember_discord_as_handler_delete_member_from_guild', 10, 3 );
 		$this->loader->add_action( 'ets_ultimatemember_discord_as_schedule_delete_role', $plugin_public, 'ets_ultimatemember_discord_as_handler_delete_memberrole', 10, 3 );
 		$this->loader->add_action( 'ets_ultimatemember_discord_as_handle_add_member_to_guild', $plugin_public, 'ets_ultimatemember_discord_as_handler_add_member_to_guild', 10, 3 );
@@ -251,9 +261,9 @@ class Ultimate_Member_Discord_Add_On {
 	/**
 	 * This method catch the failed action from action scheduler and re-queue that.
 	 *
-	 * @param INT            $action_id
-	 * @param OBJECT         $e
-	 * @param OBJECT context
+	 * @param INT    $action_id
+	 * @param OBJECT $e
+	 * @param OBJECT $context
 	 * @return NONE
 	 */
 	public function ets_ultimatemember_discord_reschedule_failed_action( $action_id, $e, $context ) {
@@ -271,12 +281,15 @@ class Ultimate_Member_Discord_Add_On {
 		}
 	}
 
-	public static function get_discord_logo_white(){
-		$img = file_get_contents( plugin_dir_path( dirname( __FILE__ ) ) . 'public/images/discord-logo-white.svg' );
+	/**
+	 * Return the Discord Logo.
+	 */
+	public static function get_discord_logo_white() {
+		$img  = file_get_contents( plugin_dir_path( dirname( __FILE__ ) ) . 'public/images/discord-logo-white.svg' );
 		$data = base64_encode( $img );
-                
+
 		return '<img style="width: 20px;display: inline-block; margin-left: 5px;" class="discord-logo-white" src="data:image/svg+xml;base64,' . $data . '" />';
-        }
+	}
 
 
 
