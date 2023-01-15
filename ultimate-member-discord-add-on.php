@@ -12,7 +12,7 @@
  * @package           Ultimate_Member_Discord_Add_On
  *
  * @wordpress-plugin
- * Plugin Name:       Ultimate member discord add on
+ * Plugin Name:       Ultimate Member Discord Add-On
  * Plugin URI:        https://www.expresstechsoftwares.com/ultimate-member-discord-addon
  * Description:       Connect Ultimate Memeber with Discord and create an engaging community/forum of your Ultimate Member online communities.
  * Version:           1.0.1

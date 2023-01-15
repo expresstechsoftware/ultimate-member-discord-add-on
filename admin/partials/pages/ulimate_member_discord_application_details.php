@@ -48,7 +48,7 @@ $ets_ultimatemember_discord_redirect_page_id   = sanitize_text_field( trim( get_
 	</div>
 	<div class="ets-discord-input-group">
 			<label><?php esc_html_e( 'Admin Redirect URL Connect to bot', 'ultimate-member-discord-add-on' ); ?> :</label>
-			<input type="text" class="ets-input" name="ets_ultimatemember_discord_admin_redirect_url" value="<?php echo esc_url( get_admin_url( '', 'admin.php' ) . '?page=ultimatemember-discord&via=ultimatemember-discord-bot' ); ?>" readonly required />
+			<input type="text" class="ets-input" name="ets_ultimatemember_discord_admin_redirect_url" value="<?php echo esc_url( get_admin_url( '', 'admin.php' ) . '?page=ultimatemember-discord&via=ultimatemember-discord-connectBot' ); ?>" readonly required />
 		</div>   
 	<div class="ets-discord-input-group">
 			<?php
@@ -89,7 +89,7 @@ $ets_ultimatemember_discord_redirect_page_id   = sanitize_text_field( trim( get_
 		<?php esc_html_e( 'Save Settings', 'ultimate-member-discord-add-on' ); ?>
 	  </button>
 	  <?php if ( get_option( 'ets_ultimatemember_discord_client_id' ) ) : ?>
-			<a href="?action=discord-connect-to-bot" class="ets-btn-submit ultimatemember-btn-connect-to-bot" id="ultimatemember-connect-discord-bot"><?php esc_html_e( 'Connect your Bot', 'ultimate-member-discord-add-on' ) . Ultimate_Member_Discord_Add_On::get_discord_logo_white(); ?> </a>
+			<a href="?action=ultimatemember-discord-connect-to-bot" class="ets-btn-submit ultimatemember-btn-connect-to-bot" id="ultimatemember-connect-discord-bot"><?php esc_html_e( 'Connect your Bot', 'ultimate-member-discord-add-on' ) . Ultimate_Member_Discord_Add_On::get_discord_logo_white(); ?> </a>
 	  <?php endif; ?>
 	</p>
 </form>

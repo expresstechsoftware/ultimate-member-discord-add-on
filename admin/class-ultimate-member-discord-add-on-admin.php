@@ -548,7 +548,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	 */
 	public function ets_ultimatemember_disconnect_bot_auth() {
 
-		if ( isset( $_GET['action'] ) && $_GET['action'] == 'discord-connect-to-bot' ) {
+		if ( isset( $_GET['action'] ) && $_GET['action'] == 'ultimatemember-discord-connect-to-bot' ) {
 			if ( ! current_user_can( 'administrator' ) ) {
 				wp_send_json_error( 'You do not have sufficient rights - 10', 403 );
 				exit();
