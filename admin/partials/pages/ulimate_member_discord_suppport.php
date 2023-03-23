@@ -14,7 +14,25 @@ if ( $currentUser ) {
 		  <p><?php esc_html_e( 'ExpressTech Software Solution Pvt. Ltd. is the leading Enterprise WordPress development company.', 'ultimate-member-discord-add-on' ); ?><br>
 		  <?php esc_html_e( 'Contact us for any WordPress Related development projects.', 'ultimate-member-discord-add-on' ); ?></p>
 		</div>
-		<div class="form-fields-box ">
+
+		<ul style="text-align: left;">
+			<li class="mp-icon mp-icon-right-big"><?php esc_html_e( 'If you encounter any issues or errors, please report them on our support forum for Connect Ultimate Member to Discord plugin. Our community will be happy to help you troubleshoot and resolve the issue.', 'ultimate-member-discord-add-on' ); ?></li>
+			<li class="mp-icon mp-icon-right-big">
+			<?php
+			echo wp_kses(
+				'<a target="_blank" href="https://wordpress.org/support/plugin/ultimate-member-discord-add-on/">Support » Plugin: Connect Ultimate Member to Discord</a>',
+				array(
+					'a' => array(
+						'href'   => array(),
+						'target' => array(),
+					),
+				)
+			);
+			?>
+ </li>
+		</ul>	
+
+		<!-- <div class="form-fields-box ">
 		  <div class="ets-row ets-mt-5 ets-align-items-center">
 			<div class="ets-col-7 ets-offset-md-1">
 			  <div class="contact-fields pr-100">
@@ -83,7 +101,8 @@ if ( $currentUser ) {
 			  </div>
 			</div>
 		  </div>
-		</div>
+		</div> -->
+
 	  </div>
   </form>
 </div>
