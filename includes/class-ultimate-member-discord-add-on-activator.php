@@ -54,6 +54,7 @@ class Ultimate_Member_Discord_Add_On_Activator {
 		update_option( 'ets_ultimatemember_discord_loggedin_button_text', 'Connect With Discord' );
 		update_option( 'ets_ultimatemember_discord_non_login_button_text', 'Login With Discord' );
 		update_option( 'ets_ultimatemember_discord_disconnect_button_text', 'Disconnect From Discord' );
+		update_option( 'ets_ultimatemember_discord_data_erases', false );
 
 	}
 

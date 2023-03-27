@@ -329,6 +329,11 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				} else {
 					update_option( 'ets_ultimatemember_discord_embed_messaging_feature', false );
 				}
+				if ( isset( $_POST['ets_ultimatemember_discord_data_erases'] ) ) {
+					update_option( 'ets_ultimatemember_discord_data_erases', true );
+				} else {
+					update_option( 'ets_ultimatemember_discord_data_erases', false );
+				}
 
 				$message      = esc_html__( 'Your settings are saved successfully.', 'ultimate-member-discord-add-on' );
 				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_advanced';
