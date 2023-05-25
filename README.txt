@@ -5,9 +5,9 @@ Donate link: https://paypal.me/supportets
 Author URI: https://www.expresstechsoftwares.com
 Author: ExpressTech Software Solutions Pvt. Ltd.
 Requires at least: 4.7
-Tested up to: 6.1
+Tested up to: 6.2
 Requires PHP: 7.0
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
