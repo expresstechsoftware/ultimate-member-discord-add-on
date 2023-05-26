@@ -5,9 +5,9 @@ Donate link: https://paypal.me/supportets
 Author URI: https://www.expresstechsoftwares.com
 Author: ExpressTech Software Solutions Pvt. Ltd.
 Requires at least: 4.7
-Tested up to: 6.1
+Tested up to: 6.2
 Requires PHP: 7.0
-Stable tag: 1.0.1
+Stable tag: 1.0.4
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,14 +42,18 @@ Connect Ultimate Member to Discord Plugin Features:
 
 == Checkout Our Other Plugins ==
 1. [Connect MemberPress and Discord](https://wordpress.org/plugins/expresstechsoftwares-memberpress-discord-add-on/)
-2. [connect Learnpress and Discord](https://wordpress.org/plugins/connect-learnpress-discord-add-on/)
-3. [Connect LearnDash and Discord](https://wordpress.org/plugins/connect-learndash-and-discord/)
-4. [Connect GamiPress and Discord](https://wordpress.org/plugins/connect-gamipress-and-discord/)
+2. [Connect PaidmembershipPro and Discord](https://wordpress.org/plugins/pmpro-discord-add-on/)
+3. [Connect ProfilePress and Discord](https://wordpress.org/plugins/connect-profilepress-and-discord/)
+4. [Connect LearnPress and Discord](https://wordpress.org/plugins/connect-learnpress-discord-add-on/)
 5. [Connect LifterLMS and Discord](https://wordpress.org/plugins/connect-lifterlms-to-discord/)
 6. [Webhook For WCFM Vendors](https://wordpress.org/plugins/webhook-for-wcfm-vendors/)
 7. [Inspect HTTP Requests](https://wordpress.org/plugins/inspect-http-requests/)
 8. [Product Questions & Answers for WooCommerce](https://wordpress.org/plugins/product-questions-answers-for-woocommerce/)
-9. [Connect PaidmembershipPro and Discord](https://wordpress.org/plugins/pmpro-discord-add-on/)
+9. [Connect LearnDash and Discord](https://wordpress.org/plugins/connect-learndash-and-discord/)
+10. [Connect BadgeOS and Discord](https://wordpress.org/plugins/connect-badgeos-to-discord/)
+11. [Connect Eduma Theme and  Discord](https://wordpress.org/plugins/connect-eduma-theme-to-discord/)
+12. [Connect Restrict Content Pro and Discord Addon](https://wordpress.org/plugins/connect-restrictcontentpro-to-discord-addon/)
+13. [Connect GamiPress and Discord](https://wordpress.org/plugins/connect-gamipress-and-discord/)
 
 == Frequently Asked Questions ==
 = I'm getting an error in error Log 'Missing Access'

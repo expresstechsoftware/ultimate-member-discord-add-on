@@ -329,6 +329,11 @@ class Ultimate_Member_Discord_Add_On_Admin {
 				} else {
 					update_option( 'ets_ultimatemember_discord_embed_messaging_feature', false );
 				}
+				if ( isset( $_POST['ets_ultimatemember_discord_data_erases'] ) ) {
+					update_option( 'ets_ultimatemember_discord_data_erases', true );
+				} else {
+					update_option( 'ets_ultimatemember_discord_data_erases', false );
+				}
 
 				$message      = esc_html__( 'Your settings are saved successfully.', 'ultimate-member-discord-add-on' );
 				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_ultimatemember_discord_advanced';
@@ -548,7 +553,7 @@ class Ultimate_Member_Discord_Add_On_Admin {
 	 */
 	public function ets_ultimatemember_disconnect_bot_auth() {
 
-		if ( isset( $_GET['action'] ) && $_GET['action'] == 'discord-connect-to-bot' ) {
+		if ( isset( $_GET['action'] ) && $_GET['action'] == 'ultimatemember-discord-connect-to-bot' ) {
 			if ( ! current_user_can( 'administrator' ) ) {
 				wp_send_json_error( 'You do not have sufficient rights - 10', 403 );
 				exit();

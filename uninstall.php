@@ -31,7 +31,10 @@ if ( defined( 'WP_UNINSTALL_PLUGIN' )
 		&& $_REQUEST['slug'] == 'ultimate-member-discord-add-on'
 	&& wp_verify_nonce( $_REQUEST['_ajax_nonce'], 'updates' )
   ) {
-	global $wpdb;
-	  $wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "usermeta WHERE `meta_key` LIKE '_ets_ultimatemember_discord%'" );
-	  $wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "options WHERE `option_name` LIKE 'ets_ultimatemember_discord_%'" );
+	$ets_ultimatemember_discord_data_erases = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_data_erases' ) ) );
+	if ( $ets_ultimatemember_discord_data_erases == true ) {
+		global $wpdb;
+		$wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "usermeta WHERE `meta_key` LIKE '_ets_ultimatemember_discord%'" );
+		$wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "options WHERE `option_name` LIKE 'ets_ultimatemember_discord_%'" );
+	}
 }

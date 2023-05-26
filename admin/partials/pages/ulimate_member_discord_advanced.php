@@ -8,6 +8,8 @@ $set_job_q_batch_size                       = sanitize_text_field( trim( get_opt
 $log_api_res                                = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_log_api_response' ) ) );
 $kick_upon_disconnect                       = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_kick_upon_disconnect' ) ) );
 $embed_messaging_feature                    = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_embed_messaging_feature' ) ) );
+$ets_ultimatemember_discord_data_erases     = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_data_erases' ) ) );
+
 ?>
 <form method="post" action="<?php echo esc_url( get_site_url() . '/wp-admin/admin-post.php' ); ?>">
  <input type="hidden" name="action" value="ultimatemember_discord_save_advance_settings">
@@ -22,7 +24,20 @@ $embed_messaging_feature                    = sanitize_text_field( trim( get_opt
 		<br/>
 		<small><?php esc_html_e( 'Use this shortcode [ultimatemember_discord] to display connect to discord button on any page.', 'ultimate-member-discord-add-on' ); ?></small>
 		</fieldset></td>
-	</tr> 		
+	</tr> 
+	<tr>
+		<th scope="row"><?php esc_html_e( 'Data erases on uninstall?', 'ultimate-member-discord-add-on' ); ?></th>
+		<td> <fieldset>
+		<input name="ets_ultimatemember_discord_data_erases" type="checkbox" id="ets_ultimatemember_discord_data_erases" 
+		<?php
+		if ( $ets_ultimatemember_discord_data_erases == true ) {
+			echo esc_attr( 'checked="checked"' ); }
+		?>
+		 value="1">
+				<br/>
+				<small>By checking this box, you are indicating that you want to delete all data associated with the plugin when it is uninstalled.</small>                
+		</fieldset></td>
+	  </tr>		
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Use rich embed messaging feature?', 'ultimate-member-discord-add-on' ); ?></th>
 		<td> <fieldset>
