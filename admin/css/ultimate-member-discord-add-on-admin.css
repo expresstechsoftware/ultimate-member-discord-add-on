@@ -427,3 +427,26 @@ p.redirect-url > span.spinner{
 p.ets-discord-update-message{
     display: none;
 }
+
+/* Notification review */
+div.ets-ultimate-member-discord-review-notice{
+  background-color: #FFF;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0 !important;
+  position: relative;
+}
+
+div.ets-ultimate-member-discord-review-notice div.ets-ultimate-member-discord-notice-icon{
+  background-image: url(../images/icon.png);
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  min-width: 150px;
+}
+div.ets-ultimate-member-discord-review-notice div.ets-ultimate-member-discord-notice-content{
+  padding: 20px;
+}

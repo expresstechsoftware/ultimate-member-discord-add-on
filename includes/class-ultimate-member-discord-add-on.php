@@ -70,7 +70,7 @@ class Ultimate_Member_Discord_Add_On {
 		if ( defined( 'ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION' ) ) {
 			$this->version = ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION;
 		} else {
-			$this->version = '1.0.5';
+			$this->version = '1.0.6';
 		}
 		$this->plugin_name = 'ultimate-member-discord-add-on';
 
@@ -142,6 +142,8 @@ class Ultimate_Member_Discord_Add_On {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/ultimate-member-discord-add-on-public-display.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ultimate-member-discord-admin-notices.php';
+
 		$this->loader = new Ultimate_Member_Discord_Add_On_Loader();
 
 	}
@@ -188,6 +190,7 @@ class Ultimate_Member_Discord_Add_On {
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'ets_ultimatemember_disconnect_bot_auth' );
 		$this->loader->add_action( 'wp_ajax_ets_ultimatemember_discord_update_redirect_url', $plugin_admin, 'ets_ultimatemember_discord_update_redirect_url' );
 		$this->loader->add_action( 'admin_post_ultimatemember_discord_save_appearance_settings', $plugin_admin, 'ets_ultimatemember_discord_save_appearance_settings' );
+		$this->loader->add_action( 'wp_ajax_ets_ultimate_member_discord_notice_dismiss', $plugin_admin, 'ets_ultimate_member_discord_notice_dismiss' );
 	}
 
 	/**

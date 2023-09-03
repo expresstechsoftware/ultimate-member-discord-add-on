@@ -341,8 +341,36 @@ jQuery(document).ready(function ($) {
 				});
 			});
 		$('#ets_ultimatemember_discord_connect_button_bg_color').wpColorPicker();
-		$('#ets_ultimatemember_discord_disconnect_button_bg_color').wpColorPicker();                         
-        }
+		$('#ets_ultimatemember_discord_disconnect_button_bg_color').wpColorPicker();  
+		
+		$(document).ready(function(){
+			$(' .ets-ultimate-member-discord-review-notice > button.notice-dismiss' ).on('click', function() {
+
+				$.ajax({
+					type: "POST",
+					dataType: "JSON",
+					url: etsUltimateMemberParams.admin_ajax,
+					data: { 
+						'action': 'ets_ultimate_member_discord_notice_dismiss', 
+						'ets_ultimatemember_discord_nonce': etsUltimateMemberParams.ets_ultimatemember_discord_nonce ,
+					},
+					beforeSend: function () {
+						console.log('sending...');
+					},
+					success: function (response) {
+						console.log(response);
+					},
+					error: function (response) {
+						console.error(response);
+					},
+					complete: function () {
+						// 
+					}
+				});
+			});			
+		});
+		
+    }
 
 
 });
