@@ -15,7 +15,7 @@
  * Plugin Name:       Ultimate Member Discord Add-On
  * Plugin URI:        https://www.expresstechsoftwares.com/ultimate-member-discord-addon
  * Description:       Connect Ultimate Memeber with Discord and create an engaging community/forum of your Ultimate Member online communities.
- * Version:           1.0.6
+ * Version:           1.0.7
  * Author:            ExpressTech Softwares Solutions Pvt Ltd
  * Author URI:        https://www.expresstechsoftwares.com
  * License:           GPL-2.0+
@@ -34,12 +34,17 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION', '1.0.6' );
+define( 'ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION', '1.0.7' );
 
 /**
  * Define plugin directory path
  */
 define( 'ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
+
+/**
+ * Define plugin directory URL
+ */
+define( 'ULTIMATE_MEMBER_DISCORD_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
 
 // discord API url.
 define( 'ETS_UM_DISCORD_API_URL', 'https://discord.com/api/v10/' );
