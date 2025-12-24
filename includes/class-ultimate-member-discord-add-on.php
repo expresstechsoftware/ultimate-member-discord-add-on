@@ -70,7 +70,7 @@ class Ultimate_Member_Discord_Add_On {
 		if ( defined( 'ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION' ) ) {
 			$this->version = ULTIMATE_MEMBER_DISCORD_ADD_ON_VERSION;
 		} else {
-			$this->version = '1.0.8';
+			$this->version = '1.0.9';
 		}
 		$this->plugin_name = 'ultimate-member-discord-add-on';
 

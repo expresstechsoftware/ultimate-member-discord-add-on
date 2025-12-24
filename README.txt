@@ -1,13 +1,13 @@
 === Connect Ultimate Member to Discord ===
-Contributors: expresstechsoftware, webbdeveloper, sunnysoni 
+Contributors: expresstechsoftware, webbdeveloper, sunnysoni, vanbom
 Tags: Discord, ultimatemember, community, member, membership, Talk, Video Chat, Hang Out, Friends, discord role management.
 Donate link: https://paypal.me/supportets
 Author URI: https://www.expresstechsoftwares.com
 Author: ExpressTech Software Solutions Pvt. Ltd.
 Requires at least: 4.7
-Tested up to: 6.3
+Tested up to: 6.5
 Requires PHP: 7.0
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
