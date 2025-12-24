@@ -139,19 +139,63 @@ class Ultimate_Member_Discord_Add_On_Public {
 		if ( is_user_logged_in() ) {
 			$user_id = get_current_user_id();
 			if ( isset( $_GET['action'] ) && $_GET['action'] == 'ultimate-discord' ) {
+
+				$state_token = bin2hex( random_bytes(32) );
+
+				$payload = [
+					'user_id'     => (int) $user_id,
+					//'redirect_to' => esc_url_raw($redirect_to),
+					'issued_at'   => time(),
+					'expires_at'  => time() + 5 * MINUTE_IN_SECONDS
+				];
+
+				set_transient( 'ets_ultimatemember_discord_oauth_state_' . $state_token, $payload, 10 * MINUTE_IN_SECONDS );
+
 				$params                    = array(
 					'client_id'     => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_client_id' ) ) ),
 					'redirect_uri'  => sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_redirect_url' ) ) ),
 					'response_type' => 'code',
 					'scope'         => 'identify email connections guilds guilds.join',
+					'state'         => $state_token,
 				);
+
 				$discord_authorise_api_url = ETS_UM_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
 
 				wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
 				exit;
 			}
 
-			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'ultimate-discord' ) {
+			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'ultimate-discord' && isset( $_GET['state'] ) ) {
+
+				$state_token = $_GET['state'];
+
+				if ( empty($state_token) || !preg_match('/^[a-f0-9]{64}$/', $state_token) ) {
+					error_log('ets_ultimatemember_discord: Invalid state format.');
+					return;
+				}
+
+				$key = 'ets_ultimatemember_discord_oauth_state_' . $state_token;
+				$payload = get_transient($key);
+
+				if ( !$payload ) {
+					error_log( 'ets_ultimatemember_discord: State not found.' );
+					return;
+				}
+
+				// One-time use: consume immediately (prevents replay)
+  				delete_transient($key);
+
+				if ( time() > (int) $payload['expires_at'] ) {
+					error_log( 'ets_ultimatemember_discord: State expired.' );
+				}
+				
+				$current_user_id = get_current_user_id();
+
+				if ( $current_user_id && (int)$payload['user_id'] !== $current_user_id ) {
+					error_log( 'ets_ultimatemember_discord: State user mismatch.' );
+					return;
+				}
+
 				$code     = sanitize_text_field( trim( $_GET['code'] ) );
 				$response = $this->create_discord_auth_token( $code, $user_id );
 
