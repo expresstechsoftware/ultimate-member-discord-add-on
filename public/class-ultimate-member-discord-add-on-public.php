@@ -137,7 +137,9 @@ class Ultimate_Member_Discord_Add_On_Public {
 	 */
 	public function ets_ultimatemember_discord_api_callback() {
 		if ( is_user_logged_in() ) {
+
 			$user_id = get_current_user_id();
+
 			if ( isset( $_GET['action'] ) && $_GET['action'] == 'ultimate-discord' ) {
 
 				$state_token = bin2hex( random_bytes(32) );
@@ -197,7 +199,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 				}
 
 				$code     = sanitize_text_field( trim( $_GET['code'] ) );
-				$response = $this->create_discord_auth_token( $code, $user_id );
+				$response = $this->create_discord_auth_token( $code, $current_user_id );
 
 				if ( ! empty( $response ) && ! is_wp_error( $response ) ) {
 					$res_body              = json_decode( wp_remote_retrieve_body( $response ), true );
@@ -661,6 +663,7 @@ class Ultimate_Member_Discord_Add_On_Public {
 	 * @return OBJECT API response
 	 */
 	public function create_discord_auth_token( $code, $user_id ) {
+
 		if ( ! is_user_logged_in() ) {
 			wp_send_json_error( 'Unauthorized user', 401 );
 			exit();
